@@ -9,6 +9,7 @@ export function Header() {
                 <div className="logo">
                     <h1 className="logo">Art<img src={vector} className="imgLogo" />st</h1>
                 </div>
+                
             </Content>
         </Container>
     )
