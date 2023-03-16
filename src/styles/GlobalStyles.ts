@@ -66,8 +66,9 @@ export const GlobalStyles = createGlobalStyle`
         font-family: 'Roboto', sans-serif, font-weight: 400;
     }
 
-    body {
-        background: #F6F6F6;
+    body, html {
+        background: #F6F6F6;       
+        overflow: auto; 
     }
 
     button {
