@@ -61,7 +61,7 @@ export const MidiaContainer = styled.div`
     align-items: center;
     margin-bottom: 20px;
     
-    .social-text {
+    .socialText {
         font-family: "Nunito", sans-serif;
         font-weight: 700;
         font-size: 20px;
@@ -77,7 +77,7 @@ export const IconContainer = styled.div`
     grid-template-columns: 1fr 1fr;
     gap: 8px;
 
-    .social-box {
+    .socialBox {
         display: flex;
         align-items: center;
         gap: 8px;
@@ -89,14 +89,14 @@ export const IconContainer = styled.div`
         border-radius: 8px;
     }
 
-    .social-box .name {
+    .socialBox .name {
         font-family: "Nunito", sans-serif;
         font-weight: 700;
         font-size: 18px;
         color: #f5f5f5;
     }
 
-    .social-box:hover {
+    .socialBox:hover {
         color: #000;
         background: #BBCCDD;
         transition: all 0.2s ease-in
@@ -106,24 +106,55 @@ export const IconContainer = styled.div`
 `
 
 export const CategoriesContainer = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 20px;
 
-    .categoryBox {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-       
-        .categoriesName {
-            font-family: "Nunito", sans-serif;
-            font-weight: 700;
-            font-size: 18px;
-            color: #f5f5f5;
-            padding: 5px;
+    .categoryText {
+        font-family: "Nunito", sans-serif;
+        font-weight: 700;
+        font-size: 20px;
+        color: #f5f5f5;
 
+        padding-bottom: 10px;
+    }
+
+    .categoryComponents {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 20px;
+
+        .categoryBox {
+            display: flex;
+            align-items: center;
+            width: 150px;
+            
+            .categoriesName {
+                font-family: "Nunito", sans-serif;
+                font-weight: 700;
+                font-size: 18px;
+                color: #f5f5f5;
+                padding: 5px;
+
+            }
+        }
+
+        input[type="checkbox"] {
+            aparance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid #f5f5f5;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"]:checked {
+            background: #f5f5f5;
         }
     }
-        
 `

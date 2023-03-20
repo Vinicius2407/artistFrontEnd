@@ -11,14 +11,17 @@ import {
     MidiaContainer
 } from "./styles";
 
+// Form interface and components
 interface FormProps {
-    width?: string;
     type?: "artist" | "organizer";
 }
 
-export function Form({ width, type = "artist" }: FormProps) {
+export function Form({ type = "artist" }: FormProps) {
     const isOrganizer = type === "organizer";
-    
+
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);    
+
+    console.log(selectedCategories);
     return (
         <>
             <FormContainer>
@@ -75,24 +78,30 @@ export function Form({ width, type = "artist" }: FormProps) {
                
                 {!isOrganizer && (
                     <>
-                         <InputContainer>
+                        <InputContainer>
                             <label htmlFor="budget">Orçamento:</label>
                             <input type="text" id="budget" placeholder="R$200 a 1000" />
                         </InputContainer>
 
                         <MidiaContainer>
-                            <span className="social-text" >Mídias sociais</span>
+                            <span className="socialText" >Mídias sociais</span>
                             <IconContainer>
                                 {socials.map(social => (
                                     <SocialComponents social={social} />
                                 ))}
                             </IconContainer>
                         </MidiaContainer>
-                                
+                        
                         <CategoriesContainer>
+                            <span className="categoryText">Categorias</span>
+                            <div className="categoryComponents">
                                 {categories.map(category => (
-                                    <CategoriesComponents category={category} />
-                                ))}
+                                    <CategoriesComponents category={category}
+                                        selectedCategories={selectedCategories}
+                                        setSelectedCategories={setSelectedCategories} />
+                                    ))                                    
+                                }
+                            </div>
                         </CategoriesContainer>
                     </>
                 )}
@@ -100,7 +109,6 @@ export function Form({ width, type = "artist" }: FormProps) {
         </>
     )
 }
-
 
 // Social interface and components
 interface SocialProps {
@@ -145,7 +153,7 @@ export function SocialComponents({ social }: SocialComponentsProps) {
 
     return (
         <div className="buttonText">
-            <button type="button" className="social-box" onClick={handleOpenSocial}>
+            <button type="button" className="socialBox" onClick={handleOpenSocial}>
                 <Icon size={20} color="#fff" weight="duotone" />
                 <span className="name">{social.name}</span>
             </button>
@@ -155,43 +163,45 @@ export function SocialComponents({ social }: SocialComponentsProps) {
 
 // Category interface and components
 interface CategoryProps {
-    id: number;
+    id: string;
     name: string;
 }
 
 const categories: CategoryProps[] = [
     {
-        id: 1,
+        id: "1",
         name: "Sertanejo"
     },
     {
-        id: 2,
+        id: "2",
         name: "Rock"
     },
     {
-        id: 3,
+        id: "3",
         name: "Gospel"
     },
     {
-        id: 4,
+        id: "4",
         name: "DJ"
     },
     {
-        id: 5,
+        id: "5",
         name: "Cover"
     },
     {
-        id: 6,
+        id: "6",
         name: "Stand Up"
     },
 ]
 
 interface CategoriesComponentsProps {
     category: CategoryProps;
+    selectedCategories: string[];
+    setSelectedCategories: (selectedCategories: string[]) => void;
 }
 
-export function CategoriesComponents({ category }: CategoriesComponentsProps) {
-   
+export function CategoriesComponents({ category, selectedCategories, setSelectedCategories }: CategoriesComponentsProps) {
+    
     function handleCategoryChange() {
         if (selectedCategories.includes(category.id)) {
             setSelectedCategories(selectedCategories.filter(id => id !== category.id))
@@ -199,6 +209,7 @@ export function CategoriesComponents({ category }: CategoriesComponentsProps) {
             setSelectedCategories([...selectedCategories, category.id])
         }
     }
+
 
     return (
         <div className="categoryBox" key={category.id}>
