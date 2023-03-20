@@ -7,7 +7,7 @@ import { Footer } from "../../components/Footer";
 import { Form } from "../../components/Form";
 import { Header } from "../../components/Header";
 
-import { Container, Content, ImageContent, MidiaContent } from "./styles";
+import { Container, Content, ImageContent } from "./styles";
 
 export function SingUp() {
     const [formType, setFormType] = useState<"artist"|"organizer">("artist");

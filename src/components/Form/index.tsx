@@ -11,6 +11,8 @@ import {
     MidiaContainer
 } from "./styles";
 
+import { Button } from "../Button";
+
 // Form interface and components
 interface FormProps {
     type?: "artist" | "organizer";
@@ -105,6 +107,8 @@ export function Form({ type = "artist" }: FormProps) {
                         </CategoriesContainer>
                     </>
                 )}
+
+                <Button type="submit" />
             </FormContainer>
         </>
     )
