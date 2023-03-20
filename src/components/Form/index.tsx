@@ -1,15 +1,36 @@
-import { FormContainer, InputContaineDoble, InputContainer, MidiaContainer } from "./styles";
+import { useState } from "react";
 
+import * as PhosphorIcons from "@phosphor-icons/react";
+
+import {
+    CategoriesContainer,
+    FormContainer,
+    IconContainer,
+    InputContainerDoble,
+    InputContainer,
+    MidiaContainer
+} from "./styles";
 
 interface FormProps {
     width?: string;
-    type?: string;
+    type?: "artist" | "organizer";
 }
 
-export function Form({ width }: FormProps) {
+export function Form({ width, type = "artist" }: FormProps) {
+    const isOrganizer = type === "organizer";
+    
     return (
         <>
             <FormContainer>
+                {isOrganizer && (
+                    <span>Texto mostrado caso seja ORGANIZADOR</span>
+                )}
+
+                {isOrganizer ? (
+                    <span>Caso seja organizador</span>
+                ) : (
+                    <span>Caso seja artista</span>
+                )}
 
                 <InputContainer>
                     <label htmlFor="name">Nome:</label>
@@ -19,7 +40,7 @@ export function Form({ width }: FormProps) {
                     <label htmlFor="phone">Email:</label>
                     <input type="text" id="phone" />
                 </InputContainer>
-                <InputContaineDoble>
+                <InputContainerDoble>
                     <InputContainer>
                         <label htmlFor="document">CPF ou CNPJ:</label>
                         <input type="text" id="document" />
@@ -28,8 +49,8 @@ export function Form({ width }: FormProps) {
                         <label htmlFor="phone">Telefone:</label>
                         <input type="text" id="phone" />
                     </InputContainer>
-                </InputContaineDoble>
-                <InputContaineDoble>
+                </InputContainerDoble>
+                <InputContainerDoble>
                     <InputContainer>
                         <label htmlFor="city">Cidade</label>
                         <select name="city" id="city">
@@ -50,16 +71,139 @@ export function Form({ width }: FormProps) {
                             <option value="PR">Paraná</option>
                         </select>
                     </InputContainer>
-                </InputContaineDoble>
-                <InputContainer>
-                    <label htmlFor="budget">Orçamento:</label>
-                    <input type="text" id="budget" placeholder="R$200 a 1000" />
-                </InputContainer>
-                
-                <MidiaContainer>
-                    
-                </MidiaContainer>
+                </InputContainerDoble>
+               
+                {!isOrganizer && (
+                    <>
+                         <InputContainer>
+                            <label htmlFor="budget">Orçamento:</label>
+                            <input type="text" id="budget" placeholder="R$200 a 1000" />
+                        </InputContainer>
+
+                        <MidiaContainer>
+                            <span className="social-text" >Mídias sociais</span>
+                            <IconContainer>
+                                {socials.map(social => (
+                                    <SocialComponents social={social} />
+                                ))}
+                            </IconContainer>
+                        </MidiaContainer>
+                                
+                        <CategoriesContainer>
+                                {categories.map(category => (
+                                    <CategoriesComponents category={category} />
+                                ))}
+                        </CategoriesContainer>
+                    </>
+                )}
             </FormContainer>
         </>
+    )
+}
+
+
+// Social interface and components
+interface SocialProps {
+    id: number;
+    name: string;
+    icon: keyof typeof PhosphorIcons;
+}
+
+const socials: SocialProps[] = [
+    {
+        id: 1,
+        name: "Facebook",
+        icon: "FacebookLogo"
+    },
+    {
+        id: 2,
+        name: "Instagram",
+        icon: "InstagramLogo",
+    },
+    {
+        id: 3,
+        name: "TikTok",
+        icon: "TiktokLogo",
+    },
+    {
+        id: 4,
+        name: "Youtube",
+        icon: "YoutubeLogo",
+    },
+];
+
+interface SocialComponentsProps {
+    social: SocialProps;
+}
+
+export function SocialComponents({ social }: SocialComponentsProps) {    
+    const Icon = PhosphorIcons[social.icon] as PhosphorIcons.Icon;
+    
+    function handleOpenSocial() {
+        alert(`Você selecionou ${social.name}`);
+    }
+
+    return (
+        <div className="buttonText">
+            <button type="button" className="social-box" onClick={handleOpenSocial}>
+                <Icon size={20} color="#fff" weight="duotone" />
+                <span className="name">{social.name}</span>
+            </button>
+        </div>
+    )
+}
+
+// Category interface and components
+interface CategoryProps {
+    id: number;
+    name: string;
+}
+
+const categories: CategoryProps[] = [
+    {
+        id: 1,
+        name: "Sertanejo"
+    },
+    {
+        id: 2,
+        name: "Rock"
+    },
+    {
+        id: 3,
+        name: "Gospel"
+    },
+    {
+        id: 4,
+        name: "DJ"
+    },
+    {
+        id: 5,
+        name: "Cover"
+    },
+    {
+        id: 6,
+        name: "Stand Up"
+    },
+]
+
+interface CategoriesComponentsProps {
+    category: CategoryProps;
+}
+
+export function CategoriesComponents({ category }: CategoriesComponentsProps) {
+   
+    function handleCategoryChange() {
+        if (selectedCategories.includes(category.id)) {
+            setSelectedCategories(selectedCategories.filter(id => id !== category.id))
+        } else {
+            setSelectedCategories([...selectedCategories, category.id])
+        }
+    }
+
+    return (
+        <div className="categoryBox" key={category.id}>
+            <input type="checkbox" id={category.id} name="inputCategoriesRadius" onChange={handleCategoryChange} />
+            <span className="categoriesName">{category.name}</span>
+        </div>
     )
 }

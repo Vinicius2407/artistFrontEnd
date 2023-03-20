@@ -1,5 +1,7 @@
+import { useState } from "react";
 import singUpImgGuitar from "../../assets/images/singUpImgGuitar.svg";
-import iconLocation from "../../assets/images/iconLocation.svg";
+
+import iconLocation from "../../assets/icons/iconLocation.svg";
 
 import { Footer } from "../../components/Footer";
 import { Form } from "../../components/Form";
@@ -8,6 +10,15 @@ import { Header } from "../../components/Header";
 import { Container, Content, ImageContent, MidiaContent } from "./styles";
 
 export function SingUp() {
+    const [formType, setFormType] = useState<"artist"|"organizer">("artist");
+
+    function toggleFormType() {
+        if (formType === "artist") {
+            setFormType("organizer");
+        } else {
+            setFormType("artist");
+        }
+    }
 
     return (
         <>
@@ -27,7 +38,11 @@ export function SingUp() {
                         </div>
                     </ImageContent>
                         
-                    <Form />
+                    <button type="button" onClick={toggleFormType}>
+                        TROCAR TIPO DO FORM
+                    </button>
+
+                    <Form type={formType} />
                 </Content>
             </Container>
 

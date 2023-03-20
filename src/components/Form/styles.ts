@@ -1,11 +1,7 @@
 import styled from "styled-components";
 
-interface FormContainerProps {
-    width?: string;
-}
 
-
-export const FormContainer = styled.form<FormContainerProps>`
+export const FormContainer = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,7 +44,7 @@ export const InputContainer = styled.div`
 
 `
 
-export const InputContaineDoble = styled.div`
+export const InputContainerDoble = styled.div`
     display: flex;
     
     input, select {
@@ -61,4 +57,73 @@ export const InputContaineDoble = styled.div`
 
 export const MidiaContainer = styled.div`
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    
+    .social-text {
+        font-family: "Nunito", sans-serif;
+        font-weight: 700;
+        font-size: 20px;
+        padding-top: 24px;
+        padding-bottom: 10px;
+
+        color: #f5f5f5;
+    }
+`
+
+export const IconContainer = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+
+    .social-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 150px;
+        text-align: left;
+        padding: 5px;
+        background: transparent;
+        border: 0;
+        border-radius: 8px;
+    }
+
+    .social-box .name {
+        font-family: "Nunito", sans-serif;
+        font-weight: 700;
+        font-size: 18px;
+        color: #f5f5f5;
+    }
+
+    .social-box:hover {
+        color: #000;
+        background: #BBCCDD;
+        transition: all 0.2s ease-in
+    }
+
+    
+`
+
+export const CategoriesContainer = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 20px;
+
+    .categoryBox {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+       
+        .categoriesName {
+            font-family: "Nunito", sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            color: #f5f5f5;
+            padding: 5px;
+
+        }
+    }
+        
 `
