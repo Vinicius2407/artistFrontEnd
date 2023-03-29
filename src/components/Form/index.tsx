@@ -5,6 +5,7 @@ import * as PhosphorIcons from "@phosphor-icons/react";
 import {
     CategoriesContainer,
     FormContainer,
+    FormFinal,
     IconContainer,
     InputContainerDoble,
     InputContainer,
@@ -18,25 +19,14 @@ interface FormProps {
     type?: "artist" | "organizer";
 }
 
-export function Form({ type = "artist" }: FormProps) {
+export function Form({ type }: FormProps) {
     const isOrganizer = type === "organizer";
 
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);    
 
-    console.log(selectedCategories);
     return (
         <>
             <FormContainer>
-                {isOrganizer && (
-                    <span>Texto mostrado caso seja ORGANIZADOR</span>
-                )}
-
-                {isOrganizer ? (
-                    <span>Caso seja organizador</span>
-                ) : (
-                    <span>Caso seja artista</span>
-                )}
-
                 <InputContainer>
                     <label htmlFor="name">Nome:</label>
                     <input type="text" id="name" />
@@ -108,7 +98,15 @@ export function Form({ type = "artist" }: FormProps) {
                     </>
                 )}
 
-                <Button type="submit" />
+                <FormFinal>
+                    <div className="license">
+                        <input type="checkbox" id="termsAndLicense" name="termsAndLicense" />
+                        <a href="https://www.roberthalf.com.br/termos-de-uso" target="_blank">Li e aceito os termos de uso.</a>
+                    </div>
+                    <Button type="submit" >
+                        Cadastrar
+                    </Button>
+                </FormFinal>
             </FormContainer>
         </>
     )

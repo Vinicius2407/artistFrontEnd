@@ -6,7 +6,9 @@ export const FormContainer = styled.form`
     flex-direction: column;
     align-items: center;
     padding-top: 45px;
-    margin: 45px 0 73px 59px;
+    margin-bottom: 38px;
+    margin-left: 59px;
+    margin-top: 45px;
     border-radius: 8px;
     width: 600px;
     
@@ -109,13 +111,12 @@ export const CategoriesContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
 
     .categoryText {
         font-family: "Nunito", sans-serif;
         font-weight: 700;
         font-size: 20px;
-        color: #f5f5f5;
+        color: #F5F5F5;
 
         padding-bottom: 10px;
     }
@@ -135,7 +136,7 @@ export const CategoriesContainer = styled.div`
                 font-family: "Nunito", sans-serif;
                 font-weight: 700;
                 font-size: 18px;
-                color: #f5f5f5;
+                color: #F5F5F5;
                 padding: 5px;
 
             }
@@ -148,13 +149,50 @@ export const CategoriesContainer = styled.div`
             width: 18px;
             height: 18px;
             border-radius: 50%;
-            border: 2px solid #f5f5f5;
+            border: 2px solid #F5F5F5;
             outline: none;
             cursor: pointer;
         }
 
+        input[type="checkbox"]:hover {
+            background: #BBCCDD;
+        }
+
         input[type="checkbox"]:checked {
-            background: #f5f5f5;
+            background: #F5F5F5;
+        }
+
+        input[type="checkbox"]:checked:hover {
+            background: #BBCCDD;
         }
     }
+`
+
+export const FormFinal = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 36px 24px 36px;
+    margin-top: 20px;
+    width: 570px;
+
+    .license {
+        display: flex;
+        gap: 8px;
+    }
+
+    .license a{
+        font-family: "Nunito", sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        color: #f5f5f5;
+
+        underline: none;
+    }
+
+    .license a:hover {
+        color: #BBCCDD;
+    }
+
 `

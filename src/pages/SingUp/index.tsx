@@ -1,13 +1,13 @@
 import { useState } from "react";
-import singUpImgGuitar from "../../assets/images/singUpImgGuitar.svg";
 
+import singUpImgGuitar from "../../assets/images/singUpImgGuitar.svg";
 import iconLocation from "../../assets/icons/iconLocation.svg";
 
 import { Footer } from "../../components/Footer";
 import { Form } from "../../components/Form";
 import { Header } from "../../components/Header";
 
-import { Container, Content, ImageContent } from "./styles";
+import { Container, Content, ImageContent, SwitchButtonProfile } from "./styles";
 
 export function SingUp() {
     const [formType, setFormType] = useState<"artist"|"organizer">("artist");
@@ -24,7 +24,7 @@ export function SingUp() {
         <>
             <Header />
 
-            <Container>
+            <Container style={{overflow: "hidden"}}>
                 <Content>
                     <ImageContent background = {singUpImgGuitar}>
                         <div className="textImage">
@@ -38,9 +38,11 @@ export function SingUp() {
                         </div>
                     </ImageContent>
                         
-                    <button type="button" onClick={toggleFormType}>
-                        TROCAR TIPO DO FORM
-                    </button>
+                    <SwitchButtonProfile >
+                        <button type="button" onClick={toggleFormType}>
+                            TROCAR TIPO DO FORM
+                        </button>
+                    </SwitchButtonProfile>
 
                     <Form type={formType} />
                 </Content>

@@ -4,14 +4,12 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     background: #000000;
-    margin-bottom: 32px;
 `
 
 export const Content = styled.div`
     display: flex;
     flex-direction: column;
     background: #F5F5F5;
-    width: 100vw;
 `
 
 interface ImageContentProps {
@@ -66,6 +64,11 @@ export const ImageContent = styled.div<ImageContentProps>`
     }
 `
 
-export const MidiaContent = styled.div`
-
+export const SwitchButtonProfile = styled.div`
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 20px;
+    
 `

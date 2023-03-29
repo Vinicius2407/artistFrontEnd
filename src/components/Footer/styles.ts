@@ -1,27 +1,25 @@
 import styled from "styled-components";
 
 export const Container = styled.footer`
-    position: fixed;
-    bottom: 0px;
-    left: 0;
-    background: #B23AFF;
-
-    width: 100%;
-    height: 50px;
     display: flex;
     align-items: center;
-    padding: 0 24px
+    justify-content: space-between;
+
+    background: #B23AFF;
+    height: 56px;
+    width: 100%;
 `
 
 export const Content = styled.div`
     display: flex;
+    align-items: center;
+    justify-content: space-around;
     width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
 
-    p {
+
+    .textFooter {
         font-family: Roboto, sans-serif;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 400;
         color:#FFFFFF;
     }
