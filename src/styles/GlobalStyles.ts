@@ -59,22 +59,8 @@ export const GlobalStyles = createGlobalStyle`
         src: url('${RobotoMedium}') format('truetype');
     }
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Roboto', sans-serif, font-weight: 400;
-    }
-
-    body, html {
-        background: #F6F6F6;       
-        overflow: auto; 
-    }
-
-    button {
-        cursor: pointer;
-        font-size: 1rem;
-        color: #50E3C2;
+    body {
+        background: radial-gradient(circle, #9747FF, #684DFF);
     }
 
 `
