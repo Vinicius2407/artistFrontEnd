@@ -13,8 +13,8 @@ export function SingUp() {
 
     return (
         <>
-            <Header />
-
+            {/* <Header /> */}
+            <Form />
             {/* <Footer /> */}
         </>
     )
