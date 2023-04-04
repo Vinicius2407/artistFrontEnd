@@ -4,8 +4,6 @@ export const Container = styled.footer`
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    background: #B23AFF;
     height: 56px;
     width: 100%;
 `
@@ -19,7 +17,7 @@ export const Content = styled.div`
 
     .textFooter {
         font-family: Roboto, sans-serif;
-        font-size: 16px;
+        font-size: 1rem;
         font-weight: 400;
         color:#FFFFFF;
     }

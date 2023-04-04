@@ -5,7 +5,7 @@ export function Footer() {
         <>
             <Container>
                 <Content>
-                    <span className="textFooter">Art’st - todos os direitos reservados</span>
+                    <span className="textFooter">Artíst - todos os direitos reservados</span>
                     <span className="textFooter">2023</span>
                 </Content>
             </Container>
