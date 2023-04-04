@@ -20,6 +20,7 @@ export const InputLabelContainer = styled.div`
     display: flex;
     flex-direction: column;
     padding: 3.93rem 4.18rem 4.81rem 4.18rem;
+    width: 50%;
 
     #doble-input {
         display: flex;
@@ -35,13 +36,23 @@ export const InputLabelContainer = styled.div`
 export const MidiaContainer = styled.div`
     display: flex;
     flex-direction: column;
+    padding: 1rem 4.18rem 4.81rem 4.18rem;
 `
 
 export const SocialContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
+
+    display: grid;
+    template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    justify-items: start;
+    column-gap: 2.2rem;
+
+    .social-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+    }
     
 `
 
