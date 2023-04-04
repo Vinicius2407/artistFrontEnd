@@ -1,20 +1,16 @@
-import React from "react";
-import { InputStyles } from "./styles";
+import { InputContainer } from "./styles";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-    props?: React.InputHTMLAttributes<HTMLInputElement>;
-    background?: string;
-    width?: string;
-    height?: string;
-    font?: string;
+
+interface InputProps extends React.HTMLAttributes<HTMLInputElement> { 
+    type?: string;
 }
 
-export function Input({ background, width, height, font,  ...props }: InputProps) {
+export function Input({ type, children, ...props }: InputProps) {
     return (
         <>
-            <InputStyles background={background} width={width} height={height} font={font} >
-                <input type={props.type || "text"} {...props} />
-            </InputStyles>
+            <InputContainer>
+                <input type={type || "text"} className="inputForm"  {...props} />
+            </InputContainer>
         </>
     )
 }

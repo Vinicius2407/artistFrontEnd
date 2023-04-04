@@ -1,6 +1,7 @@
 import { GlobalStyles } from "./styles/GlobalStyles"
 
 import { SingUp } from "./pages/SingUp"
+import { Footer } from "./components/Footer"
 
 function App() {
 
@@ -8,6 +9,7 @@ function App() {
     <>
       <GlobalStyles />
       <SingUp />
+      {/* <Footer /> */}
     </>
   )  
 
