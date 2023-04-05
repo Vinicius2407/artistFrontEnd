@@ -44,6 +44,7 @@ export const InputLabelContainer = styled.div`
         justify-content: space-between;
         width: 100%;
         gap: 1.5rem;
+        
         div {
             width: 100%;
         }
@@ -53,7 +54,7 @@ export const InputLabelContainer = styled.div`
         margin-top: 0.875rem;
     }
 
-    input::placeholder {
+    input {
         padding-left: .55rem;
     }
 `	
@@ -78,7 +79,7 @@ export const SocialContainer = styled.div`
         align-items: center;
         gap: 0.5rem;
 
-        input::placeholder {
+        input{
             padding-left: .55rem;
         }
     }
