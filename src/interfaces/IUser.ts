@@ -13,5 +13,5 @@ export interface IUser {
 
     categories: string[];
     rating: string[];
-    social: string[];
+    social: [{ name: string, link: string}];
 }

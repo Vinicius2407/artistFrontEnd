@@ -1,13 +1,13 @@
-import { Container, Content, Links, Logo, Image} from "./styles";
+import { Container, Links, Logo} from "./styles";
 
-import logoImage from '../../assets/images/logo.svg'
+// import logoImage from '../../assets/images/logo.svg'
 import { Button } from "../Button";
 
 export function Header() {
     return (
         <Container>
                 <Logo >
-                    <img src={logoImage} />
+                    {/* <img src={logoImage} alt="Logo do site" /> */}
                 </Logo>
 
                 <Links>

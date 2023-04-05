@@ -8,12 +8,8 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 export const Container = styled.header`
     display: flex;
     justify-content: space-between;
-    padding: 0.80rem 19rem;
+    margin: 0.80rem 19rem;
     align-item: center;
-`
-
-export const Content = styled.div`
-    
 `
 
 export const Logo = styled.div`
@@ -27,8 +23,4 @@ export const Links = styled.div`
     grid-template-columns: 1fr 1fr 1fr;
     height: 1.875rem;
     justify-content: space-between;
-`
-
-export const Image = styled.img`
-    
 `

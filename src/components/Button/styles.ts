@@ -14,7 +14,7 @@ export const ButtonContainer = styled.button<ButtonProps>`
 
     background: ${props => props.color || "transparent"};
     
-    border-radius: 5px;
+    border-radius: 8px;
     border: none;
     
     color: ${props => props.textColor || "#000"};

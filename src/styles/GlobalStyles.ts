@@ -12,22 +12,6 @@ import RobotoRegular from '../assets/fonts/Roboto-Regular.ttf';
 export const GlobalStyles = createGlobalStyle`
 
     @font-face {
-        font-family: 'Inter';
-        font-weight: 500;
-        font-display: 'swap';
-        font-style: 'normal';
-        src: url('${InterMedium}') format('truetype');
-    }
-
-    @font-face {
-        font-family: 'Inter';
-        font-weight: 600;
-        font-display: 'swap';
-        font-style: 'normal';
-        src: url('${InterSemiBold}') format('truetype');
-    }
-
-    @font-face {
         font-family: 'Nunito';
         font-weight: 500;
         font-display: 'swap';
