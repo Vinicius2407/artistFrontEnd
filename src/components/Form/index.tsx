@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import * as PhosphorIcons from "@phosphor-icons/react";
 
+import carinhaMicrofone from "../../assets/images/carinhaComMic.svg";
+import segundaImage from "../../assets/images/segundaImage.svg";
+
 import { api } from "../../services/api.service";
 import { pxToRem } from "../../utils/convertToRem.util";
 
@@ -8,10 +11,9 @@ import { Input } from "../Input";
 import { Text } from "../Text";
 import { TextLabel } from "../TextLabel";
 
-import { CategoryContainer, Container, FormContainer, FormContent, InputLabelContainer, MidiaContainer, SocialContainer } from "./styles";
+import { CategoryContainer, Container, FormContainer, FormContent, ImageContainer, InputLabelContainer, MidiaContainer, SocialContainer, ToggleWrapper } from "./styles";
 import { Button } from "../Button";
 import { IUser } from "../../interfaces/IUser";
-import { render } from "react-dom";
 
 export function Form() {
 
@@ -34,14 +36,9 @@ export function Form() {
     }
   }
 
-  function handleToggleSocial(id: string, url: string): void {
-    const data = { social: id, url: url };
-    setSelectedSocial([...selectedSocial, data]);
-  }
-
   function handleBlur(event: any, id: string) {
     if (event.target.value) {
-      setSelectedSocial([...selectedSocial, { social: id, url: event.target.value }]);
+      setSelectedSocial([...selectedSocial, { id: id, url: event.target.value }]);
     }
   }
 
@@ -85,6 +82,19 @@ export function Form() {
       <Container>
         <Text color="#FFFFFF" fontSize={pxToRem(80)} >Arte é isso, arte é aqui!</Text>
         <FormContainer>
+
+          <ToggleWrapper>
+            <div className="description">
+              Artista?
+            </div>
+            <label className="switch">
+              <input type="checkbox" className="hidden-toggle" />
+              <div className="slider">
+                <div className="button"></div>
+              </div>
+            </label>
+          </ToggleWrapper>
+
           <FormContent>
             <InputLabelContainer>
               <TextLabel style={{
@@ -267,9 +277,15 @@ export function Form() {
             </MidiaContainer>
           </FormContent>
 
+          <ImageContainer>
+            <img src={carinhaMicrofone} alt="" />
+            <img src={segundaImage} alt="" />
+          </ImageContainer>
+
           <Button className="button-submit" type="submit" onClick={handleSubmit}>Enviar Cadastro</Button>
 
         </FormContainer>
+
       </Container>
     </>
   )
@@ -278,7 +294,6 @@ export function Form() {
 
 interface SocialProps {
   id: string;
-  social?: string;
   name?: string;
   url: string;
 }
@@ -286,11 +301,11 @@ interface SocialProps {
 interface SocialComponentProps {
   social: SocialProps;
 }
-export function GetIcon({social}: SocialComponentProps){
+export function GetIcon({ social }: SocialComponentProps) {
   let logoSocial = social.name + "Logo";
 
   const Icon = PhosphorIcons[logoSocial] as PhosphorIcons.Icon;
-  return <Icon size={pxToRem(32)} color="#FFFFFF" />
+  return <Icon size={pxToRem(60)} color="#FFFFFF" />
 }
 
 interface CategoryProps {

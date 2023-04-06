@@ -26,6 +26,60 @@ export const FormContainer = styled.div`
     }
 `
 
+export const ToggleWrapper = styled.div`
+    
+    display: flex;
+    align-items: center;
+
+    .description {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        font-size: 1.125rem;
+        color: #FFFFFF;
+    }
+
+    .switch > .hidden-toggle {
+        display: none;
+    }
+
+    .switch > .slider {
+        background: #e0e2db;
+        border: 0.1rem solid #bbb;
+        cursor: pointer;
+        border-radius: 2rem;
+        transition: all 300ms ease-in-out;
+        width: 2rem;
+        height: 1rem;
+        position: relative;
+        box-shadow: inset -0.5rem 0.5rem 0.5rem rgba(0, 0, 0, 0.2), 0 0 1rem rgba(0, 0, 0, 0.1);
+      }
+
+    .switch > .slider > .button {
+        content: "";
+        position: absolute;
+        width: 0.85rem;
+        height: 0.85rem;
+        background: #9747FF;
+        top: .25rem;
+        left: 0.4rem;
+        transition: all 300ms ease-in-out;
+        border-radius: 50%;
+        z-index: 2;
+        box-shadow: inset -0.5rem 0.5rem 0.5rem rgba(0, 0, 0, 0.2);
+    }
+
+    .switch > .hidden-toggle:checked ~ .slider {
+        background: ##EFF4F9;
+        box-shadow: inset 0.5rem 0.5rem 0.5rem rgba(0, 0, 0, 0.2), 0 0 1rem rgba(50, 0, 150, 0.2);
+    }
+      
+    .switch > .hidden-toggle:checked ~ .slider > .button {
+        left: 1rem;
+        box-shadow: inset 0.5rem 0.5rem 0.5rem rgba(0, 0, 0, 0.2);
+        background: #4CE03F;
+      }
+`
+
 export const FormContent = styled.form`
     display: flex;
     flex-direction: row;
@@ -58,7 +112,7 @@ export const InputLabelContainer = styled.div`
     input {
         padding-left: .55rem;
     }
-`	
+`
 
 export const MidiaContainer = styled.div`
     display: flex;
@@ -103,4 +157,13 @@ export const CategoryContainer = styled.div`
         font-family: 'Roboto', sans-serif;
         color: #FFFFFF;
     }
+`
+
+export const ImageContainer = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 90%;
+    padding: .2rem 4rem 4rem 4rem;
+    
 `
