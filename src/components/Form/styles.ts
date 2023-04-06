@@ -13,6 +13,7 @@ export const FormContainer = styled.div`
     flex-direction: column;
     align-items: center;
     background: linear-gradient(180deg, #201D1D 0%, rgba(32, 29, 29, 0.2) 100%);
+    border-radius: 2rem;
 
     .button-submit {
         color: #FFFFFF;
@@ -64,6 +65,10 @@ export const MidiaContainer = styled.div`
     flex-direction: column;
     width: 50%;
     padding: 3.93rem 4.18rem 4.81rem 4.18rem;
+
+    label {
+        margin-top: 0.875rem;
+    }
 `
 
 export const SocialContainer = styled.div`

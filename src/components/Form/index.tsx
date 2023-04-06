@@ -11,6 +11,7 @@ import { TextLabel } from "../TextLabel";
 import { CategoryContainer, Container, FormContainer, FormContent, InputLabelContainer, MidiaContainer, SocialContainer } from "./styles";
 import { Button } from "../Button";
 import { IUser } from "../../interfaces/IUser";
+import { render } from "react-dom";
 
 export function Form() {
 
@@ -20,6 +21,7 @@ export function Form() {
 
   // State para armazenar as categorias selecionadas
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedSocial, setSelectedSocial] = useState<SocialProps[]>([]);
 
   // useState dos dados formulário
   const [formData, setFormData] = useState<IUser>({} as IUser);
@@ -33,8 +35,14 @@ export function Form() {
   }
 
   function handleToggleSocial(id: string, url: string): void {
-    const data = { id: id, url: url };
-    setSocialList([...socialList, data])
+    const data = { social: id, url: url };
+    setSelectedSocial([...selectedSocial, data]);
+  }
+
+  function handleBlur(event: any, id: string) {
+    if (event.target.value) {
+      setSelectedSocial([...selectedSocial, { social: id, url: event.target.value }]);
+    }
   }
 
   function handleSubmit() {
@@ -45,13 +53,14 @@ export function Form() {
       email: formData.email,
       user_type: "artist",
       document: formData.document,
-      cellPhone: formData.cellphone,
-      socialList: socialList,
+      cell_phone: formData.cellphone,
+      social: selectedSocial,
       categories: selectedCategories,
     };
 
     try {
-      api.post("/users", data);
+      api.post("/user", data);
+
     } catch (error) {
       alert(`Erro ao cadastrar: ${error}`);
     }
@@ -207,19 +216,43 @@ export function Form() {
               </div>
             </InputLabelContainer>
             <MidiaContainer>
-              <Text fontSize={pxToRem(20)} color={"#FFFFFF"} >Redes Sociais</Text>
+              <TextLabel style={{
+                color: "#FFFFFF",
+                fontFamily: "Nunito",
+                fontSize: pxToRem(20),
+                fontWeight: 600,
+              }}>Redes Sociais</TextLabel>
               <SocialContainer>
                 {socialList.map((social) => {
                   return (
-                    <SocialComponent
-                      key={social.id}
-                      social={social}
-                      onSelectSocial={handleToggleSocial}
-                    />
+                    <div className="social-item">
+                      <GetIcon
+                        social={social}
+                      />
+                      <Input
+                        className="input-social"
+                        type="text"
+                        placeholder={social.name}
+                        key={social.id}
+                        // onChange={handleSocial}
+                        onBlur={(event) => handleBlur(event, social.id)}
+                        color="#FFFFFF"
+                        style={{
+                          width: "100%",
+                          height: pxToRem(32),
+                          borderRadius: pxToRem(8),
+                          background: "#EFF4F9",
+                        }} />
+                    </div>
                   )
                 })}
               </SocialContainer>
-              <Text fontSize={pxToRem(20)} color={"#FFFFFF"} >Categorias</Text>
+              <TextLabel style={{
+                color: "#FFFFFF",
+                fontFamily: "Nunito",
+                fontSize: pxToRem(20),
+                fontWeight: 600,
+              }}>Categorias</TextLabel>
               <CategoryContainer>
                 {categoryList.map((category) => {
                   return (
@@ -245,55 +278,20 @@ export function Form() {
 
 interface SocialProps {
   id: string;
+  social?: string;
   name?: string;
   url: string;
 }
 
 interface SocialComponentProps {
   social: SocialProps;
-  onSelectSocial: (id: string, url: string) => void;
 }
-
-export function SocialComponent({ social, onSelectSocial }: SocialComponentProps) {
-  const [url, setUrl] = useState(social.url);
-  const logoSocial = social.name + "Logo";
-
-  function handleSocial(event: any) {
-    setUrl(event.target.value);
-  }
-
-  function handleEnter(event: any) {
-    if (event.key === "Enter") {
-      const newSocial = { id: social.id, url: url };
-      onSelectSocial(newSocial.id, newSocial.url);
-    }
-  }
+export function GetIcon({social}: SocialComponentProps){
+  let logoSocial = social.name + "Logo";
 
   const Icon = PhosphorIcons[logoSocial] as PhosphorIcons.Icon;
-
-  return (
-    <>
-      <div className="social-item">
-        <Icon size={pxToRem(48)} color={"#FFFFFF"} />
-        <Input
-          className="input-social"
-          type="text"
-          value={url}
-          placeholder={social.name}
-          onChange={handleSocial}
-          onKeyDown={handleEnter}
-          color="#FFFFFF"
-          style={{
-            width: "100%",
-            height: pxToRem(32),
-            borderRadius: pxToRem(8),
-            background: "#EFF4F9"
-          }} />
-      </div>
-    </>
-  )
+  return <Icon size={pxToRem(32)} color="#FFFFFF" />
 }
-
 
 interface CategoryProps {
   id: string;

@@ -1,5 +1,4 @@
-import { AlignBottom } from "@phosphor-icons/react";
-import { pxToRem } from "../../utils/convertToRem";
+import { pxToRem } from "../../utils/convertToRem.util";
 import { Button } from "../Button";
 import { Input } from "../Input";
 import { Text } from "../Text"
