@@ -30,11 +30,15 @@ export const ToggleWrapper = styled.div`
     
     display: flex;
     align-items: center;
+    justify-content: end;
+    width: 100%;
+    margin: 1rem 7rem 0 0;
 
     .description {
         font-family: 'Roboto', sans-serif;
         font-weight: 400;
         font-size: 1.125rem;
+        padding-right: 1rem;
         color: #FFFFFF;
     }
 
@@ -60,8 +64,8 @@ export const ToggleWrapper = styled.div`
         width: 0.85rem;
         height: 0.85rem;
         background: #9747FF;
-        top: .25rem;
-        left: 0.4rem;
+        top: 0.08rem;
+        left: 0.08rem;
         transition: all 300ms ease-in-out;
         border-radius: 50%;
         z-index: 2;
