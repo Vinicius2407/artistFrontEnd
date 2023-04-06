@@ -1,5 +1,5 @@
 import { Footer } from "../../components/Footer";
-import { FormSingIn } from "../../components/FormSingIn";
+import { FormSingIn } from "../../components/FormSignIn";
 import { Header } from "../../components/Header";
 
 export function SingIn() {
