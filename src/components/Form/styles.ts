@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const Container = styled.div`
-    margin: 8.875rem 19rem 4.9375rem 19rem;
+    margin: 2rem 19rem 4.9375rem 19rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -107,6 +107,10 @@ export const InputLabelContainer = styled.div`
         div {
             width: 100%;
         }
+    }
+
+    #doble-input .organizer {
+        display: flex;
     }
 
     label, input, #doble-input {
