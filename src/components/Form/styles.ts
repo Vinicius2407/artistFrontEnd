@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const Container = styled.div`
-    margin: 2rem 19rem 4.9375rem 19rem;
+    margin: 2rem 10rem 4.9375rem 10rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -12,9 +12,11 @@ export const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 4rem 0 0 0;
     background: linear-gradient(180deg, #201D1D 0%, rgba(32, 29, 29, 0.2) 100%);
     border-radius: 2rem;
-
+    width: 100%;
+    
     .button-submit {
         color: #FFFFFF;
         font-family: 'Nunito', sans-serif;
@@ -94,26 +96,10 @@ export const FormContent = styled.form`
 export const InputLabelContainer = styled.div`
     display: flex;
     flex-direction: column;
-    padding: 3.93rem 4.18rem 4.81rem 4.18rem;
     width: 50%;
+    padding: 3.93rem 4.18rem 4.81rem 4.18rem;
 
-    #doble-input {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-        gap: 1.5rem;
-        
-        div {
-            width: 100%;
-        }
-    }
-
-    #doble-input .organizer {
-        display: flex;
-    }
-
-    label, input, #doble-input {
+    label, input {
         margin-top: 0.875rem;
     }
 
@@ -134,16 +120,17 @@ export const MidiaContainer = styled.div`
 `
 
 export const SocialContainer = styled.div`
-
     display: grid;
     grid-template-columns: 1fr 1fr;
-    justify-items: start;
+    justify-items: center;
+    align-items: center;
     column-gap: 2.2rem;
 
     .social-item {
         display: flex;
         flex-direction: row;
         align-items: center;
+        justify-content: space-between;
         gap: 0.5rem;
 
         input{
@@ -154,7 +141,6 @@ export const SocialContainer = styled.div`
 `
 
 export const CategoryContainer = styled.div`
-
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
 

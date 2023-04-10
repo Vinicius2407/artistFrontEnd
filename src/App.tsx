@@ -1,16 +1,21 @@
+import { BrowserRouter as Router, Route } from "react-router-dom"
+
 import { GlobalStyles } from "./styles/GlobalStyles"
 
-import { SingUp } from "./pages/SignUp"
+import { SignUp } from "./pages/SignUp"
+import { SignIn } from "./pages/SignIn"
+import { Header } from "./components/Header"
+import { Footer } from "./components/Footer"
+import { Home } from "./pages/Home"
 
-function App() {
-
+export function App() {
   return (
     <>
+      <Header />
+      <SignIn />
+      <Footer />
       <GlobalStyles />
-      <SingUp />
     </>
-  )  
+  )
 
 }
-
-export default App

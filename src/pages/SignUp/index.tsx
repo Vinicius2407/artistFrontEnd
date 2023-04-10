@@ -2,13 +2,11 @@ import { Footer } from "../../components/Footer";
 import { Form } from "../../components/Form";
 import { Header } from "../../components/Header";
 
-export function SingUp() {
+export function SignUp() {
 
     return (
         <>
-            <Header />
             <Form />
-            <Footer />
         </>
     )
 
