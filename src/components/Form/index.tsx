@@ -15,6 +15,8 @@ import { CategoryContainer, Container, FormContainer, FormContent, ImageContaine
 import { Button } from "../Button";
 import { IUser } from "../../interfaces/IUser";
 import { IAddressId } from "../../interfaces/IAddressId";
+import { Link } from "react-router-dom";
+import { SignIn } from "../../pages/SignIn";
 
 // Tipagem da interface dos dados Sociais
 interface SocialProps {
@@ -139,9 +141,15 @@ export function Form() {
       };
 
       try {
-         // api.post("/user", data);
-
-         console.log(data);
+         api.post("/user", data)
+            .then((response) => {
+               if (response.status === 201) {
+                  <Link to="/" component={SignIn} />
+               }
+            }).catch((error) => {
+               alert(`Erro ao cadastrar: ${error}`);
+            })
+         
       } catch (error) {
          alert(`Erro ao cadastrar: ${error}`);
       }
