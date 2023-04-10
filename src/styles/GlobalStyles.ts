@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import * as styled from 'styled-components';
 
 import InterMedium from '../assets/fonts/Inter-Medium.ttf';
 import InterSemiBold from '../assets/fonts/Inter-SemiBold.ttf';
@@ -9,7 +9,7 @@ import RobotoRegular from '../assets/fonts/Roboto-Regular.ttf';
 
 // Fazendo a importação das fontes para dentro do projeto,
 // e depois fazendo a chamada das fontes e zerando os estilos padrões do browser.
-export const GlobalStyles = createGlobalStyle`
+export const GlobalStyles = styled.createGlobalStyle`
 
     @font-face {
         font-family: 'Nunito';
@@ -45,6 +45,11 @@ export const GlobalStyles = createGlobalStyle`
 
     body {
         background: radial-gradient(circle, #9747FF, #684DFF);
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
     }
 
 `

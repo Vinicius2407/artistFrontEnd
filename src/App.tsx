@@ -7,15 +7,19 @@ import { SignIn } from "./pages/SignIn"
 import { Header } from "./components/Header"
 import { Footer } from "./components/Footer"
 import { Home } from "./pages/Home"
+import { useState } from "react"
 
 export function App() {
+  const [isSignIn, setIsSignIn] = useState<boolean>(false);
   return (
-    <>
+    <Router>
       <Header />
-      <SignIn />
+      <Route path="/" exact component={SignIn} />
+      <Route path="/sing-up"  component={SignUp} />
+      <Route path="/home" component={Home} />
       <Footer />
       <GlobalStyles />
-    </>
+    </Router>
   )
 
 }

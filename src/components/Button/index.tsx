@@ -3,7 +3,7 @@ import * as PhosphorIcons from "@phosphor-icons/react";
 import { ButtonContainer } from "./styles";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    children: string;
+    children: React.ReactNode;
     icon?: keyof typeof PhosphorIcons;
     textColor?: string;
 }
