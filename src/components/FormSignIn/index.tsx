@@ -5,15 +5,41 @@ import { Text } from "../Text"
 import { TextLabel } from "../TextLabel";
 import { Container, FormContainer, InputLabelContainer } from "./styles";
 import { useState } from "react";
-import { IUser } from "../../interfaces/IUser";
+import { ILogin } from "../../interfaces/ILogin";
+import { api } from "../../services/api.service";
+import { ILocalStorage } from "../../interfaces/ILocalStorage";
+import { useHistory } from "react-router-dom";
 
 export function FormSingIn() {
-   const [formData, setFormData] = useState<IUser>({} as IUser);
+   const [formData, setFormData] = useState<ILogin>({} as ILogin);
+   const history = useHistory();
+
+   function handleLogin(data: ILocalStorage) {
+      console.log(data)
+
+      localStorage.setItem('name', data.name);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user_type', data.user_type)
+      history.push("/home");
+   }
 
    function handleSubmit() {
+
       const data = {
          username: formData.username,
          password: formData.password
+      };
+
+      try {
+         api.post("/login", data)
+         .then(response => response)
+         .then(result => handleLogin(
+            result.data
+         ));
+
+         //console.log(data);
+      } catch (error) {
+         alert(`Erro ao cadastrar: ${error}`);
       }
    }
 
@@ -25,14 +51,18 @@ export function FormSingIn() {
 
             <FormContainer>
                <InputLabelContainer>
-                  <TextLabel style={{
+                  <TextLabel 
+                     style={{
                      color: "#FFFFFF",
                      fontFamily: "Nunito",
                      fontSize: pxToRem(20),
                      fontWeight: 600,
                   }}>Username:</TextLabel>
 
-                  <Input placeholder="João" className="inputName" style={{
+                  <Input placeholder="João" className="inputName" 
+                     onChange={(event) => setFormData({ ...formData, username: event.target.value })}
+                     value={formData.username}
+                     style={{
                      width: pxToRem(548),
                      height: pxToRem(32),
                      borderRadius: pxToRem(8),
@@ -47,7 +77,10 @@ export function FormSingIn() {
                      fontWeight: 600,
                   }}>Senha:</TextLabel>
 
-                  <Input placeholder="**********" className="inputName" style={{
+                  <Input placeholder="**********" className="inputName" 
+                     onChange={(event) => setFormData({ ...formData, password: event.target.value })}
+                     value={formData.password}
+                     style={{
                      width: pxToRem(548),
                      height: pxToRem(32),
                      borderRadius: pxToRem(8),
@@ -56,7 +89,9 @@ export function FormSingIn() {
                   />
                </InputLabelContainer>
 
-               <Button style={{
+               <Button 
+                  onClick={handleSubmit}
+                  style={{
                   color: '#FFF',
                   margin: "0 auto"
                }}>Login</Button>
