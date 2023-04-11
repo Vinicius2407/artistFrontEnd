@@ -15,7 +15,7 @@ import { CategoryContainer, Container, FormContainer, FormContent, ImageContaine
 import { Button } from "../Button";
 import { IUser } from "../../interfaces/IUser";
 import { IAddressId } from "../../interfaces/IAddressId";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { SignIn } from "../../pages/SignIn";
 
 // Tipagem da interface dos dados Sociais
@@ -90,6 +90,8 @@ export function Form() {
    const [formDataUser, setFormDataUser] = useState<IUser>({} as IUser);
    const [formAddressId, setFormAddressId] = useState<IAddressId>({} as IAddressId);
 
+   const history = useHistory();
+
    // Função para selecionar as categorias
    function handleToggleCategory(categoryId: string) {
       if (selectedCategories.includes(categoryId)) {
@@ -144,12 +146,12 @@ export function Form() {
          api.post("/user", data)
             .then((response) => {
                if (response.status === 201) {
-                  <Link to="/" component={SignIn} />
+                  history.push("/"); 
                }
             }).catch((error) => {
                alert(`Erro ao cadastrar: ${error}`);
             })
-         
+         console.log(data)
       } catch (error) {
          alert(`Erro ao cadastrar: ${error}`);
       }
