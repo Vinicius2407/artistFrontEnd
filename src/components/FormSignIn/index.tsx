@@ -9,6 +9,11 @@ import { ILogin } from "../../interfaces/ILogin";
 import { api } from "../../services/api.service";
 import { ILocalStorage } from "../../interfaces/ILocalStorage";
 import { useHistory } from "react-router-dom";
+import { IError } from "../../interfaces/IError";
+
+function handleError(data: IError) {
+   console.log(data)
+}
 
 export function FormSingIn() {
    const [formData, setFormData] = useState<ILogin>({} as ILogin);
@@ -23,24 +28,27 @@ export function FormSingIn() {
       history.push("/home");
    }
 
-   function handleSubmit() {
+   const handleSubmit = async () => {
 
       const data = {
          username: formData.username,
          password: formData.password
       };
 
-      try {
-         api.post("/login", data)
-         .then(response => response)
-         .then(result => handleLogin(
-            result.data
-         ));
+      await api.post("/login", data).then(response => {
+         if (response.status == 200){
+            handleLogin(
+               response.data
+            )
+            }
+      }).catch(resposta => {
+         console.log('erro - ', resposta)
 
-         //console.log(data);
-      } catch (error) {
-         alert(`Erro ao cadastrar: ${error}`);
-      }
+         if (resposta.code == "ERR_BAD_REQUEST"){
+            alert("Usuario ou senha invalidos")      
+            console.log("asdasdadasdas")            
+         }
+      })
    }
 
    return (
@@ -80,6 +88,7 @@ export function FormSingIn() {
                   <Input placeholder="**********" className="inputName" 
                      onChange={(event) => setFormData({ ...formData, password: event.target.value })}
                      value={formData.password}
+                     type="password"
                      style={{
                      width: pxToRem(548),
                      height: pxToRem(32),

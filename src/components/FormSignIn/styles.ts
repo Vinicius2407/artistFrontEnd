@@ -22,5 +22,6 @@ export const InputLabelContainer = styled.div`
 
     label, input {
         margin-top: 0.875rem;
+        padding: 0.3rem;
     }
 `
