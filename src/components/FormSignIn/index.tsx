@@ -71,12 +71,12 @@ export function FormSingIn() {
                      onChange={(event) => setFormData({ ...formData, username: event.target.value })}
                      value={formData.username}
                      style={{
-                     width: pxToRem(548),
-                     height: pxToRem(32),
-                     borderRadius: pxToRem(8),
-                     background: "#EFF4F9"
-                  }}
-                  />
+                        outline: 0,
+                        width: pxToRem(548),
+                        height: pxToRem(32),
+                        borderRadius: pxToRem(8),
+                        background: "#EFF4F9"
+                  }}/>
 
                   <TextLabel style={{
                      color: "#FFFFFF",
@@ -90,12 +90,12 @@ export function FormSingIn() {
                      value={formData.password}
                      type="password"
                      style={{
-                     width: pxToRem(548),
-                     height: pxToRem(32),
-                     borderRadius: pxToRem(8),
-                     background: "#EFF4F9"
-                  }}
-                  />
+                        outline: 0,
+                        width: pxToRem(548),
+                        height: pxToRem(32),
+                        borderRadius: pxToRem(8),
+                        background: "#EFF4F9"
+                  }}/>
                </InputLabelContainer>
 
                <Button 
