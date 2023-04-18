@@ -27,20 +27,11 @@ export const GlobalStyles = styled.createGlobalStyle`
         src: url('${NunitoBold}') format('truetype');
     }
 
-    @font-face {
-        font-family: 'Roboto';
-        font-weight: 400;
-        font-display: 'swap';
-        font-style: 'normal';
-        src: url('${RobotoRegular}') format('truetype');
-    }
-
-    @font-face {
-        font-family: 'Roboto';
+    input, textarea, button, select, a, p, h1, h2, h3, h4, h5, h6, span {
+        font-family: 'Nunito', sans-serif;
         font-weight: 500;
-        font-display: 'swap';
-        font-style: 'normal';
-        src: url('${RobotoMedium}') format('truetype');
+        font-size: 1rem;
+        color: #FFFFFF;
     }
 
     body {
@@ -49,7 +40,26 @@ export const GlobalStyles = styled.createGlobalStyle`
 
     a {
         text-decoration: none;
-        color: inherit;
+        color: inherit;
+    }
+
+    
+    ::-webkit-scrollbar {
+        position: sticky;
+        z-index: 9;
+        width: 0.1rem;
+        background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: black;
+        border-radius:  0.25rem;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #16425B;
+        border-radius: 0.25rem;
+        border: none;
     }
 
 `

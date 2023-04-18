@@ -105,6 +105,7 @@ export const InputLabelContainer = styled.div`
 
     input {
         padding-left: .55rem;
+        outline: none;
     }
 `
 

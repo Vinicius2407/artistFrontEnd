@@ -45,8 +45,7 @@ export function FormSingIn() {
          console.log('erro - ', resposta)
 
          if (resposta.code == "ERR_BAD_REQUEST"){
-            alert("Usuario ou senha invalidos")      
-            console.log("asdasdadasdas")            
+            alert("Usuario ou senha invalidos")              
          }
       })
    }
@@ -62,9 +61,8 @@ export function FormSingIn() {
                   <TextLabel 
                      style={{
                      color: "#FFFFFF",
-                     fontFamily: "Nunito",
                      fontSize: pxToRem(20),
-                     fontWeight: 600,
+                     fontWeight: 700,
                   }}>Username:</TextLabel>
 
                   <Input placeholder="João" className="inputName" 
@@ -80,9 +78,8 @@ export function FormSingIn() {
 
                   <TextLabel style={{
                      color: "#FFFFFF",
-                     fontFamily: "Nunito",
                      fontSize: pxToRem(20),
-                     fontWeight: 600,
+                     fontWeight: 700,
                   }}>Senha:</TextLabel>
 
                   <Input placeholder="**********" className="inputName" 
@@ -98,7 +95,8 @@ export function FormSingIn() {
                   }}/>
                </InputLabelContainer>
 
-               <Button 
+               <Button
+                  className="button-submit"
                   onClick={handleSubmit}
                   style={{
                   color: '#FFF',

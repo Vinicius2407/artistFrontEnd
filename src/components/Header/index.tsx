@@ -1,9 +1,10 @@
 import { Link, useHistory } from "react-router-dom";
 
 import { Container, Links, Logo } from "./styles";
-// import logoImage from '../../assets/images/logo.svg'
+import logoImage from '../../assets/images/logo.svg'
 import { Button } from "../Button";
 import { useState } from "react";
+import { pxToRem } from "../../utils/convertToRem.util";
 
 export function Header() {
     const [isSignInPage, setIsSignInPage] = useState<boolean>(true);
@@ -14,33 +15,40 @@ export function Header() {
         history.push(isSignInPage ? "/sing-up" : "/");
     }
 
+    const token = localStorage.getItem('token');
+
+
     return (
         <Container>
             <Logo >
-                {/* <img src={logoImage} alt="Logo do site" /> */}
+                <img src={logoImage} alt="Logo do site" />
             </Logo>
 
             <Links>
-                <Button style={{
+
+                {token && <><Button style={{
                     color: '#FFF'
                 }}>
                     Artistas
-                </Button>
-
-                <Button style={{
+                </Button><Button style={{
                     color: '#FFF'
                 }}>
-                    Eventos
-                </Button>
+                        Eventos
+                    </Button></>
+                }
+
+                {!token && <>
+                    <div></div>
+                    <div></div>
+                </>
+                }
 
                 <Button style={{
                     color: '#FFF'
                 }}
                     onClick={handleClick}
                 >
-                    <Link to={isSignInPage ? "/sing-up" : "/"}>
-                        {isSignInPage ? 'Cadastrar' : 'Entrar'}
-                    </Link>
+                    {isSignInPage ? "Cadastrar" : "Logar"}
                 </Button>
             </Links>
         </Container>

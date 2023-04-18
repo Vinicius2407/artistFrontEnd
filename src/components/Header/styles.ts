@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import logo from '../../assets/images/logo.svg';
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
     
@@ -8,13 +7,13 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 export const Container = styled.header`
     display: flex;
     justify-content: space-between;
-    margin: 0.80rem 19rem;
+    margin: 0.80rem 10rem;
     align-item: center;
 `
 
 export const Logo = styled.div`
     img{
-        width: 8rem;
+        width: 20rem;
     }
 `
 

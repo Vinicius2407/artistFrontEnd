@@ -1,5 +1,5 @@
 import { Footer } from "../../components/Footer";
-import { Form } from "../../components/Form";
+import { Form } from "../../components/FormSignUp";
 import { Header } from "../../components/Header";
 
 export function SignUp() {
