@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+
 export const Container = styled.div`
     margin: 1rem 19rem 2rem 19rem;
     display: flex;
@@ -23,6 +24,12 @@ export const FormContainer = styled.div`
 `
 
 export const ImportFiles = styled.a`
+    color: #41D773;
+    font-family: Nunito;
+    margin-left: 70%;
+`
+
+export const NewEvent = styled.a`
     color: #41D773;
     font-family: Nunito;
     margin-left: 70%;
@@ -54,4 +61,44 @@ export const Files = styled.div`
 `
 
 export const Event = styled.div`
+`
+
+export const Select = styled.select`
+    width: 100%;
+    height: 3.125rem;
+    border-radius: 0.5rem;
+    background: #E5E5E5;
+    border-style: none;
+    outline: 0;
+`
+
+export const EventModal = styled.div`
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-content: space-between;
+    height: 94%;
+    border-radius: 2rem;
+    padding: 1rem;
+`
+
+export const DescrEvent = styled.textarea`
+    outline: 0;
+    height: 6.25rem;
+    width: 95%;
+    border-radius: 0.5rem;
+    background: #E5E5E5;
+    border-style: none;
+    resize: none;
+    padding: 1.25rem;
+    align-self: center;
+    grid-column-start: 1;
+    grid-column-end: 3;
+`
+
+export const ModalDiv = styled.div`
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-content: space-between;
 `
