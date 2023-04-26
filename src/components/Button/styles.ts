@@ -3,6 +3,7 @@ import styled from "styled-components";
 interface ButtonProps {
     backgroundColor?: string;
     textColor?: string;
+    hoverColor?: string;
 }
 
 export const ButtonContainer = styled.button<ButtonProps>`

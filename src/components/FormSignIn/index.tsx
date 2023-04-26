@@ -20,12 +20,12 @@ export function FormSingIn() {
    const history = useHistory();
 
    function handleLogin(data: ILocalStorage) {
-      console.log(data)
+      // console.log(data)
 
       localStorage.setItem('name', data.name);
       localStorage.setItem('token', data.token);
       localStorage.setItem('user_type', data.user_type)
-      history.push("/home");
+      history.push(`/home`);
    }
 
    const handleSubmit = async () => {
@@ -53,9 +53,6 @@ export function FormSingIn() {
    return (
       <>
          <Container>
-
-            <Text color="#FFFFFF" fontSize={pxToRem(80)} style={{ textAlign: "center" }}>Arte é isso, arte é aqui!</Text>
-
             <FormContainer>
                <InputLabelContainer>
                   <TextLabel 
@@ -65,7 +62,9 @@ export function FormSingIn() {
                      fontWeight: 700,
                   }}>Username:</TextLabel>
 
-                  <Input placeholder="João" className="inputName" 
+                  <Input 
+                     placeholder="João" 
+                     className="inputName" 
                      onChange={(event) => setFormData({ ...formData, username: event.target.value })}
                      value={formData.username}
                      style={{
@@ -73,7 +72,8 @@ export function FormSingIn() {
                         width: pxToRem(548),
                         height: pxToRem(32),
                         borderRadius: pxToRem(8),
-                        background: "#EFF4F9"
+                        background: "#EFF4F9",
+                        color: "#000"
                   }}/>
 
                   <TextLabel style={{
@@ -82,7 +82,9 @@ export function FormSingIn() {
                      fontWeight: 700,
                   }}>Senha:</TextLabel>
 
-                  <Input placeholder="**********" className="inputName" 
+                  <Input 
+                     placeholder="**********" 
+                     className="inputName" 
                      onChange={(event) => setFormData({ ...formData, password: event.target.value })}
                      value={formData.password}
                      type="password"
@@ -91,7 +93,8 @@ export function FormSingIn() {
                         width: pxToRem(548),
                         height: pxToRem(32),
                         borderRadius: pxToRem(8),
-                        background: "#EFF4F9"
+                        background: "#EFF4F9",
+                        color: "#000"
                   }}/>
                </InputLabelContainer>
 

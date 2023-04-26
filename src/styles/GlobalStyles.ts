@@ -27,11 +27,17 @@ export const GlobalStyles = styled.createGlobalStyle`
         src: url('${NunitoBold}') format('truetype');
     }
 
-    input, textarea, button, select, a, p, h1, h2, h3, h4, h5, h6, span {
+    textarea, button, select, a, p, h1, h2, h3, h4, h5, h6, span, label {
         font-family: 'Nunito', sans-serif;
-        font-weight: 500;
+        font-weight: 700;
         font-size: 1rem;
-        color: #FFFFFF;
+        color: #FFF;
+    }
+
+    input {
+        font-family: 'Nunito', sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
     }
 
     body {
@@ -41,6 +47,10 @@ export const GlobalStyles = styled.createGlobalStyle`
     a {
         text-decoration: none;
         color: inherit;
+    }
+
+    p {
+        margin: 0;
     }
 
     

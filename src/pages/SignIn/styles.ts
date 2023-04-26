@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
-const div = styled.div`
-    background: #EFF4F9;
-    
+export const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .tituloSignIn {
+        margin: 1rem;
+    }
 `

@@ -1,14 +1,10 @@
 import styled from 'styled-components';
 
-interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
-    
-}
-
 export const Container = styled.header`
     display: flex;
     justify-content: space-between;
     margin: 0.80rem 10rem;
-    align-item: center;
+    align-items: center;
 `
 
 export const Logo = styled.div`
