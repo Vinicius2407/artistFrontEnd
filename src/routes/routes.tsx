@@ -5,6 +5,7 @@ import { SignIn } from "../pages/SignIn";
 import { SignUp } from "../pages/SignUp";
 
 import { ComponentType } from "react";
+import { Profile } from "../pages/Profile";
 
 interface PrivateRouteProps {
   component: ComponentType<any>;
@@ -27,6 +28,7 @@ export function Routes() {
       <Route path="/" exact component={SignIn} />
       <Route path="/sing-up" component={SignUp} />
       <PrivateRoute path="/home" component={Home} />
+      <PrivateRoute path="/profile" component={Profile} />
     </Switch>
   );
 }

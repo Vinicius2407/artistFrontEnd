@@ -1,12 +1,14 @@
+import { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { Container, Links, Logo } from "./styles";
 import logoImage from '../../assets/images/logo.svg'
-import { Button } from "../Button";
-import { useEffect, useState } from "react";
+
 import { AccountModal } from "../AccountModal";
-import { Text } from "../Text";
+import { Button } from "../Button";
+
 import { pxToRem } from "../../utils/convertToRem.util";
+
+import { Container, Links, Logo } from "./styles";
 
 
 export function Header() {
@@ -32,11 +34,11 @@ export function Header() {
     }
 
     function openPerfil() {
-        history.push('/sing-up');
+        history.push('/profile');
         setIsOpen(false);
     }
 
-    function desconect() {
+    function disconnect() {
         localStorage.removeItem('token');
         localStorage.removeItem('name');
         localStorage.removeItem('user_type');
@@ -58,15 +60,12 @@ export function Header() {
                 <Links>
                     {token ? (
                         <>
+                            <div></div>
                             <Button
+                                onClick={() => history.push('/home')}
                                 style={{
                                     color: '#FFF'
-                                }}>Artistas</Button>
-
-                            <Button
-                                style={{
-                                    color: '#FFF'
-                                }}>Eventos</Button>
+                                }}>Inicio</Button>
 
                             <Button
                                 onClick={handleOpenModal}
@@ -94,8 +93,8 @@ export function Header() {
             {isOpen &&
                 <>
                     <AccountModal isOpen={isOpen} onClose={handleCloseModal}>
-                        <Button onClick={openPerfil} style={{ background: "#9747FF", color: "#FFF", height: "32px", width: "100%" }}>Perfil</Button>
-                        <Button onClick={desconect} style={{ background: "#F00", color: "#FFF", height: "32px", width: "100%"}}>Desconectar</Button>
+                        <Button onClick={openPerfil} style={{ background: "#50E3C2", color: "#FFF", height: pxToRem(32), width: "100%" }}>Perfil</Button>
+                        <Button onClick={disconnect} style={{ background: "#F00", color: "#FFF", height: pxToRem(32), width: "100%"}}>Desconectar</Button>
                     </AccountModal>
                 </>
             }
