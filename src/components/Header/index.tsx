@@ -1,10 +1,12 @@
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import { Container, Links, Logo } from "./styles";
 import logoImage from '../../assets/images/logo.svg'
 import { Button } from "../Button";
 import { useEffect, useState } from "react";
 import { AccountModal } from "../AccountModal";
+import { Text } from "../Text";
+import { pxToRem } from "../../utils/convertToRem.util";
 
 
 export function Header() {
@@ -13,6 +15,8 @@ export function Header() {
     
     const history = useHistory();
     const token = localStorage.getItem('token');
+
+    
 
     function handleClick(){
         setIsSignInPage(!isSignInPage);
@@ -88,10 +92,12 @@ export function Header() {
             </Container>
 
             {isOpen &&
-                <AccountModal isOpen={isOpen} onClose={handleCloseModal}>
-                    <Button onClick={openPerfil} style={{ background: "#9747FF", color: "#FFF" }}>Perfil</Button>
-                    <Button onClick={desconect} style={{ background: "#F00", color: '#FFF' }}>Desconectar</Button>
-                </AccountModal>
+                <>
+                    <AccountModal isOpen={isOpen} onClose={handleCloseModal}>
+                        <Button onClick={openPerfil} style={{ background: "#9747FF", color: "#FFF", height: "32px", width: "100%" }}>Perfil</Button>
+                        <Button onClick={desconect} style={{ background: "#F00", color: "#FFF", height: "32px", width: "100%"}}>Desconectar</Button>
+                    </AccountModal>
+                </>
             }
         </>
     )

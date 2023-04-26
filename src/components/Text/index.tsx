@@ -4,7 +4,7 @@ import { PContainer } from './styles';
 interface TextProps extends React.HTMLAttributes<HTMLParagraphElement> {
     props?: React.HTMLAttributes<HTMLParagraphElement>;
     fontSize: string;
-    color: string;
+    color?: string;
     textAlign?: string;
 }
 

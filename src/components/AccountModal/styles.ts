@@ -17,7 +17,6 @@ export const Container = styled.div`
     .modal-content {
         display: flex;
         background-color: #fff;
-        width: 250px;
         justify-content: center;
         align-items: center;
         flex-direction: column;
@@ -26,24 +25,26 @@ export const Container = styled.div`
     }
 
     .modal-header {
-        position: absolute;
+        /* position: absolute; */
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
         align-items: center;
+        gap: 10px;
+
+        width: 100%;
     }
 
     .modal-body {
         display: flex;
+        margin-top: 1rem;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        gap: 20px;
+        gap: 15px;
+        width: 250px;
     }
 
     .modal-close {
-        position: relative;
-        right: -100px;
-        bottom: 35px;
         color: black;
         background: none;
         border: none;
