@@ -16,6 +16,6 @@ export const Logo = styled.div`
 export const Links = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    height: 1.875rem;
+    height: 100%;
     justify-content: space-between;
 `

@@ -9,11 +9,6 @@ import { ILogin } from "../../interfaces/ILogin";
 import { api } from "../../services/api.service";
 import { ILocalStorage } from "../../interfaces/ILocalStorage";
 import { useHistory } from "react-router-dom";
-import { IError } from "../../interfaces/IError";
-
-function handleError(data: IError) {
-   console.log(data)
-}
 
 export function FormSingIn() {
    const [formData, setFormData] = useState<ILogin>({} as ILogin);

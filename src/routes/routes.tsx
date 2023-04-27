@@ -1,10 +1,9 @@
-import { Component } from "react";
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
+import { ComponentType } from "react";
+
 import { Home } from "../pages/Home";
 import { SignIn } from "../pages/SignIn";
 import { SignUp } from "../pages/SignUp";
-
-import { ComponentType } from "react";
 import { Profile } from "../pages/Profile";
 
 interface PrivateRouteProps {
@@ -18,17 +17,20 @@ function PrivateRoute({ component: Component, path }: PrivateRouteProps) {
   return token ? (
     <Route path={path} component={Component} />
   ) : (
-    <Redirect to="/" />
+    <Redirect to="/sign-in" />
   );
 }
 
 export function Routes() {
+  const history = useHistory();
+  const token = localStorage.getItem("token");
+
   return (
     <Switch>
-      <Route path="/" exact component={SignIn} />
-      <Route path="/sing-up" component={SignUp} />
-      <PrivateRoute path="/home" component={Home} />
+      <Route path="/sign-in" exact component={SignIn} />
+      <Route path="/sign-up" component={SignUp} />
+      <PrivateRoute path="/" component={Home} />
       <PrivateRoute path="/profile" component={Profile} />
     </Switch>
-  );
+  );
 }

@@ -2,11 +2,46 @@ import styled from "styled-components";
 
 
 export const Container = styled.div`
-    margin: 1rem 19rem 2rem 19rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: left;
+    .modal {
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        display: flex;
+        background-color: #fff;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        padding: 20px;
+        border-radius: 5px;
+    }
+
+    .modal-body {
+        display: flex;
+        margin-top: 1rem;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 15px;
+        /* width: 250px; */
+    }
+
+    .modal-close {
+        color: black;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+    }
 `
 
 export const NewPost = styled.div`
@@ -23,16 +58,18 @@ export const FormContainer = styled.div`
     align-self: left;
 `
 
-export const ImportFiles = styled.a`
+export const ImportFiles = styled.label`
     color: #41D773;
     font-family: Nunito;
-    margin-left: 70%;
+    margin-left: 60%;
+    cursor: pointer;
 `
 
 export const NewEvent = styled.a`
     color: #41D773;
     font-family: Nunito;
     margin-left: 70%;
+    cursor: pointer;
 `
 
 export const Line = styled.hr`
@@ -54,6 +91,7 @@ export const Descr = styled.textarea`
     align-self: center;
     grid-column-start: 1;
     grid-column-end: 3;
+    color: #000000;
 `
 
 
@@ -64,7 +102,7 @@ export const Event = styled.div`
 `
 
 export const Select = styled.select`
-    width: 100%;
+    width: 90%;
     height: 3.125rem;
     border-radius: 0.5rem;
     background: #E5E5E5;
@@ -72,33 +110,20 @@ export const Select = styled.select`
     outline: 0;
 `
 
-export const EventModal = styled.div`
+export const EventDate = styled.div`
     display: grid;
     grid-template-columns: 50% 50%;
     justify-content: space-between;
-    height: 94%;
-    border-radius: 2rem;
-    padding: 1rem;
 `
 
-export const DescrEvent = styled.textarea`
-    outline: 0;
-    height: 6.25rem;
-    width: 95%;
-    border-radius: 0.5rem;
-    background: #E5E5E5;
-    border-style: none;
-    resize: none;
-    padding: 1.25rem;
-    align-self: center;
-    grid-column-start: 1;
-    grid-column-end: 3;
-`
-
-export const ModalDiv = styled.div`
-    height: 100%;
-    width: 100%;
+export const EventAddress = styled.div`
     display: grid;
     grid-template-columns: 50% 50%;
+    justify-content: space-between;
+`
+
+export const EventCategory = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-content: space-between;
 `

@@ -22,7 +22,7 @@ export function Header() {
 
     function handleClick(){
         setIsSignInPage(!isSignInPage);
-        history.push(isSignInPage ? "/sing-up" : "/");
+        history.push(isSignInPage ? "/sign-up" : "/sign-in");
     }
 
     function handleOpenModal() {
@@ -43,7 +43,7 @@ export function Header() {
         localStorage.removeItem('name');
         localStorage.removeItem('user_type');
         setIsOpen(false);
-        history.push('/');
+        history.push('/sign-in');
     }
 
 
@@ -62,7 +62,7 @@ export function Header() {
                         <>
                             <div></div>
                             <Button
-                                onClick={() => history.push('/home')}
+                                onClick={() => history.push('/')}
                                 style={{
                                     color: '#FFF'
                                 }}>Inicio</Button>
