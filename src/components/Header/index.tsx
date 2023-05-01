@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import logoImage from '../../assets/images/logo.svg'
 
@@ -55,7 +55,7 @@ export function Header() {
         <>
             <Container>
                 <Logo >
-                    <img src={logoImage} alt="Logo do site" />
+                    <Link to="/home"><img src={logoImage} alt="Logo do site" /></Link>                
                 </Logo>
                 <Links>
                     {token ? (

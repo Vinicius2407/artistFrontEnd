@@ -5,6 +5,7 @@ import { Home } from "../pages/Home";
 import { SignIn } from "../pages/SignIn";
 import { SignUp } from "../pages/SignUp";
 import { Profile } from "../pages/Profile";
+import Portifolio  from "../pages/Portifolio";
 
 interface PrivateRouteProps {
   component: ComponentType<any>;
@@ -15,7 +16,7 @@ function PrivateRoute({ component: Component, path }: PrivateRouteProps) {
   const token = localStorage.getItem("token");
 
   return token ? (
-    <Route path={path} component={Component} />
+    <Route path={path}   component={Component} />
   ) : (
     <Redirect to="/sign-in" />
   );
@@ -31,6 +32,7 @@ export function Routes() {
       <Route path="/sign-up" component={SignUp} />
       <PrivateRoute path="/" component={Home} />
       <PrivateRoute path="/profile" component={Profile} />
+      <PrivateRoute  path="/portifolio/:id" component={Portifolio} />
     </Switch>
   );
 }

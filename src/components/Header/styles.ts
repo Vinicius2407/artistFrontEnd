@@ -3,13 +3,13 @@ import styled from 'styled-components';
 export const Container = styled.header`
     display: flex;
     justify-content: space-between;
-    margin: 0.80rem 10rem;
+    margin: 0.80rem 16rem;
     align-items: center;
 `
 
 export const Logo = styled.div`
     img{
-        width: 20rem;
+        width: 10rem;
     }
 `
 
