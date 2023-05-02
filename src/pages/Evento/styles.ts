@@ -13,8 +13,7 @@ export const DadosContainer = styled.div`
     min-width: 30rem;
     border-radius: 32px;
     background: #FFFFFF;
-    color:#fff;
-    background: #fff;
+    color:#fff;    
     padding: 30px;
     margin: 0 10rem;
     row-gap: 20px;
@@ -24,5 +23,4 @@ export const Dados = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 20px;
-   
 `

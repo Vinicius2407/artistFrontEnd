@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const Input = styled.input`
     color: #000;
+    outline:0;
+   
 `
 
 export const Label = styled.span`
@@ -10,5 +12,5 @@ export const Label = styled.span`
   font-size: 14px;
   font-family: Nunito;
   font-weight: bold;
-  color: #fff;
+  color: #000;
 `;

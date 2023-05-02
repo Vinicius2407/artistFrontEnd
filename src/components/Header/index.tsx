@@ -14,13 +14,13 @@ import { Container, Links, Logo } from "./styles";
 export function Header() {
     const [isSignInPage, setIsSignInPage] = useState<boolean>(true);
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    
+
     const history = useHistory();
     const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('user_id');
+    const user_type = localStorage.getItem('user_type');
 
-    
-
-    function handleClick(){
+    function handleClick() {
         setIsSignInPage(!isSignInPage);
         history.push(isSignInPage ? "/sign-up" : "/sign-in");
     }
@@ -41,7 +41,6 @@ export function Header() {
     function disconnect() {
         localStorage.removeItem('token');
         localStorage.removeItem('name');
-        localStorage.removeItem('user_type');
         setIsOpen(false);
         history.push('/sign-in');
     }
@@ -55,7 +54,7 @@ export function Header() {
         <>
             <Container>
                 <Logo >
-                    <Link to="/"><img src={logoImage} alt="Logo do site" /></Link>                
+                    <Link to="/"><img src={logoImage} alt="Logo do site" /></Link>
                 </Logo>
                 <Links>
                     {token ? (
@@ -94,7 +93,8 @@ export function Header() {
                 <>
                     <AccountModal isOpen={isOpen} onClose={handleCloseModal}>
                         <Button onClick={openPerfil} style={{ background: "#50E3C2", color: "#FFF", height: pxToRem(32), width: "100%" }}>Perfil</Button>
-                        <Button onClick={disconnect} style={{ background: "#F00", color: "#FFF", height: pxToRem(32), width: "100%"}}>Desconectar</Button>
+                        <Button style={{ background: "#50E3C2", color: "#FFF", height: pxToRem(32), width: "100%" }}><Link to={`/portifolio/${userId}`}> Meus Posts</Link></Button>
+                        <Button onClick={disconnect} style={{ background: "#F00", color: "#FFF", height: pxToRem(32), width: "100%" }}>Desconectar</Button>
                     </AccountModal>
                 </>
             }

@@ -1,20 +1,28 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
-import { IUser } from "../../interfaces/IUser";
 import { Container, Dados, DadosContainer } from "./styles";
 import { api } from "../../services/api.service";
 import { Input } from "../../components/Input";
 import { pxToRem } from "../../utils/convertToRem.util";
 import { Button } from "../../components/Button";
+import { RouteComponentProps } from "react-router-dom";
+import { IEvent } from "../../interfaces/IEvent";
 
-export function Profile() {
+interface MatchParams {
+    id: string;
+}
 
-    const [formUser, setFormUser] = useState<IUser>({} as IUser)
-    const userId = localStorage.getItem(`user_id`);
+interface Props extends RouteComponentProps<MatchParams> {
+}
+export function Evento(props: Props) {
+
+    const id = props.match.params.id;
+
+    const [formEvent, setFormUser] = useState<IEvent>({} as IEvent)
 
     async function handleData() {
-        const us = await api.get(`user/${userId}`);
+        const us = await api.get(`event/${id}`);
         setFormUser(us.data);
 
     }
@@ -33,20 +41,11 @@ export function Profile() {
         }));
     }
 
-
-    function handleDadosUser() {
+    function handleDadosEvent() {
         const data = {
-            name: formUser.name,
-            username: formUser.username,
-            password: formUser.password,
-            user_type: formUser.user_type,
-            document: formUser.document,
-            email: formUser.email,
-            profile_image: formUser.profile_image,
-            cel_phone: formUser.cel_phone,
-            status: formUser.status
+
         };
-        api.put(`user/${userId}`, data)
+        api.put(`event/${id}`, data)
             .then(response => {
                 alert('Dados basicos atualizados com sucesso');
             })
@@ -56,38 +55,48 @@ export function Profile() {
             });
     }
 
+    function formatDate(date: string): string {
+        if (date) {
+            const isoDate = new Date(date).toISOString();
+            return isoDate.substring(0, 10);
+        }
+        return '';
+    }
+
     return (
         <>
             <Header />
             <Container>
                 <DadosContainer>
                     <Dados>
+
                         <div>
-                            <Input
-                                label="Usuario"
-                                id='username'
-                                onChange={handleChange}
-                                value={formUser.username}
-                                placeholder="Não informado"
-                                style={{
-                                    outline: 0,
-                                    color: '#fff',
-                                    width: '90%',
-                                    height: pxToRem(32),
-                                    borderRadius: pxToRem(8),
-                                    background: '#9500F6',
-                                    padding: '5px 10px',
-                                    border: 'none',
-                                    fontSize: '14px',
-                                    fontFamily: 'Nunito',
-                                    fontWeight: 'bold',
-                                    marginBottom: '3px'
-                                }} />
                             <Input
                                 label="Nome"
                                 id='name'
                                 onChange={handleChange}
-                                value={formUser.name}
+                                value={formEvent.name}
+                                placeholder="Não informado"
+                                style={{
+                                    outline: 0,
+                                    color: '#fff',
+                                    width: '90%',
+                                    height: pxToRem(32),
+                                    borderRadius: pxToRem(8),
+                                    background: '#9500F6',
+                                    padding: '5px 10px',
+                                    border: 'none',
+                                    fontSize: '14px',
+                                    fontFamily: 'Nunito',
+                                    fontWeight: 'bold',
+                                    marginBottom: '3px'
+
+                                }} />
+                            <Input
+                                label="Descrição"
+                                id='description'
+                                onChange={handleChange}
+                                value={formEvent.name}
                                 placeholder="Não informado"
                                 style={{
                                     outline: 0,
@@ -104,32 +113,11 @@ export function Profile() {
                                     marginBottom: '3px'
                                 }} />
                             <Input
-                                label="Url Foto"
-                                id='profile_image'
+                                label="Orçamento"
+                                id='budget'
                                 onChange={handleChange}
-                                value={formUser.profile_image}
+                                value={formEvent.budget}
                                 placeholder="Não informado"
-                                style={{
-                                    outline: 0,
-                                    color: '#fff',
-                                    width: '90%',
-                                    height: pxToRem(32),
-                                    borderRadius: pxToRem(8),
-                                    background: '#9500F6',
-                                    padding: '5px 10px',
-                                    border: 'none',
-                                    fontSize: '14px',
-                                    fontFamily: 'Nunito',
-                                    fontWeight: 'bold',
-                                    marginBottom: '3px'
-                                }} />
-                            <Input
-                                label="Senha"
-                                placeholder="Não informado"
-                                type="password"
-                                id='password'
-                                onChange={handleChange}
-                                value={formUser.password}
                                 style={{
                                     outline: 0,
                                     color: '#fff',
@@ -147,31 +135,11 @@ export function Profile() {
                         </div>
                         <div>
                             <Input
-                                label="Email"
-                                id='email'
+                                label="Público"
+                                id='people'
                                 onChange={handleChange}
-                                value={formUser.email}
+                                value={formEvent.name}
                                 placeholder="Não informado"
-                                style={{
-                                    outline: 0,
-                                    color: '#fff',
-                                    width: '90%',
-                                    height: pxToRem(32),
-                                    borderRadius: pxToRem(8),
-                                    background: '#9500F6',
-                                    padding: '5px 10px',
-                                    border: 'none',
-                                    fontSize: '14px',
-                                    fontFamily: 'Nunito',
-                                    fontWeight: 'bold',
-                                    marginBottom: '3px'
-                                }} />
-                            <Input
-                                label="CPF/CNPJ"
-                                placeholder="Não informado"
-                                id='document'
-                                onChange={handleChange}
-                                value={formUser.document}
                                 style={{
                                     outline: 0,
                                     color: '#fff',
@@ -188,11 +156,32 @@ export function Profile() {
                                 }} />
 
                             <Input
-                                label="Telefone"
-                                placeholder="Não informado"
-                                id='cellphone'
+                                label="Data do Evento"
+                                id='dh_event'
+                                type="date"
                                 onChange={handleChange}
-                                value={formUser.cel_phone}
+                                value={formatDate(formEvent.dh_event)}
+                                style={{
+                                    outline: 0,
+                                    color: '#fff',
+                                    width: '90%',
+                                    height: pxToRem(32),
+                                    borderRadius: pxToRem(8),
+                                    background: '#9500F6',
+                                    padding: '5px 10px',
+                                    border: 'none',
+                                    fontSize: '14px',
+                                    fontFamily: 'Nunito',
+                                    fontWeight: 'bold',
+                                    marginBottom: '3px'
+                                }} />
+
+                            <Input
+                                label="Data de Expiração"
+                                id='dh_expiration'
+                                type="date"
+                                onChange={handleChange}
+                                value={formatDate(formEvent.dh_expiration)}
                                 style={{
                                     outline: 0,
                                     color: '#fff',
@@ -210,11 +199,12 @@ export function Profile() {
 
                         </div>
                     </Dados>
-                    <Button onClick={handleDadosUser} style={{ margin: '0 auto'}}>Atualizar</Button>
+                    <Button onClick={handleDadosEvent} style={{ margin: '0 auto' }}>Atualizar</Button>
                 </DadosContainer>
             </Container>
             <Footer />
         </>
     )
+
 }
 

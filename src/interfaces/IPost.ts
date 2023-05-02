@@ -16,9 +16,11 @@ export interface IPost {
         user_type: string
     },
     event: {
+        id:string;
         name: string,
         description: string,
-        dh_expiration: Date,
+        dh_expiration: string,
+        dh_event: string,
         address: IAddressId,
         budget: string,
         people: string,
