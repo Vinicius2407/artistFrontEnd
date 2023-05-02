@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+
 import { IPost } from "../../interfaces/IPost";
 import Carousel from "../Carousel";
 import { PostAuthorAvatar, PostAuthorName, PostContainer, PostContent, PostHeader, PostAuthorInfo, PostAuthorCat, PostAuthorCategories, PostEventContainer, Label, EventInfo, EventAddress, Input } from "./styles";
-import { api } from "../../services/api.service";
 import { Button } from "../Button";
 import { Link } from "react-router-dom";
 

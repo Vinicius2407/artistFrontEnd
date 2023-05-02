@@ -80,6 +80,7 @@ export const EventAddress = styled.div`
 `;
 
 export const Input = styled.div`
+
   background: #9500F6;
   color: #fff;
   padding: 5px 10px;

@@ -9,7 +9,7 @@ export interface IUser {
     document: string;
     email: string;
     profile_image: string;
-    cellphone: string;
+    cel_phone: string;
     addressId: {};
 
     categories: string[];

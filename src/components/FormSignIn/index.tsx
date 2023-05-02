@@ -20,6 +20,7 @@ export function FormSingIn() {
       localStorage.setItem('name', data.name);
       localStorage.setItem('token', data.token);
       localStorage.setItem('user_type', data.user_type)
+      localStorage.setItem('user_id', data.user_id)
       history.push(`/home`);
    }
 
