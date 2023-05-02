@@ -1,5 +1,5 @@
 
-import FeedPortifolio from "../../components/FeedPortifolio";
+import Feed from "../../components/Feed";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { Container } from "./styles";
@@ -19,7 +19,7 @@ export function Portifolio(props: Props) {
         <>
             <Header />
             <Container>
-                <FeedPortifolio route="/posts" userId={id} />
+                <Feed route="/posts" userId={id} />
             </Container>
             <Footer />
         </>

@@ -6,15 +6,15 @@ import Post from "../Post";
 
 interface FeedProps {
     route: string;
+    userId?: string;
 }
 
-  
-  function Feed({ route }: FeedProps) {
+  function Feed({ route, userId }: FeedProps) {
 
     const [posts, setPosts] = useState<IPost[]>([]);
 
     async function handleList() {
-        const postss = await api.get(route);
+        const postss = await api.get(userId ? `${route}/${userId}`: route );
         setPosts(postss.data);        
     }
     useEffect(() => {
