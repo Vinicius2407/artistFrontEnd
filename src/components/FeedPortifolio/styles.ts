@@ -5,6 +5,6 @@ export const FeedContainer = styled.div`
   flex-direction: column;
   align-items: center;
   widht:100%;
-  min-height: 100vh;
+  min-height: 80vh;
 `;
 

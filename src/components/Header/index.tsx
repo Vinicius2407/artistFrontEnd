@@ -55,7 +55,7 @@ export function Header() {
         <>
             <Container>
                 <Logo >
-                    <Link to="/home"><img src={logoImage} alt="Logo do site" /></Link>                
+                    <Link to="/"><img src={logoImage} alt="Logo do site" /></Link>                
                 </Logo>
                 <Links>
                     {token ? (

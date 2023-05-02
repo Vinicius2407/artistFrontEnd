@@ -6,20 +6,21 @@ import Post from "../Post";
 
 interface FeedProps {
     route: string;
+    userId: string;
 }
 
-  
-  function Feed({ route }: FeedProps) {
+
+function FeedPortifolio({ route, userId }: FeedProps) {
 
     const [posts, setPosts] = useState<IPost[]>([]);
 
     async function handleList() {
-        const postss = await api.get(route);
-        setPosts(postss.data);        
+        const postss = await api.get(`${route}/${userId}`);
+        setPosts(postss.data);
     }
     useEffect(() => {
         handleList();
-      }, []);
+    }, [userId]);
 
     return (
         <>
@@ -36,4 +37,4 @@ interface FeedProps {
     );
 };
 
-export default Feed;  
+export default FeedPortifolio;  

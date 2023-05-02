@@ -1,21 +1,28 @@
 
-import Feed from "../../components/Feed";
-import { Navigation } from "../../components/Navigation";
-import { useParams } from 'react-router-dom';
+import FeedPortifolio from "../../components/FeedPortifolio";
+import { Footer } from "../../components/Footer";
+import { Header } from "../../components/Header";
 import { Container } from "./styles";
-import { IPost } from "../../interfaces/IPost";
-import { useEffect, useState } from "react";
-import { api } from "../../services/api.service";
+import { RouteComponentProps } from 'react-router-dom';
 
+interface MatchParams {
+    id: string;
+}
 
-export default function Portifolio() {
+interface Props extends RouteComponentProps<MatchParams> {
+}
+export function Portifolio(props: Props) {
 
-    const userId  = useParams<{ id: string }>();
+    const id = props.match.params.id;
 
     return (
-        <Container>
-            <Feed route="/posts" userId={userId.id} />
-        </Container>
+        <>
+            <Header />
+            <Container>
+                <FeedPortifolio route="/posts" userId={id} />
+            </Container>
+            <Footer />
+        </>
 
     );
 }
