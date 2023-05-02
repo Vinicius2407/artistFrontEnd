@@ -129,7 +129,7 @@ export function Form() {
          email: formDataUser.email,
          user_type: isOrganizer,
          document: formDataUser.document,
-         cell_phone: formDataUser.cellphone,
+         cel_phone: formDataUser.cel_phone,
          addresId: {
             street: formAddressId.street,
             number: formAddressId.number,
@@ -302,8 +302,8 @@ export function Form() {
                      <Input
                         placeholder="(45) 9 9999-9999"
                         className="inputPhone"
-                        value={formDataUser.cellphone}
-                        onChange={(event) => setFormDataUser({ ...formDataUser, cellphone: event.target.value })}
+                        value={formDataUser.cel_phone}
+                        onChange={(event) => setFormDataUser({ ...formDataUser, cel_phone: event.target.value })}
                         style={{
                            width: "100%",
                            height: pxToRem(32),
