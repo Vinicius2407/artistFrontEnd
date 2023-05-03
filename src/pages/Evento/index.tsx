@@ -1,13 +1,15 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
-import { Container, Dados, DadosContainer } from "./styles";
+import { Categorias, Container, Dados, DadosContainer, Titulo } from "./styles";
 import { api } from "../../services/api.service";
 import { Input } from "../../components/Input";
 import { pxToRem } from "../../utils/convertToRem.util";
 import { Button } from "../../components/Button";
 import { RouteComponentProps } from "react-router-dom";
 import { IEvent } from "../../interfaces/IEvent";
+import { CheckboxGroup } from "../../components/CheckboxGroup";
+import { ICategory } from "../../interfaces/ICategory";
 
 interface MatchParams {
     id: string;
@@ -20,10 +22,20 @@ export function Evento(props: Props) {
     const id = props.match.params.id;
 
     const [formEvent, setFormUser] = useState<IEvent>({} as IEvent)
+    const [categories, setCategories] = useState<ICategory[]>([]);
+    const [selected, setSelected] = useState<string[]>([]);
 
     async function handleData() {
         const us = await api.get(`event/${id}`);
         setFormUser(us.data);
+
+        const categoryIds = formEvent.category.categories.map((category) => category.categoryId);
+      
+        setSelected(categoryIds)
+
+        const cat = await api.get(`categories`);
+        setCategories(cat.data);
+        console.log(us.data);
 
     }
 
@@ -55,6 +67,17 @@ export function Evento(props: Props) {
             });
     }
 
+    const handleChangeCheckBox = (id: string, checked: boolean) => {
+        let newSelected = [...selected];
+        if (checked) {
+            newSelected.push(id);
+        } else {
+            newSelected = newSelected.filter((value) => value !== id);
+        }
+        setSelected(newSelected);
+
+    };
+
     function formatDate(date: string): string {
         if (date) {
             const isoDate = new Date(date).toISOString();
@@ -67,9 +90,10 @@ export function Evento(props: Props) {
         <>
             <Header />
             <Container>
-                <DadosContainer>
-                    <Dados>
 
+                <DadosContainer>
+                    <Titulo>Dados Basicos</Titulo>
+                    <Dados>
                         <div>
                             <Input
                                 label="Nome"
@@ -201,10 +225,27 @@ export function Evento(props: Props) {
                     </Dados>
                     <Button onClick={handleDadosEvent} style={{ margin: '0 auto' }}>Atualizar</Button>
                 </DadosContainer>
+
+                <DadosContainer>
+                    <Titulo>Categorias</Titulo>
+                    <Categorias>
+                        {categories.length > 0 && categories.map((category) => (
+                            <label key={category.id} style={{ color: '#000' }}>
+                                <input style={{ cursor: 'pointer', margin: '0 5px' }} type="checkbox" checked={selected.includes(category.id)} onChange={(e) => handleChangeCheckBox(category.id, e.target.checked)} />
+                                {category.name}
+                            </label>
+                        ))}
+                    </Categorias>
+                    <Button onClick={handleDadosEvent} style={{ margin: '0 auto' }}>Atualizar</Button>
+                </DadosContainer>
             </Container>
             <Footer />
         </>
     )
 
 }
+
+
+
+
 

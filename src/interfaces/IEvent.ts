@@ -1,7 +1,6 @@
 import { IAddressId } from "./IAddressId";
 import { ICategories } from "./ICategories";
 import { ICategoriesEvent } from "./ICategoriesEvent";
-import { ICategory } from "./ICategory";
 
 export interface IEvent {
     name: string,
@@ -18,5 +17,8 @@ export interface IEvent {
         profile_image: string,
         user_type: string
     },
+    category:{
+        categories: ICategoriesEvent[]
+    }
     
 }
