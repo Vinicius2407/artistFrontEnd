@@ -22,7 +22,7 @@ export const Container = styled.div`
         align-items: center;
         flex-direction: column;
         padding: 20px;
-        border-radius: 5px;
+        border-radius: 2rem;
     }
 
     .modal-body {
@@ -108,22 +108,4 @@ export const Select = styled.select`
     background: #E5E5E5;
     border-style: none;
     outline: 0;
-`
-
-export const EventDate = styled.div`
-    display: grid;
-    grid-template-columns: 50% 50%;
-    justify-content: space-between;
-`
-
-export const EventAddress = styled.div`
-    display: grid;
-    grid-template-columns: 50% 50%;
-    justify-content: space-between;
-`
-
-export const EventCategory = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    justify-content: space-between;
 `
