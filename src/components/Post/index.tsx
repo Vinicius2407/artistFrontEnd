@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+
 import { IPost } from "../../interfaces/IPost";
 import Carousel from "../Carousel";
-import { PostAuthorAvatar, PostAuthorName, PostContainer, PostContent, PostHeader, PostAuthorInfo, PostAuthorCat, PostAuthorCategories, PostEventContainer, Label, EventInfo, EventAddress, Input } from "./styles";
-import { api } from "../../services/api.service";
+import { PostAuthorAvatar, PostAuthorName, PostContainer, PostContent, PostHeader, PostAuthorInfo, PostAuthorCat, PostAuthorCategories, PostEventContainer, Label, EventInfo, EventAddress, Input, EditButton } from "./styles";
 import { Button } from "../Button";
 import { Link } from "react-router-dom";
+import { Pencil } from "@phosphor-icons/react";
 
 interface Props {
     post: IPost;
@@ -13,10 +13,24 @@ interface Props {
 const Post: React.FC<Props> = ({ post }) => {
 
     const user_type = localStorage.getItem('user_type');
+    const user_id = localStorage.getItem('user_id');
+
+    function formatDateString(dateString: string): string {
+
+        if (dateString) {
+            const dateObj = new Date(dateString);
+            const day = dateObj.getUTCDate().toString().padStart(2, "0");
+            const month = (dateObj.getUTCMonth() + 1).toString().padStart(2, "0");
+            const year = dateObj.getUTCFullYear();
+            return `${day}/${month}/${year}`;
+        }
+        return 'Não informado.'
+    }
 
     return (
         <>
             <PostContainer key={post.id}>
+
                 <PostHeader>
                     <PostAuthorAvatar src={post.user.profile_image ? post.user.profile_image : 'https://picsum.photos/50'} alt="foto" />
                     <PostAuthorInfo>
@@ -30,6 +44,15 @@ const Post: React.FC<Props> = ({ post }) => {
                             ))}
                         </PostAuthorCategories>
                     </PostAuthorInfo>
+                    {user_id == post.user.id &&
+                        <>
+                            <Link target="_blank" to={post.event ? `evento/${post.event.id}` : `post/${post.id}`}>
+                                <EditButton title="Editar">
+                                    <Pencil />
+                                </EditButton>
+                            </Link>
+                        </>}
+
                 </PostHeader>
                 <PostContent>{post.description}</PostContent>
                 {post.event &&
@@ -39,11 +62,15 @@ const Post: React.FC<Props> = ({ post }) => {
                                 <MyInput id="evento" label="Evento" value={post.event.name} />
                                 <MyInput id="budget" label="Orçamento" value={post.event.budget} />
                                 <MyInput id="people" label="Publico" value={post.event.people} />
+                                <MyInput id="budget" label="Data do Evento" value={formatDateString(post.event.dh_event)} />
+                                <MyInput id="people" label="Data de Expiração" value={formatDateString(post.event.dh_expiration)} />
                             </EventInfo>
                             <EventAddress>
-                                <MyInput id="endereco" label="Endereço" value={post.event.address.street + ' ' + post.event.address.number} />
+                                <MyInput id="numero" label="Numero" value={post.event.address.number} />
+                                <MyInput id="rua" label="Rua" value={post.event.address.street} />
                                 <MyInput id="bairro" label="Bairro" value={post.event.address.neighborhood} />
                                 <MyInput id="cidade" label="Cidade" value={post.event.address.city} />
+                                <MyInput id="pais" label="Pais" value={post.event.address.contry} />
                             </EventAddress>
                         </PostEventContainer>
                         {user_type == 'artist' && <Button style={{ margin: '0 auto' }} >Eu quero!</Button>}

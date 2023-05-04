@@ -15,7 +15,7 @@ export const PostContainer = styled.div`
 
 export const PostHeader = styled.div`
   display: grid;
-  grid-template-columns: 0.2fr 5fr;
+  grid-template-columns: 0.2fr 5fr 0.05fr;
   grid-column-gap: 25px;
 `;
 
@@ -74,12 +74,14 @@ export const EventInfo = styled.div`
   grid-template-row: 1fr 1fr 1fr;
 `;
 
+
 export const EventAddress = styled.div`
   display: grid;
   grid-template-row: 1fr 1fr 1fr;
 `;
 
 export const Input = styled.div`
+
   background: #9500F6;
   color: #fff;
   padding: 5px 10px;
@@ -101,3 +103,13 @@ export const Label = styled.span`
   color: #9500F6;
 `;
 
+export const EditButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor:pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  background:#ececec;  
+`;

@@ -6,6 +6,7 @@ import { SignIn } from "../pages/SignIn";
 import { SignUp } from "../pages/SignUp";
 import { Profile } from "../pages/Profile";
 import {Portifolio}  from "../pages/Portifolio";
+import { Evento } from "../pages/Evento";
 
 interface PrivateRouteProps {
   component: ComponentType<any>;
@@ -32,7 +33,9 @@ export function Routes() {
         <Route path="/sign-in" exact component={SignIn} />
         <Route path="/sign-up" exact component={SignUp} />       
         <PrivateRoute path="/profile" component={Profile} />
+        <PrivateRoute  path="/evento/:id" component={Evento} />
         <PrivateRoute  path="/portifolio/:id" component={Portifolio} />
+        
         <PrivateRoute path="/" component={Home} />
       </Switch>
     </BrowserRouter>

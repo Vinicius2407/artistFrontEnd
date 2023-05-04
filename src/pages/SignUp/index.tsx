@@ -6,7 +6,9 @@ export function SignUp() {
 
     return (
         <>
+            <Header />
             <Form />
+            <Footer />
         </>
     )
 
