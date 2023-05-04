@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import * as PhosphorIcons from "@phosphor-icons/react";
 
 import carinhaMicrofone from "../../assets/images/carinhaComMic.svg";
 import segundaImage from "../../assets/images/segundaImage.svg";
+import TikTok from "../../assets/icons/TikTok.svg";
+import Instagram from "../../assets/icons/Instagram.svg";
+import Facebook from "../../assets/icons/Facebook.svg";
+import YouTube from "../../assets/icons/YouTube.svg";
 
 import { api } from "../../services/api.service";
 import { pxToRem } from "../../utils/convertToRem.util";
@@ -15,7 +18,7 @@ import { CategoryContainer, Container, FormContainer, FormContent, ImageContaine
 import { Button } from "../Button";
 import { IUser } from "../../interfaces/IUser";
 import { IAddressId } from "../../interfaces/IAddressId";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { SignIn } from "../../pages/SignIn";
 
 // Tipagem da interface dos dados Sociais
@@ -28,13 +31,6 @@ interface SocialProps {
 // Tipagem da interface do componente de ícone
 interface IconComponentProps {
    social: SocialProps;
-}
-
-// Cria uma função para pegar o ícone da rede social
-export function GetIcon({ social }: IconComponentProps) {
-   let logoSocial = social.name + "Logo";
-   const Icon = PhosphorIcons[logoSocial] as PhosphorIcons.Icon;
-   return <Icon size={pxToRem(60)} color="#FFFFFF" />
 }
 
 // Tipagem das categorias
@@ -146,7 +142,7 @@ export function Form() {
          api.post("/user", data)
             .then((response) => {
                if (response.status === 201) {
-                  history.push("/"); 
+                  history.push("/");
                }
             }).catch((error) => {
                alert(`Erro ao cadastrar: ${error}`);
@@ -175,7 +171,7 @@ export function Form() {
    return (
       <>
          <Container>
-            <TextLabel style={{ fontSize: pxToRem(80), color: "#FFF", padding: "4rem" }}>Arte é isso, arte é aqui!</TextLabel>
+            <TextLabel style={{ fontSize: pxToRem(80), color: "#FFF", padding: "0.003rem" }}>Arte é isso, arte é aqui!</TextLabel>
             <FormContainer>
 
                <ToggleWrapper>
@@ -196,14 +192,8 @@ export function Form() {
 
                <FormContent>
                   <InputLabelContainer>
-                     <TextLabel style={{
-                        color: "#FFFFFF",
-                        fontFamily: "Nunito",
-                        fontSize: pxToRem(20),
-                        fontWeight: 600,
-                     }}>Nome:</TextLabel>
                      <Input
-                        placeholder="João"
+                        placeholder="Nome:"
                         className="inputName"
                         value={formDataUser.name}
                         onChange={(event) => setFormDataUser({ ...formDataUser, name: event.target.value })}
@@ -214,16 +204,9 @@ export function Form() {
                            background: "#EFF4F9"
                         }}
                      />
-
-                     <TextLabel style={{
-                        color: "#FFFFFF",
-                        fontFamily: "Nunito",
-                        fontSize: pxToRem(20),
-                        fontWeight: 600,
-                     }}>E-mail:</TextLabel>
                      <Input
                         type="email"
-                        placeholder="joão@joão.com"
+                        placeholder="Email:"
                         className="inputEmail"
                         value={formDataUser.email}
                         onChange={(event) => setFormDataUser({ ...formDataUser, email: event.target.value })}
@@ -234,15 +217,8 @@ export function Form() {
                            background: "#EFF4F9"
                         }}
                      />
-
-                     <TextLabel style={{
-                        color: "#FFFFFF",
-                        fontFamily: "Nunito",
-                        fontSize: pxToRem(20),
-                        fontWeight: 600,
-                     }}>Nome de Usuario:</TextLabel>
                      <Input
-                        placeholder="joao123"
+                        placeholder="Username:"
                         className="inputUsername"
                         value={formDataUser.username}
                         onChange={(event) => setFormDataUser({ ...formDataUser, username: event.target.value })}
@@ -253,16 +229,9 @@ export function Form() {
                            background: "#EFF4F9"
                         }}
                      />
-
-                     <TextLabel style={{
-                        color: "#FFFFFF",
-                        fontFamily: "Nunito",
-                        fontSize: pxToRem(20),
-                        fontWeight: 600,
-                     }}>Coloque sua senha:</TextLabel>
                      <Input
                         type="password"
-                        placeholder="Minimo de 8 caracteres"
+                        placeholder="Coloque sua senha:"
                         className="inputPassword"
                         value={formDataUser.password}
                         onChange={(event) => setFormDataUser({ ...formDataUser, password: event.target.value })}
@@ -273,15 +242,8 @@ export function Form() {
                            background: "#EFF4F9"
                         }}
                      />
-
-                     <TextLabel style={{
-                        color: "#FFFFFF",
-                        fontFamily: "Nunito",
-                        fontSize: pxToRem(20),
-                        fontWeight: 600,
-                     }}>CPF ou CNPJ:</TextLabel>
                      <Input
-                        placeholder="111.111.111-01"
+                        placeholder="CPF ou CNPJ:"
                         className="inputDocument"
                         value={formDataUser.document}
                         onChange={(event) => setFormDataUser({ ...formDataUser, document: event.target.value })}
@@ -292,15 +254,8 @@ export function Form() {
                            background: "#EFF4F9"
                         }}
                      />
-
-                     <TextLabel style={{
-                        color: "#FFFFFF",
-                        fontFamily: "Nunito",
-                        fontSize: pxToRem(20),
-                        fontWeight: 600,
-                     }}>Telefone</TextLabel>
                      <Input
-                        placeholder="(45) 9 9999-9999"
+                        placeholder="Telefone:"
                         className="inputPhone"
                         value={formDataUser.cel_phone}
                         onChange={(event) => setFormDataUser({ ...formDataUser, cel_phone: event.target.value })}
@@ -313,20 +268,13 @@ export function Form() {
                      />
 
                   </InputLabelContainer>
-
+                  
                   {user_type ? (
                      <> {/* Organizador */}
                         <InputLabelContainer>
-
-                           <TextLabel style={{
-                              color: "#FFFFFF",
-                              fontFamily: "Nunito",
-                              fontSize: pxToRem(20),
-                              fontWeight: 600,
-                           }}>Cep: </TextLabel>
                            <Input
                               type="number"
-                              placeholder="Ex: 12345-678"
+                              placeholder="CEP:"
                               className="inputZipCode"
                               value={formAddressId.zipCode}
                               onChange={(event) => setFormAddressId({ ...formAddressId, zipCode: event.target.value })}
@@ -338,16 +286,9 @@ export function Form() {
                                  background: "#EFF4F9"
                               }}
                            />
-
-                           <TextLabel style={{
-                              color: "#FFFFFF",
-                              fontFamily: "Nunito",
-                              fontSize: pxToRem(20),
-                              fontWeight: 600,
-                           }}>Número da Casa: </TextLabel>
                            <Input
                               type="number"
-                              placeholder="Ex: 240"
+                              placeholder="Número da Casa:"
                               className="inputNumber"
                               value={formAddressId.number}
                               onChange={(event) => setFormAddressId({ ...formAddressId, number: event.target.value })}
@@ -358,15 +299,8 @@ export function Form() {
                                  background: "#EFF4F9"
                               }}
                            />
-
-                           <TextLabel style={{
-                              color: "#FFFFFF",
-                              fontFamily: "Nunito",
-                              fontSize: pxToRem(20),
-                              fontWeight: 600,
-                           }}>Avenida/Rua/Logradouro: </TextLabel>
                            <Input
-                              placeholder="Av. Silvio Américo Sasdelli"
+                              placeholder="Avenida/Rua/Logradouro:"
                               className="inputStreet"
                               value={formAddressId.street}
                               onChange={(event) => setFormAddressId({ ...formAddressId, street: event.target.value })}
@@ -377,16 +311,9 @@ export function Form() {
                                  background: "#EFF4F9"
                               }}
                            />
-
-                           <TextLabel style={{
-                              color: "#FFFFFF",
-                              fontFamily: "Nunito",
-                              fontSize: pxToRem(20),
-                              fontWeight: 600,
-                           }}>Bairro:</TextLabel>
                            <Input
                               type="text"
-                              placeholder="Ex: Centro"
+                              placeholder="Bairro:"
                               className="inputNeighborhood"
                               value={formAddressId.neighborhood}
                               onChange={(event) => setFormAddressId({ ...formAddressId, neighborhood: event.target.value })}
@@ -397,15 +324,8 @@ export function Form() {
                                  background: "#EFF4F9"
                               }}
                            />
-
-                           <TextLabel style={{
-                              color: "#FFFFFF",
-                              fontFamily: "Nunito",
-                              fontSize: pxToRem(20),
-                              fontWeight: 600,
-                           }}>Cidade:</TextLabel>
                            <Input
-                              placeholder="Ex: Foz do Iguaçu"
+                              placeholder="Cidade:"
                               className="inputCity"
                               value={formAddressId.city}
                               onChange={(event) => setFormAddressId({ ...formAddressId, city: event.target.value })}
@@ -416,16 +336,9 @@ export function Form() {
                                  background: "#EFF4F9"
                               }}
                            />
-
-                           <TextLabel style={{
-                              color: "#FFFFFF",
-                              fontFamily: "Nunito",
-                              fontSize: pxToRem(20),
-                              fontWeight: 600,
-                           }}>País:</TextLabel>
                            <Input
                               type="text"
-                              placeholder="Ex: Brasil"
+                              placeholder="País:"
                               className="inputContry"
                               value={formAddressId.contry}
                               onChange={(event) => setFormAddressId({ ...formAddressId, contry: event.target.value })}
@@ -436,7 +349,6 @@ export function Form() {
                                  background: "#EFF4F9"
                               }}
                            />
-
                         </InputLabelContainer>
                      </>
                   ) : (
@@ -451,16 +363,23 @@ export function Form() {
 
                            <SocialContainer>
                               {socialList.map((social) => {
+                                 let imagem = "";
+                                 if (social.name === "TikTok") {
+                                    imagem = TikTok;
+                                 } else if (social.name === "Instagram") {
+                                    imagem = Instagram;
+                                 } else if (social.name === "Facebook") {
+                                    imagem = Facebook;
+                                 } else if (social.name === "YouTube") {
+                                    imagem = YouTube;
+                                 }
                                  return (
-                                    <div className="social-item">
-                                       <GetIcon
-                                          social={social}
-                                       />
+                                    <div className="social-item" key={social.id}>
+                                       <img src={imagem} alt={social.name} style={{color: "#FFF"}}/>
                                        <Input
                                           className="input-social"
                                           type="text"
                                           placeholder={social.name}
-                                          key={social.id}
                                           // onChange={handleSocial}
                                           onBlur={(event) => handleBlur(event, social.id)}
                                           color="#FFFFFF"
@@ -470,7 +389,6 @@ export function Form() {
                                              borderRadius: pxToRem(8),
                                              background: "#EFF4F9",
                                           }} />
-
                                     </div>
                                  )
                               })}
@@ -487,6 +405,7 @@ export function Form() {
                               {categoryList.map((category) => {
                                  return (
                                     <CategoryComponent
+                                       key={category.id}
                                        category={category}
                                        onSelectCategory={handleToggleCategory}
                                     />

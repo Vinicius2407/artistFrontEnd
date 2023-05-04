@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const Container = styled.div`
-    margin: 2rem 10rem 4.9375rem 10rem;
+    margin: 0.84rem 10rem 4.9375rem 10rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -12,7 +12,7 @@ export const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 4rem 0 0 0;
+    margin: 1rem 0 0 0;
     background: linear-gradient(180deg, #201D1D 0%, rgba(32, 29, 29, 0.2) 100%);
     border-radius: 2rem;
     width: 100%;
@@ -75,7 +75,7 @@ export const ToggleWrapper = styled.div`
     }
 
     .switch > .hidden-toggle:checked ~ .slider {
-        background: ##EFF4F9;
+        background: #EFF4F9;
         box-shadow: inset 0.5rem 0.5rem 0.5rem rgba(0, 0, 0, 0.2), 0 0 1rem rgba(50, 0, 150, 0.2);
     }
       
@@ -97,7 +97,7 @@ export const InputLabelContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 50%;
-    padding: 3.93rem 4.18rem 4.81rem 4.18rem;
+    padding: 1rem 4.18rem 4.81rem 4.18rem;
 
     label, input {
         margin-top: 0.875rem;
@@ -113,7 +113,7 @@ export const MidiaContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 50%;
-    padding: 3.93rem 4.18rem 4.81rem 4.18rem;
+    padding: 1rem 4.18rem 4.81rem 2rem;
 
     label {
         margin-top: 0.875rem;
@@ -123,9 +123,11 @@ export const MidiaContainer = styled.div`
 export const SocialContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
+    column-gap: 2.2rem;
+    row-gap: 1rem;
+
     justify-items: center;
     align-items: center;
-    column-gap: 2.2rem;
 
     .social-item {
         display: flex;
