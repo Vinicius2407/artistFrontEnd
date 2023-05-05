@@ -8,6 +8,7 @@ export const PostContainer = styled.div`
   max-height: 33.25rem; 
   max-width: 48rem;
   min-width: 30rem;
+  width: 100%;
   border-radius: 32px;
   background: #FFFFFF;
   color:black;

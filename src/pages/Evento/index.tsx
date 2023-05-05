@@ -1,15 +1,16 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
-import { Categorias, Container, Dados, DadosContainer, Titulo } from "./styles";
+import { Categorias, CategoryContainer, Container, Dados, DadosContainer, ItemCategory, Titulo } from "./styles";
 import { api } from "../../services/api.service";
 import { Input } from "../../components/Input";
 import { pxToRem } from "../../utils/convertToRem.util";
 import { Button } from "../../components/Button";
 import { RouteComponentProps } from "react-router-dom";
 import { IEvent } from "../../interfaces/IEvent";
-import { CheckboxGroup } from "../../components/CheckboxGroup";
 import { ICategory } from "../../interfaces/ICategory";
+import { Text } from "../../components/Text";
+import { ICategories } from "../../interfaces/ICategories";
 
 interface MatchParams {
     id: string;
@@ -17,26 +18,32 @@ interface MatchParams {
 
 interface Props extends RouteComponentProps<MatchParams> {
 }
+
+interface response {
+    category: ICategories[];
+}
+
 export function Evento(props: Props) {
 
     const id = props.match.params.id;
 
     const [formEvent, setFormUser] = useState<IEvent>({} as IEvent)
     const [categories, setCategories] = useState<ICategory[]>([]);
-    const [selected, setSelected] = useState<string[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<ICategory[]>([]);
+
 
     async function handleData() {
         const us = await api.get(`event/${id}`);
         setFormUser(us.data);
 
-        const categoryIds = formEvent.category.categories.map((category) => category.categoryId);
-      
-        setSelected(categoryIds)
-
-        const cat = await api.get(`categories`);
+        const cat = await api.get("/categories");
         setCategories(cat.data);
-        console.log(us.data);
 
+        const response: response = us.data;
+
+        const categoryArray: ICategory[] = response.category.map(categoryObj => categoryObj.category);
+
+        setSelectedCategories(categoryArray);
     }
 
     useEffect(() => {
@@ -51,12 +58,41 @@ export function Evento(props: Props) {
             ...prevFields,
             [id]: value
         }));
+
+    }
+
+    function handleChangeCategorie(event: React.MouseEvent<HTMLDivElement>) {
+
+        const id = event.currentTarget.id;
+
+        const categoria = categories.find((cat) => cat.id === id);
+        const possuiCategoria = selectedCategories.find((cat) => cat.id === id);
+
+        if (categoria && possuiCategoria == null) {
+            setSelectedCategories([...selectedCategories, categoria]);
+        }
+        else {
+            const newSelectedCategories = selectedCategories.filter((categoria) => categoria.id != id)
+
+            setSelectedCategories([...newSelectedCategories]);
+        }
+
     }
 
     function handleDadosEvent() {
-        const data = {
 
+        const categories = selectedCategories.length ? selectedCategories.map(categoria => categoria.id) : [];
+
+        const data = {
+            name: formEvent.name,
+            budget: formEvent.budget,
+            description: formEvent.description,
+            people: formEvent.people,
+            dh_event: formEvent.dh_event,
+            dh_expiration: formEvent.dh_expiration,
+            categories: categories
         };
+        
         api.put(`event/${id}`, data)
             .then(response => {
                 alert('Dados basicos atualizados com sucesso');
@@ -67,23 +103,16 @@ export function Evento(props: Props) {
             });
     }
 
-    const handleChangeCheckBox = (id: string, checked: boolean) => {
-        let newSelected = [...selected];
-        if (checked) {
-            newSelected.push(id);
-        } else {
-            newSelected = newSelected.filter((value) => value !== id);
-        }
-        setSelected(newSelected);
-
-    };
-
     function formatDate(date: string): string {
         if (date) {
             const isoDate = new Date(date).toISOString();
             return isoDate.substring(0, 10);
         }
         return '';
+    }
+
+    function categoriaEstaNaLista(idCategoria: string): boolean {
+        return selectedCategories.some((categoria: ICategory) => categoria.id == idCategoria);
     }
 
     return (
@@ -120,7 +149,7 @@ export function Evento(props: Props) {
                                 label="Descrição"
                                 id='description'
                                 onChange={handleChange}
-                                value={formEvent.name}
+                                value={formEvent.description}
                                 placeholder="Não informado"
                                 style={{
                                     outline: 0,
@@ -162,7 +191,7 @@ export function Evento(props: Props) {
                                 label="Público"
                                 id='people'
                                 onChange={handleChange}
-                                value={formEvent.name}
+                                value={formEvent.people}
                                 placeholder="Não informado"
                                 style={{
                                     outline: 0,
@@ -223,19 +252,23 @@ export function Evento(props: Props) {
 
                         </div>
                     </Dados>
-                    <Button onClick={handleDadosEvent} style={{ margin: '0 auto' }}>Atualizar</Button>
-                </DadosContainer>
+                    <CategoryContainer>
+                        <Titulo>Categorias</Titulo>
+                        <Categorias>
+                            {categories.map((category) => {
+                                return (
+                                    <ItemCategory
+                                        key={category.id}
+                                        id={category.id}
+                                        onClick={handleChangeCategorie}
+                                        style={{ background: categoriaEstaNaLista(category.id) ? '#50E3C2' : '#ececec' }}>
+                                        {category.name}
+                                    </ItemCategory>
+                                )
+                            })}
 
-                <DadosContainer>
-                    <Titulo>Categorias</Titulo>
-                    <Categorias>
-                        {categories.length > 0 && categories.map((category) => (
-                            <label key={category.id} style={{ color: '#000' }}>
-                                <input style={{ cursor: 'pointer', margin: '0 5px' }} type="checkbox" checked={selected.includes(category.id)} onChange={(e) => handleChangeCheckBox(category.id, e.target.checked)} />
-                                {category.name}
-                            </label>
-                        ))}
-                    </Categorias>
+                        </Categorias>
+                    </CategoryContainer>
                     <Button onClick={handleDadosEvent} style={{ margin: '0 auto' }}>Atualizar</Button>
                 </DadosContainer>
             </Container>

@@ -3,6 +3,10 @@ import styled from "styled-components";
 export const Container = styled.div`
     padding: 0 10rem;
     min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     
 `
 export const DadosContainer = styled.div`
@@ -10,6 +14,7 @@ export const DadosContainer = styled.div`
     grid-template-rows: 1fr .1fr;
     max-height: 33.25rem; 
     max-width: 48rem;
+    width: 100%;
     min-width: 30rem;
     border-radius: 32px;
     background: #FFFFFF;

@@ -46,7 +46,7 @@ const Post: React.FC<Props> = ({ post }) => {
                     </PostAuthorInfo>
                     {user_id == post.user.id &&
                         <>
-                            <Link target="_blank" to={post.event ? `evento/${post.event.id}` : `post/${post.id}`}>
+                            <Link target="_blank" to={post.event ? `/evento/${post.event.id}` : `/post/${post.id}`}>
                                 <EditButton title="Editar">
                                     <Pencil />
                                 </EditButton>
