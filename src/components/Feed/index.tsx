@@ -23,8 +23,9 @@ interface FeedProps {
 
     return (
         <>
-            {posts.length == 0 && <h1> Nada por aqui.</h1>}
+            
             <FeedContainer>
+            {posts.length == 0 && <h1 style={{margin: '15% auto'}}> Nada por aqui.</h1>}
                 {posts.map((post) => {
                     return (
                         <Post key={post.id} post={post} />

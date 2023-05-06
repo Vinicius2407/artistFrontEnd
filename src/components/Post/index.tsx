@@ -1,10 +1,11 @@
 
 import { IPost } from "../../interfaces/IPost";
 import Carousel from "../Carousel";
-import { PostAuthorAvatar, PostAuthorName, PostContainer, PostContent, PostHeader, PostAuthorInfo, PostAuthorCat, PostAuthorCategories, PostEventContainer, Label, EventInfo, EventAddress, Input, EditButton } from "./styles";
+import { PostAuthorAvatar, PostAuthorName, PostContainer, PostContent, PostHeader, PostAuthorInfo, PostAuthorCat, PostAuthorCategories, PostEventContainer, Label, EventInfo, EventAddress, Input, EditButton, GaleryContainer } from "./styles";
 import { Button } from "../Button";
 import { Link } from "react-router-dom";
 import { Pencil } from "@phosphor-icons/react";
+import Gallery from "../Gallery";
 
 interface Props {
     post: IPost;
@@ -77,7 +78,9 @@ const Post: React.FC<Props> = ({ post }) => {
                     </>
                 }
 
-                <Carousel images={post.medias} />
+                <GaleryContainer>
+                    <Gallery medias={post.medias} />
+                </GaleryContainer>
             </PostContainer>
         </>
     );
