@@ -61,7 +61,6 @@ export const FormContainer = styled.div`
 export const ImportFiles = styled.label`
     color: #41D773;
     font-family: Nunito;
-    margin-left: 60%;
     cursor: pointer;
 `
 
@@ -94,8 +93,8 @@ export const Descr = styled.textarea`
     color: #000000;
 `
 
-
 export const Files = styled.div`
+    margin: 10px 0;
 `
 
 export const Event = styled.div`

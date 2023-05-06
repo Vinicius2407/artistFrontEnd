@@ -6,32 +6,80 @@ import { Button } from "../Button";
 import React, { useEffect, useState } from "react";
 import Modal from "../Modal";
 import { IPost } from "../../interfaces/IPost";
+import { api } from "../../services/api.service";
 
 type EventFormModalProps = {
     isOpen: boolean;
     onClose: () => void;
 }
 
+type FileListProps = {
+    files: File[];
+};
+
+const FileList: React.FC<FileListProps> = ({ files }) => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
+        {files.map((file, index) => (
+            <div
+                style={{
+                    display: 'flex', borderRadius: '2px',
+                    font: 'nunito', background: '#e5e5e5',
+
+                    width: '30px', height: '30px',
+                    margin: '10px', alignItems: 'center', justifyContent: 'center'
+                }}
+                key={index}
+                title={file.name}> <Text fontSize="10px">{index + 1}</Text></div>
+        ))}
+    </div>
+);
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB em bytes
+
 export function EventForm({ isOpen, onClose }: EventFormModalProps) {
 
-    const [formData, setFormData] = useState<IPost>({} as IPost);
+    const [formPost, setFormPost] = useState<IPost>({} as IPost);
     const [modalOpen, setModalOpen] = useState(false);
+    const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+
+    const user_type = localStorage.getItem('user_type');
+    const user_id = localStorage.getItem('user_id');
 
     const handleButtonClick = () => {
         setModalOpen(true);
     };
 
-    const handleSubmit = async () => {
+    function handleSubmit() {
+        if (!formPost.description) {
+            const missingFields = [];
 
-        const data = {
-           description: formData.description,
-           id: formData.id,
-           dh_create: formData.dh_create,
-           medias: formData.medias,
-           user: formData.user,
-           event: formData.event, 
-        };
-     }
+            if (!formPost.description) missingFields.push("Descrição");
+
+            alert(`Um ou mais campos não preenchidos: ${missingFields.join(", ")}`);
+        }
+
+        const formData = new FormData();
+
+        selectedFiles.forEach((file) => {
+            formData.append("assets", file);
+        });
+
+        formData.append('description', formPost.description);
+        formData.append('user', user_id || '');
+        
+        if (formPost.event) {
+            formData.append('event', formPost.event.id)
+        }
+        api.post("post", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        }).then((response) => {
+            console.log(response.data);
+            alert("Cadastrado com sucesso!");
+        }).catch((error) => (alert("Erro ao concluir o post"), console.error(error)));
+
+    }
 
     if (!isOpen) return null;
 
@@ -52,6 +100,14 @@ export function EventForm({ isOpen, onClose }: EventFormModalProps) {
             document.removeEventListener('click', handleOutsideClick);
         }
     }, [isOpen, onClose]);
+
+    const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = Array.from(event.target.files || []);
+        const validFiles = files.filter(
+            (file) => file.size <= MAX_FILE_SIZE && (file.type.startsWith("image/") || file.type.startsWith("video/"))
+        );
+        setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...validFiles]);
+    };
 
     return (
         <>
@@ -76,48 +132,51 @@ export function EventForm({ isOpen, onClose }: EventFormModalProps) {
                                             gridColumnEnd: 3
                                         }}>Descrição</Text>
 
-                                    <Descr onChange={(event) => setFormData({ ...formData, description: event.target.value })} cols={100} rows={10} placeholder="Descreva sua publicação!" />
+                                    <Descr onChange={(event) => setFormPost({ ...formPost, description: event.target.value })} cols={100} rows={10} placeholder="Descreva sua publicação!" />
 
                                     <Files>
-                                        <Text color="#000000"
-                                            fontSize={pxToRem(20)}
-                                            style={{
-                                                fontFamily: "Nunito",
-                                                textAlign: "left",
-                                                gridColumnStart: 1,
-                                                gridColumnEnd: 3
-                                            }}>Arquivo(s)</Text>
+                                        <div style={{ display: 'flex', padding: '10px', justifyContent: 'space-between' }}>
+                                            <Text color="#000000"
+                                                fontSize={pxToRem(16)}
+                                                style={{
+                                                    fontFamily: "Nunito",
+                                                    textAlign: "left",
+                                                    gridColumnStart: 1,
+                                                    gridColumnEnd: 3
+                                                }}>Arquivo(s)</Text>
 
-                                        <ImportFiles htmlFor="file-upload">+ Adicionar Arquivo</ImportFiles>
-
+                                            <ImportFiles htmlFor="file-upload">+ Adicionar Arquivo</ImportFiles>
+                                        </div>
                                         <Line />
 
-                                        <Input id="file-upload" type="file" style={{
+                                        <Input id="file-upload" multiple type="file" onChange={handleFileSelect} style={{
                                             display: "none",
                                         }} />
+                                        {selectedFiles.length > 0 && <FileList files={selectedFiles} />}
                                     </Files>
 
-                                    <Event>
-                                        <Text color="#000000"
-                                            fontSize={pxToRem(20)}
-                                            style={{
-                                                fontFamily: "Nunito",
-                                                textAlign: "left",
-                                            }}>Evento</Text>
+                                    {user_type == 'organizer' &&
+                                        <Event>
+                                            <Text color="#000000"
+                                                fontSize={pxToRem(20)}
+                                                style={{
+                                                    fontFamily: "Nunito",
+                                                    textAlign: "left",
+                                                }}>Evento</Text>
 
-                                        <NewEvent onClick={handleButtonClick}>+ Novo Evento</NewEvent>
+                                            <NewEvent onClick={handleButtonClick}>+ Novo Evento</NewEvent>
 
-                                        <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+                                            <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
 
-                                        </Modal>
+                                            </Modal>
 
-                                        <Line />
+                                            <Line />
 
-                                        <Select>
+                                            <Select>
 
-                                        </Select>
-                                    </Event>
-
+                                            </Select>
+                                        </Event>
+                                    }
                                     <Button onClick={handleSubmit}
                                         type="submit"
                                         style={{
