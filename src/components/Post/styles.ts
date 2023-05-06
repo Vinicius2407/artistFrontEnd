@@ -3,9 +3,9 @@ import styled from "styled-components";
 export const PostContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 15px 0;
-  padding: 30px;
-  max-height: 33.25rem; 
+  margin: 10px 0;
+  padding: 15px;
+  max-height: 40rem; 
   max-width: 48rem;
   min-width: 30rem;
   width: 100%;
@@ -52,16 +52,18 @@ export const PostAuthorCat = styled.span`
   color: black;
 `;
 
-export const PostContent = styled.p`
+export const PostContent = styled.textarea`
+  margin-top:5px;
   font-size: 22px;
-  margin: 10px 0;
   color: black;
+  appearance: none;
+  border: none;
+  outline: none;
+  resize: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 `;
 
-export const PostImage = styled.img`
-  width: 100%;
-  margin: 10px 0;
-`;
 
 export const PostEventContainer = styled.div`
   display: grid;
@@ -122,7 +124,6 @@ export const GaleryContainer = styled.div`
   border-radius: 8px;
   max-height: 45rem;
   overflow:hidden;
-  object-fit: cover;
   width: 100%;
   height: 100%;
 `;

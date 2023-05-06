@@ -9,8 +9,16 @@ interface GalleryProps {
     medias: IMedia[];
 }
 
-const Gallery: React.FC<GalleryProps> = ({ medias }) => {
-    const images = medias.map((media) => {
+interface GalleryImage {
+    original: string;
+    thumbnail: string;
+    renderItem?: () => React.ReactNode;
+}
+
+const Gallery: React.FC<GalleryProps> = ({ medias }: GalleryProps): JSX.Element => {
+    const baseURL = 'http://localhost:3333/api/v1/images/';
+
+    const images: GalleryImage[] = medias.map((media) => {
         const isVideo = media.name.split('.').pop() === 'mp4';
 
         if (isVideo) {
@@ -18,25 +26,29 @@ const Gallery: React.FC<GalleryProps> = ({ medias }) => {
                 original: videoPlaceholder,
                 thumbnail: videoPlaceholder,
                 renderItem: () => (
-                    <video style={{ width: '100%', height: 'auto' }} src={'http://localhost:3333/api/v1/images/' + media.name} controls />
+                    <video src={baseURL + media.name} controls />
                 ),
             };
         }
 
         return {
-            original: 'http://localhost:3333/api/v1/images/' + media.name,
-            thumbnail: 'http://localhost:3333/api/v1/images/' + media.name,
+            original: baseURL + media.name,
+            thumbnail: baseURL + media.name,
         };
     });
 
     return (
-
-        <ImageGallery
-            items={images}
-            showPlayButton={false}
-            showFullscreenButton={false}
-            showThumbnails={false} />
-
+        <GaleryContainer>
+            <ImageGallery
+                items={images}
+                slideDuration={0}
+                slideInterval={3000}
+                showFullscreenButton={false}
+                showPlayButton={false}
+                showThumbnails={false}
+                lazyLoad={true}                
+            />
+        </GaleryContainer>
     );
 };
 

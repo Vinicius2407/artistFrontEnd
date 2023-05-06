@@ -1,13 +1,19 @@
 import styled from "styled-components";
 
 export const GaleryContainer = styled.div`
-
-  max-width: 40rem;
   margin: 0 auto;
   border-radius: 8px;
   max-height: 45rem;
-  overflow:hidden;
-  object-fit: cover;
+  overflow: hidden;
   width: 100%;
-  height: 100%;
+  
+  img, video {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  .image-gallery-slide .image-gallery-image {
+    width: 100%;
+    object-fit: contain;
+  }
 `;

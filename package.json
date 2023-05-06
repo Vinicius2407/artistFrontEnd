@@ -19,6 +19,7 @@
     "react-image-gallery": "^1.2.11",
     "react-input-mask": "^2.0.4",
     "react-modal": "^3.16.1",
+    "react-responsive-image": "^5.0.0",
     "react-router-dom": "^5.3.4",
     "styled-components": "^5.3.8",
     "validator": "^13.9.0"

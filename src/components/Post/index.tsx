@@ -40,7 +40,7 @@ const Post: React.FC<Props> = ({ post }) => {
                             {post.user.user_type == 'artist' && post.user.categories.map(cat => (
                                 <PostAuthorCat key={cat.categoryId}>{cat.category.name}</PostAuthorCat>
                             ))}
-                            {post.user.user_type == 'organizer' && post.event.category.map(cat => (
+                            {post.user.user_type == 'organizer' && post.event && post.event.category.map(cat => (
                                 <PostAuthorCat key={cat.categoryId}>{cat.category.name}</PostAuthorCat>
                             ))}
                         </PostAuthorCategories>
@@ -55,7 +55,7 @@ const Post: React.FC<Props> = ({ post }) => {
                         </>}
 
                 </PostHeader>
-                <PostContent>{post.description}</PostContent>
+                <PostContent readOnly value={post.description} />
                 {post.event &&
                     <>
                         <PostEventContainer>
@@ -74,13 +74,17 @@ const Post: React.FC<Props> = ({ post }) => {
                                 <MyInput id="pais" label="Pais" value={post.event.address.contry} />
                             </EventAddress>
                         </PostEventContainer>
-                        {user_type == 'artist' && <Button style={{ margin: '0 auto' }} >Eu quero!</Button>}
+                        {
+                            user_type == 'artist' &&
+                            user_id != post.user.id &&
+                            <Button style={{ margin: '0 auto' }} >Eu quero!</Button>
+                        }
                     </>
                 }
 
-                <GaleryContainer>
-                    <Gallery medias={post.medias} />
-                </GaleryContainer>
+               
+                <Gallery medias={post.medias} />
+                
             </PostContainer>
         </>
     );

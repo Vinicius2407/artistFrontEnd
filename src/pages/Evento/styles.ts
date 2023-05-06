@@ -65,3 +65,13 @@ export const ItemCategory = styled.div`
     color: black;
     cursor:pointer;
 `
+export const H1 = styled.h1`
+    display: block;
+    font-size: 2rem;
+    font-family: Nunito;
+    font-weight: bold;
+    color: #fff;
+    max-width: 60rem;
+    margin: 5px 11rem;
+    width:100%;
+`

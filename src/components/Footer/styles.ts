@@ -11,7 +11,7 @@ export const Container = styled.footer`
     width: 100%;
 
     .textFooter {
-        font-family: Roboto, sans-serif;
+        font-family: Nunito, sans-serif;
         font-size: 1rem;
         font-weight: 400;
         color:#FFFFFF;  

@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { IUser } from "../../interfaces/IUser";
-import { Container, Dados, DadosContainer } from "./styles";
+import { Container, Dados, DadosContainer, H1 } from "./styles";
 import { api } from "../../services/api.service";
 import { Input } from "../../components/Input";
 import { pxToRem } from "../../utils/convertToRem.util";
@@ -60,6 +60,7 @@ export function Profile() {
         <>
             <Header />
             <Container>
+                <H1>Editar Usuario</H1>
                 <DadosContainer>
                     <Dados>
                         <div>
@@ -210,7 +211,7 @@ export function Profile() {
 
                         </div>
                     </Dados>
-                    <Button onClick={handleDadosUser} style={{ margin: '0 auto'}}>Atualizar</Button>
+                    <Button onClick={handleDadosUser} style={{ margin: '0 auto' }}>Atualizar</Button>
                 </DadosContainer>
             </Container>
             <Footer />

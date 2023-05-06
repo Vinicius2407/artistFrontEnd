@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-    padding: 0 10rem;
     min-height: 80vh;
     display: flex;
     justify-content: center;
@@ -13,7 +12,7 @@ export const DadosContainer = styled.div`
     display: grid;
     grid-template-rows: 1fr .1fr;
     max-height: 33.25rem; 
-    max-width: 48rem;
+    max-width: 60rem;
     width: 100%;
     min-width: 30rem;
     border-radius: 32px;
@@ -30,4 +29,14 @@ export const Dados = styled.div`
     grid-template-columns: 1fr 1fr;
     column-gap: 20px;
    
+`
+export const H1 = styled.h1`
+    display: block;
+    font-size: 2rem;
+    font-family: Nunito;
+    font-weight: bold;
+    color: #fff;
+    max-width: 60rem;
+    margin: 5px 11rem;
+    width:100%;
 `

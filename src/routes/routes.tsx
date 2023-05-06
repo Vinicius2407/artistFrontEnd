@@ -7,6 +7,7 @@ import { SignUp } from "../pages/SignUp";
 import { Profile } from "../pages/Profile";
 import {Portifolio}  from "../pages/Portifolio";
 import { Evento } from "../pages/Evento";
+import { Post } from "../pages/Post";
 
 interface PrivateRouteProps {
   component: ComponentType<any>;
@@ -24,9 +25,6 @@ function PrivateRoute({ component: Component, path }: PrivateRouteProps) {
 }
 
 export function Routes() {
-  const history = useHistory();
-  const token = localStorage.getItem("token");
-
   return (
     <BrowserRouter>
       <Switch>
@@ -35,6 +33,7 @@ export function Routes() {
         <PrivateRoute path="/profile" component={Profile} />
         <PrivateRoute  path="/evento/:id" component={Evento} />
         <PrivateRoute  path="/portifolio/:id" component={Portifolio} />
+        <PrivateRoute  path="/post/:id" component={Post} />
         
         <PrivateRoute path="/" component={Home} />
       </Switch>

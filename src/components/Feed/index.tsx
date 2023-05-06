@@ -21,6 +21,7 @@ function Feed({ route, userId }: FeedProps) {
     const [formPost, setFormPost] = useState<IPost>({} as IPost);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [showForm, setShowForm] = useState(false);
+    const [attPosts, setAttPosts] = useState(false);
 
     const user_type = localStorage.getItem('user_type');
     const user_id = localStorage.getItem('user_id');
@@ -61,7 +62,8 @@ function Feed({ route, userId }: FeedProps) {
             alert("Cadastrado com sucesso!");
             setFormPost({} as IPost);
             setShowForm(false);
-            setSelectedFiles([])
+            setSelectedFiles([]);
+            setAttPosts(true);
         }).catch((error) => (alert("Erro ao concluir o post"), console.error(error)));
 
     }
@@ -76,7 +78,7 @@ function Feed({ route, userId }: FeedProps) {
 
     useEffect(() => {
         handleList();
-    }, [posts]);
+    }, [attPosts]);
 
     return (
         <>
@@ -87,8 +89,8 @@ function Feed({ route, userId }: FeedProps) {
                     <DivShowForm>
                         <CaretDown onClick={() => setShowForm(!showForm)} size={32} style={{ transform: showForm ? 'rotate(180deg)' : 'rotate(0deg)' }} />
                         <h1 onClick={() => setShowForm(!showForm)} style={{ fontSize: '2rem', justifySelf: 'flex-end' }}>Cadastrar Post</h1>
-                    
                     </DivShowForm>
+                    
                     {showForm &&
                         <NewPost className={showForm ? 'show' : ''}>
                             <FormContainer>

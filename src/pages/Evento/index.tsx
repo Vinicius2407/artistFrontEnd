@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
-import { Categorias, CategoryContainer, Container, Dados, DadosContainer, ItemCategory, Titulo } from "./styles";
+import { Categorias, CategoryContainer, Container, Dados, DadosContainer, H1, ItemCategory, Titulo } from "./styles";
 import { api } from "../../services/api.service";
 import { Input } from "../../components/Input";
 import { pxToRem } from "../../utils/convertToRem.util";
@@ -119,7 +119,7 @@ export function Evento(props: Props) {
         <>
             <Header />
             <Container>
-
+                <H1>Editar Evento</H1>
                 <DadosContainer>
                     <Titulo>Dados Basicos</Titulo>
                     <Dados>
