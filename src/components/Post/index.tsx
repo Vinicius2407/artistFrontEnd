@@ -66,10 +66,10 @@ const Post: React.FC<Props> = ({ post }) => {
                                 <MyInput id="people" label="Publico" value={post.event.people} />
                             </EventInfo>
                             <EventAddress>
-                                <Span>{post.event.address.city}</Span>
+                                <Span>{`Data: ${formatDateString(post.event.dh_event)} | Candidaturas: ${formatDateString(post.event.dh_expiration)}`}</Span>
                                 <img src={mapa} />
                                 <Address>                                    
-                                    <MapPin color='#9500F6'/>     
+                                    <MapPin size={20} color='#9500F6'/>     
                                     <h3 style={{color:'#9500F6', margin: '5px'}} >
                                         {`${post.event.address.street}, ${post.event.address.number}, ${post.event.address.neighborhood}`}
                                     </h3>                            

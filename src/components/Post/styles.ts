@@ -92,7 +92,7 @@ export const Span = styled.span`
   padding: 12px;
   border-radius: 8px;
   color: #fff;
-  width:80%;
+  width: 80%;
   margin: 10px 30px;
 `;
 

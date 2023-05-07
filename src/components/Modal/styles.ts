@@ -1,126 +1,94 @@
 import styled from 'styled-components';
 
- export const ModalOverlay = styled.div`
+
+export const Backdrop = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
+  z-index: 10;
 `;
 
-export const ModalContent = styled.div`
-  position: absolute;
+export const ModalWrapper = styled.div`
+  border-radius: 32px;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  padding: 20px;
-  border-radius: 2rem;
+  padding: 1rem;
+  z-index: 11;
 `;
 
-export const Container = styled.div`
-    .modal {
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+export const ModalContent = styled.div`
+  padding: 5px 0;
+`;
 
-    .modal-content {
-        display: flex;
-        background-color: #fff;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        padding: 20px;
-        border-radius: 2rem;
-    }
-
-    .modal-body {
-        display: flex;
-        margin-top: 1rem;
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .modal-close {
-        color: black;
-        background: none;
-        border: none;
-        font-size: 20px;
-        cursor: pointer;
-    }
-`
-
-export const EventDate = styled.div`
+export const DadosContainer = styled.div`
     display: grid;
-    grid-template-columns: 50% 50%;
-    justify-content: center;
-    width: 100%;
-    align-items: center;
+    grid-template-rows: .1 1fr 1fr .1fr;
+    border-radius: 32px;
+    color:#fff;   
+    padding: 20px;
+    row-gap: 10px;
 `
 
-export const EventAddress = styled.div`
+export const Dados = styled.div`
     display: grid;
-    grid-template-columns: 50% 50%;
-    justify-content: space-between;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
 `
 
-export const EventCategory = styled.div`
+export const Titulo = styled.h3`
+    color: #000
+`
+
+export const CategoryContainer = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    justify-content: space-between;
+    padding: 0 15px;
+    width: 95%;
+    border-radius: 8px;
+    box-shadow: 0px 0px 8px black;
+    grid-template-row: .1fr 1fr;
 `
-
-export const FormContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px;
-  margin-top: 30px;
-  padding: 1.25rem;
-
-  .full-width-section {
-    grid-column: 1 / span 2; /* define que a seção ocupará as duas colunas */
+export const AddressContainer = styled.div`
+    display: grid;
+    padding: 10px 15px; 
+    width: 95%;
+    border-radius: 8px;
+    box-shadow: 0px 0px 8px black;
+    grid-template-row: .1fr 1fr;
+`
+export const Categorias = styled.div`
     display: flex;
-    justify-content: center; /* centraliza o conteúdo horizontalmente */
-    align-items: center; /* centraliza o conteúdo verticalmente */
-  }
+    width: 100%;
+    flex-wrap: wrap;
+    border-radius: 8px;
+    min-height: 2rem;
+`
+
+export const ItemCategory = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    margin: 5px;
+    height: 30px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-family: 'Roboto', sans-serif;
+    color: black;
+    cursor:pointer;
+`
+
+export const Form = styled.form`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
 `;
 
-export const SectionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-export const Label = styled.label`
-  font-family: Nunito;
-  font-size: 20px;
-  color: #000000;
-  margin-bottom: 10px;
-`;
-
-export const Input = styled.input`
-  outline: none;
-  width: 100%;
-  height: 32px;
-  border-radius: 8px;
-  background: #E5E5E5;
-  border-style: none;
-`;
-
-export const TextArea = styled.textarea`
-  outline: none;
-  width: 100%;
-  height: 100px;
-  border-radius: 8px;
-  background: #E5E5E5;
-  border-style: none;
+export const Column = styled.div<{ spanAll?: boolean }>`
+  grid-column: ${({ spanAll }) => (spanAll ? '1 / -1' : 'auto')};
 `;

@@ -132,7 +132,7 @@ export function Form() {
             neighborhood: formAddressId.neighborhood,
             city: formAddressId.city,
             contry: formAddressId.contry,
-            zipCode: formAddressId.zipCode,
+            zip_code: formAddressId.zip_code,
          },
          social: selectedSocial,
          categories: selectedCategories,
@@ -276,8 +276,8 @@ export function Form() {
                               type="number"
                               placeholder="CEP:"
                               className="inputZipCode"
-                              value={formAddressId.zipCode}
-                              onChange={(event) => setFormAddressId({ ...formAddressId, zipCode: event.target.value })}
+                              value={formAddressId.zip_code}
+                              onChange={(event) => setFormAddressId({ ...formAddressId, zip_code: event.target.value })}
                               // onChange={handleChange}
                               style={{
                                  width: "100%",

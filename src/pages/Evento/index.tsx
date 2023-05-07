@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
-import { Categorias, CategoryContainer, Container, Dados, DadosContainer, H1, ItemCategory, Titulo } from "./styles";
+import { AddressContainer, Categorias, CategoryContainer, Column, Container, Dados, DadosContainer, Form, H1, ItemCategory, Titulo } from "./styles";
 import { api } from "../../services/api.service";
 import { Input } from "../../components/Input";
 import { pxToRem } from "../../utils/convertToRem.util";
@@ -11,6 +11,7 @@ import { IEvent } from "../../interfaces/IEvent";
 import { ICategory } from "../../interfaces/ICategory";
 import { Text } from "../../components/Text";
 import { ICategories } from "../../interfaces/ICategories";
+import { IAddressId } from "../../interfaces/IAddressId";
 
 interface MatchParams {
     id: string;
@@ -21,20 +22,27 @@ interface Props extends RouteComponentProps<MatchParams> {
 
 interface response {
     category: ICategories[];
+    address: IAddressId;
 }
 
 export function Evento(props: Props) {
 
     const id = props.match.params.id;
 
-    const [formEvent, setFormUser] = useState<IEvent>({} as IEvent)
+    const [formEvent, setFormEvent] = useState<IEvent>({} as IEvent)
     const [categories, setCategories] = useState<ICategory[]>([]);
+    const [formAddress, setFormAddress] = useState<IAddressId>({} as IAddressId)
     const [selectedCategories, setSelectedCategories] = useState<ICategory[]>([]);
 
+    const user_id = localStorage.getItem('user_id');
+
+    useEffect(() => {
+        handleData();
+    }, []);
 
     async function handleData() {
         const us = await api.get(`event/${id}`);
-        setFormUser(us.data);
+        setFormEvent(us.data);
 
         const cat = await api.get("/categories");
         setCategories(cat.data);
@@ -44,21 +52,25 @@ export function Evento(props: Props) {
         const categoryArray: ICategory[] = response.category.map(categoryObj => categoryObj.category);
 
         setSelectedCategories(categoryArray);
+
+        setFormAddress(response.address);
     }
-
-    useEffect(() => {
-        handleData();
-    }, []);
-
 
     //Pega o evento aqui e faz os esquema
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
         const { id, value } = event.target;
-        setFormUser(prevFields => ({
+        setFormEvent(prevFields => ({
             ...prevFields,
             [id]: value
         }));
+    }
 
+    function handleChangeAddress(event: ChangeEvent<HTMLInputElement>) {
+        const { id, value } = event.target;
+        setFormAddress(prevFields => ({
+            ...prevFields,
+            [id]: value
+        }));
     }
 
     function handleChangeCategorie(event: React.MouseEvent<HTMLDivElement>) {
@@ -84,22 +96,26 @@ export function Evento(props: Props) {
         const categories = selectedCategories.length ? selectedCategories.map(categoria => categoria.id) : [];
 
         const data = {
+            user: user_id,
             name: formEvent.name,
             budget: formEvent.budget,
             description: formEvent.description,
             people: formEvent.people,
-            dh_event: formEvent.dh_event,
-            dh_expiration: formEvent.dh_expiration,
-            categories: categories
+            dh_event: toDate(formEvent.dh_event),
+            dh_expiration: toDate(formEvent.dh_expiration),
+            categories: categories,
+            address: formAddress
         };
-        
+
+        console.log(data);
         api.put(`event/${id}`, data)
             .then(response => {
-                alert('Dados basicos atualizados com sucesso');
+                alert('Evento atualizado com sucesso!');
             })
             .catch(error => {
                 alert('Tente Novamente');
                 console.error('PUT failed:', error);
+
             });
     }
 
@@ -111,9 +127,16 @@ export function Evento(props: Props) {
         return '';
     }
 
+    function toDate(date: string): string {
+        const [year, month, day] = date.split('-');
+        const formattedDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day), 13, 30, 0);
+        return formattedDate.toISOString();
+    }
+
     function categoriaEstaNaLista(idCategoria: string): boolean {
         return selectedCategories.some((categoria: ICategory) => categoria.id == idCategoria);
     }
+
 
     return (
         <>
@@ -122,18 +145,39 @@ export function Evento(props: Props) {
                 <H1>Editar Evento</H1>
                 <DadosContainer>
                     <Titulo>Dados Basicos</Titulo>
-                    <Dados>
-                        <div>
+                    <Form>
+                        <Column spanAll>
+                            <Input
+                                label="Descrição"
+                                id='description'
+                                onChange={handleChange}
+                                type='textarea'
+                                value={formEvent.description}
+                                style={{
+                                    outline: 0,
+                                    color: '#fff',
+                                    width: '100%',
+                                    height: pxToRem(32),
+                                    borderRadius: pxToRem(8),
+                                    background: '#9500F6',
+                                    padding: '5px 10px',
+                                    border: 'none',
+                                    fontSize: '14px',
+                                    fontFamily: 'Nunito',
+                                    fontWeight: 'bold',
+                                    marginBottom: '3px'
+                                }} />
+                        </Column>
+                        <Column >
                             <Input
                                 label="Nome"
                                 id='name'
                                 onChange={handleChange}
                                 value={formEvent.name}
-                                placeholder="Não informado"
                                 style={{
                                     outline: 0,
                                     color: '#fff',
-                                    width: '90%',
+                                    width: '95%',
                                     height: pxToRem(32),
                                     borderRadius: pxToRem(8),
                                     background: '#9500F6',
@@ -145,32 +189,13 @@ export function Evento(props: Props) {
                                     marginBottom: '3px'
 
                                 }} />
-                            <Input
-                                label="Descrição"
-                                id='description'
-                                onChange={handleChange}
-                                value={formEvent.description}
-                                placeholder="Não informado"
-                                style={{
-                                    outline: 0,
-                                    color: '#fff',
-                                    width: '90%',
-                                    height: pxToRem(32),
-                                    borderRadius: pxToRem(8),
-                                    background: '#9500F6',
-                                    padding: '5px 10px',
-                                    border: 'none',
-                                    fontSize: '14px',
-                                    fontFamily: 'Nunito',
-                                    fontWeight: 'bold',
-                                    marginBottom: '3px'
-                                }} />
+                        </Column>
+                        <Column>
                             <Input
                                 label="Orçamento"
                                 id='budget'
                                 onChange={handleChange}
                                 value={formEvent.budget}
-                                placeholder="Não informado"
                                 style={{
                                     outline: 0,
                                     color: '#fff',
@@ -185,14 +210,14 @@ export function Evento(props: Props) {
                                     fontWeight: 'bold',
                                     marginBottom: '3px'
                                 }} />
-                        </div>
-                        <div>
+                        </Column>
+                        <Column>
                             <Input
                                 label="Público"
                                 id='people'
                                 onChange={handleChange}
                                 value={formEvent.people}
-                                placeholder="Não informado"
+
                                 style={{
                                     outline: 0,
                                     color: '#fff',
@@ -207,7 +232,8 @@ export function Evento(props: Props) {
                                     fontWeight: 'bold',
                                     marginBottom: '3px'
                                 }} />
-
+                        </Column>
+                        <Column>
                             <Input
                                 label="Data do Evento"
                                 id='dh_event'
@@ -228,7 +254,8 @@ export function Evento(props: Props) {
                                     fontWeight: 'bold',
                                     marginBottom: '3px'
                                 }} />
-
+                        </Column>
+                        <Column>
                             <Input
                                 label="Data de Expiração"
                                 id='dh_expiration'
@@ -249,9 +276,145 @@ export function Evento(props: Props) {
                                     fontWeight: 'bold',
                                     marginBottom: '3px'
                                 }} />
+                        </Column>
+                    </Form>
+                    <AddressContainer>
+                        <Titulo>Endereço</Titulo>
+                        <Form>
+                            <Column>
+                                <Input
+                                    label="Rua"
+                                    id='street'
+                                    onChange={handleChangeAddress}
+                                    value={formAddress.street}
+                                    style={{
+                                        outline: 0,
+                                        color: '#fff',
+                                        width: '95%',
+                                        height: pxToRem(32),
+                                        borderRadius: pxToRem(8),
+                                        background: '#9500F6',
+                                        padding: '5px 10px',
+                                        border: 'none',
+                                        fontSize: '14px',
+                                        fontFamily: 'Nunito',
+                                        fontWeight: 'bold',
+                                        marginBottom: '3px'
 
-                        </div>
-                    </Dados>
+                                    }} />
+                            </Column>
+                            <Column>
+                                <Input
+                                    label="Número"
+                                    id='number'
+                                    onChange={handleChangeAddress}
+                                    value={formAddress.number}
+                                    style={{
+                                        outline: 0,
+                                        color: '#fff',
+                                        width: '95%',
+                                        height: pxToRem(32),
+                                        borderRadius: pxToRem(8),
+                                        background: '#9500F6',
+                                        padding: '5px 10px',
+                                        border: 'none',
+                                        fontSize: '14px',
+                                        fontFamily: 'Nunito',
+                                        fontWeight: 'bold',
+                                        marginBottom: '3px'
+
+                                    }} />
+                            </Column>
+                            <Column>
+                                <Input
+                                    label="Bairro"
+                                    id='neighborhood'
+                                    onChange={handleChangeAddress}
+                                    value={formAddress.neighborhood}
+                                    style={{
+                                        outline: 0,
+                                        color: '#fff',
+                                        width: '95%',
+                                        height: pxToRem(32),
+                                        borderRadius: pxToRem(8),
+                                        background: '#9500F6',
+                                        padding: '5px 10px',
+                                        border: 'none',
+                                        fontSize: '14px',
+                                        fontFamily: 'Nunito',
+                                        fontWeight: 'bold',
+                                        marginBottom: '3px'
+
+                                    }} />
+                            </Column>
+                            <Column>
+                                <Input
+                                    label="Cidade"
+                                    id='city'
+                                    onChange={handleChangeAddress}
+                                    value={formAddress.city}
+                                    style={{
+                                        outline: 0,
+                                        color: '#fff',
+                                        width: '95%',
+                                        height: pxToRem(32),
+                                        borderRadius: pxToRem(8),
+                                        background: '#9500F6',
+                                        padding: '5px 10px',
+                                        border: 'none',
+                                        fontSize: '14px',
+                                        fontFamily: 'Nunito',
+                                        fontWeight: 'bold',
+                                        marginBottom: '3px'
+
+                                    }} />
+                            </Column>
+                            <Column>
+                                <Input
+                                    label="País"
+                                    id='contry'
+                                    onChange={handleChangeAddress}
+                                    value={formAddress.contry}
+                                    style={{
+                                        outline: 0,
+                                        color: '#fff',
+                                        width: '95%',
+                                        height: pxToRem(32),
+                                        borderRadius: pxToRem(8),
+                                        background: '#9500F6',
+                                        padding: '5px 10px',
+                                        border: 'none',
+                                        fontSize: '14px',
+                                        fontFamily: 'Nunito',
+                                        fontWeight: 'bold',
+                                        marginBottom: '3px'
+
+                                    }} />
+                            </Column>
+                            <Column>
+                                <Input
+                                    label="CEP"
+                                    id='zip_code'
+                                    onChange={handleChangeAddress}
+                                    value={formAddress.zip_code}
+                                    style={{
+                                        outline: 0,
+                                        color: '#fff',
+                                        width: '95%',
+                                        height: pxToRem(32),
+                                        borderRadius: pxToRem(8),
+                                        background: '#9500F6',
+                                        padding: '5px 10px',
+                                        border: 'none',
+                                        fontSize: '14px',
+                                        fontFamily: 'Nunito',
+                                        fontWeight: 'bold',
+                                        marginBottom: '3px'
+
+                                    }} />
+                            </Column>
+                        </Form>
+                    </AddressContainer>
                     <CategoryContainer>
                         <Titulo>Categorias</Titulo>
                         <Categorias>

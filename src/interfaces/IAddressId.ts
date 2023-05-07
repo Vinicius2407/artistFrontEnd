@@ -4,5 +4,6 @@ export interface IAddressId {
     number: string;
     city: string;
     contry: string;
-    zipCode: string;
+    zip_code: string;
+    id: string;
 }

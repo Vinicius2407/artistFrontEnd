@@ -10,10 +10,16 @@ import { Input } from "../Input";
 import { Text } from "../Text";
 import { CaretDown } from "@phosphor-icons/react";
 import { IEvent } from "../../interfaces/IEvent";
+import Modal from "../Modal";
 
 interface FeedProps {
     route: string;
     userId?: string;
+}
+
+type EventFormModalProps = {
+    isOpen: boolean;
+    onClose: () => void;
 }
 
 function Feed({ route, userId }: FeedProps) {
@@ -29,6 +35,19 @@ function Feed({ route, userId }: FeedProps) {
     const user_type = localStorage.getItem('user_type');
     const user_id = localStorage.getItem('user_id');
 
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+        document.documentElement.style.overflow = 'initial'; // define overflow para initial
+        handleListEvents();
+    }
+
+    const handleOpenModal = () => {
+        setModalOpen(true);
+        document.documentElement.style.overflow = 'hidden'; // define overflow para hidden
+    }
+
     const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB em bytes
 
     async function handleList() {
@@ -36,10 +55,14 @@ function Feed({ route, userId }: FeedProps) {
         setPosts(postss.data);
 
         if (user_type == 'organizer') {
-            const evts = await api.get(`events/${user_id}`);
-            setEvents(evts.data);
+            handleListEvents();
         }
 
+    }
+
+    async function handleListEvents() {
+        const evts = await api.get(`events/${user_id}`);
+            setEvents(evts.data);
     }
 
     function handleSubmit() {
@@ -98,6 +121,7 @@ function Feed({ route, userId }: FeedProps) {
 
     return (
         <>
+            <Modal open={modalOpen} onClose={handleCloseModal} />
 
             <FeedContainer>
 
@@ -163,8 +187,7 @@ function Feed({ route, userId }: FeedProps) {
                                                     gridColumnStart: 1,
                                                     gridColumnEnd: 3
                                                 }}>Evento</Text>
-
-                                            <AddEvento>+ Adicionar Evento</AddEvento>
+                                            <AddEvento onClick={handleOpenModal}>+ Adicionar Evento</AddEvento>
                                         </div>
                                         <Line />
                                         {events.length > 0 &&

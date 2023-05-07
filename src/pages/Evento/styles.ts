@@ -10,8 +10,7 @@ export const Container = styled.div`
 `
 export const DadosContainer = styled.div`
     display: grid;
-    grid-template-rows: .1 1fr 1fr .2fr;
-    max-height: 35rem; 
+    grid-template-rows: .1 1fr 1fr .2fr; 
     max-width: 60rem;
     width:100%;
     min-width: 30rem;
@@ -19,7 +18,6 @@ export const DadosContainer = styled.div`
     background: #FFFFFF;
     color:#fff;    
     padding: 30px;
-    margin: 20px 10rem;
     row-gap: 10px;
 `
 
@@ -75,3 +73,25 @@ export const H1 = styled.h1`
     margin: 5px 11rem;
     width:100%;
 `
+
+
+
+export const AddressContainer = styled.div`
+    display: grid;
+    padding: 10px 15px; 
+    width: 95%;
+    border-radius: 8px;
+    box-shadow: 0px 0px 8px black;
+    grid-template-row: .1fr 1fr;
+`
+
+
+export const Form = styled.form`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+`;
+
+export const Column = styled.div<{ spanAll?: boolean }>`
+  grid-column: ${({ spanAll }) => (spanAll ? '1 / -1' : 'auto')};
+`;
