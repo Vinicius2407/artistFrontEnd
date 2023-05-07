@@ -47,8 +47,8 @@ const Post: React.FC<Props> = ({ post }) => {
                     </PostAuthorInfo>
                     {user_id == post.user.id &&
                         <>
-                            <Link target="_blank" to={post.event ? `/evento/${post.event.id}` : `/post/${post.id}`}>
-                                <EditButton title="Editar">
+                            <Link target="_blank" to={`/post/${post.id}`}>
+                                <EditButton title="Editar Post">
                                     <Pencil />
                                 </EditButton>
                             </Link>
@@ -59,7 +59,7 @@ const Post: React.FC<Props> = ({ post }) => {
                 <Gallery medias={post.medias} />
                 {post.event &&
                     <>
-                        <PostEventContainer>
+                        <PostEventContainer>                            
                             <EventInfo>
                                 <MyInput id="evento" label="Evento" value={post.event.name} />
                                 <MyInput id="budget" label="Orçamento" value={post.event.budget} />
@@ -68,13 +68,18 @@ const Post: React.FC<Props> = ({ post }) => {
                             <EventAddress>
                                 <Span>{`Data: ${formatDateString(post.event.dh_event)} | Candidaturas: ${formatDateString(post.event.dh_expiration)}`}</Span>
                                 <img src={mapa} />
-                                <Address>                                    
-                                    <MapPin size={20} color='#9500F6'/>     
-                                    <h3 style={{color:'#9500F6', margin: '5px'}} >
+                                <Address>
+                                    <MapPin size={20} color='#9500F6' />
+                                    <h3 style={{ color: '#9500F6', margin: '5px' }} >
                                         {`${post.event.address.street}, ${post.event.address.number}, ${post.event.address.neighborhood}`}
-                                    </h3>                            
+                                    </h3>
                                 </Address>
                             </EventAddress>
+                            <Link target="_blank" to={`/evento/${post.event.id}`}>
+                                <EditButton title="Editar Evento">
+                                    <Pencil />
+                                </EditButton>
+                            </Link>
                         </PostEventContainer>
                         {
                             user_type == 'artist' &&

@@ -66,8 +66,8 @@ export const PostContent = styled.textarea`
 
 export const PostEventContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 20px;
+  grid-template-columns: 1fr 1fr .1fr;
+  column-gap: 10px;
   margin: 10px;
 `;
 
