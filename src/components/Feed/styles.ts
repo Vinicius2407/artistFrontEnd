@@ -73,16 +73,28 @@ export const Files = styled.div`
     margin: 10px 0;
 `
 
-export const Event = styled.div`
-`
+export const SelectContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #000;
+`;
+
+export const SelectLabel = styled.label`
+  margin-bottom: 0.5rem;
+  color: #000;
+`;
 
 export const Select = styled.select`
-    width: 90%;
+    width: 100%;
     height: 3.125rem;
+    padding: 10px;
     border-radius: 0.5rem;
     background: #E5E5E5;
     border-style: none;
     outline: 0;
+    color: #000;
+    cursor:pointer;
 `
 export const DivShowForm = styled.div`
     display: grid;
@@ -94,4 +106,13 @@ export const DivShowForm = styled.div`
     cursor:pointer;
     padding: 0 5px; 
     border-radius: 28px;
+`
+
+export const Event = styled.div`
+    margin: 10px 0;
+`
+export const AddEvento = styled.label`
+    color: #41D773;
+    font-family: Nunito;
+    cursor: pointer;
 `

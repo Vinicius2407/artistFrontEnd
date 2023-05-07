@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IPost } from "../../interfaces/IPost";
-import { FeedContainer, Container, Descr, Event, Files, FormContainer, ImportFiles, Line, NewEvent, NewPost, Select, DivShowForm } from "./styles";
+import { FeedContainer, Container, Descr, Event, Files, FormContainer, ImportFiles, Line, NewEvent, NewPost, Select, DivShowForm, AddEvento, SelectContainer, SelectLabel } from "./styles";
 import { api } from "../../services/api.service";
 import FileList from "../FileList"
 import Post from "../Post";
@@ -9,6 +9,7 @@ import { pxToRem } from "../../utils/convertToRem.util";
 import { Input } from "../Input";
 import { Text } from "../Text";
 import { CaretDown } from "@phosphor-icons/react";
+import { IEvent } from "../../interfaces/IEvent";
 
 interface FeedProps {
     route: string;
@@ -19,7 +20,9 @@ function Feed({ route, userId }: FeedProps) {
 
     const [posts, setPosts] = useState<IPost[]>([]);
     const [formPost, setFormPost] = useState<IPost>({} as IPost);
+    const [events, setEvents] = useState<IEvent[]>([]);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+    const [selectedEventId, setSelectedEventId] = useState<string>();
     const [showForm, setShowForm] = useState(false);
     const [attPosts, setAttPosts] = useState(false);
 
@@ -31,6 +34,12 @@ function Feed({ route, userId }: FeedProps) {
     async function handleList() {
         const postss = await api.get(userId ? `${route}/${userId}` : route);
         setPosts(postss.data);
+
+        if (user_type == 'organizer') {
+            const evts = await api.get(`events/${user_id}`);
+            setEvents(evts.data);
+        }
+
     }
 
     function handleSubmit() {
@@ -50,6 +59,7 @@ function Feed({ route, userId }: FeedProps) {
 
         formData.append('description', formPost.description);
         formData.append('user', user_id || '');
+        formData.append('event', selectedEventId || '');
 
         if (formPost.event) {
             formData.append('event', formPost.event.id)
@@ -76,6 +86,12 @@ function Feed({ route, userId }: FeedProps) {
         setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...validFiles]);
     };
 
+    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const eventId = event.target.value;
+        setSelectedEventId(eventId);
+    };
+
+
     useEffect(() => {
         handleList();
     }, [attPosts]);
@@ -90,7 +106,7 @@ function Feed({ route, userId }: FeedProps) {
                         <CaretDown onClick={() => setShowForm(!showForm)} size={32} style={{ transform: showForm ? 'rotate(180deg)' : 'rotate(0deg)' }} />
                         <h1 onClick={() => setShowForm(!showForm)} style={{ fontSize: '2rem', justifySelf: 'flex-end' }}>Cadastrar Post</h1>
                     </DivShowForm>
-                    
+
                     {showForm &&
                         <NewPost className={showForm ? 'show' : ''}>
                             <FormContainer>
@@ -125,22 +141,54 @@ function Feed({ route, userId }: FeedProps) {
                                         display: "none",
                                     }} />
                                     {selectedFiles.length > 0 && <FileList files={selectedFiles} />}
+                                    {selectedFiles.length == 0 &&
+                                        <>
+                                            <h3 style={{
+                                                fontFamily: "Nunito",
+                                                textAlign: "left",
+                                                marginLeft: '10px',
+                                                color: "#000"
+                                            }}>Nada por aqui.</h3>
+                                        </>}
                                 </Files>
 
                                 {user_type == 'organizer' &&
                                     <Event>
-                                        <Text color="#000000"
-                                            fontSize={pxToRem(20)}
-                                            style={{
-                                                fontFamily: "Nunito",
-                                                textAlign: "left",
-                                            }}>Evento</Text>
+                                        <div style={{ display: 'flex', padding: '10px', justifyContent: 'space-between' }}>
+                                            <Text color="#000000"
+                                                fontSize={pxToRem(16)}
+                                                style={{
+                                                    fontFamily: "Nunito",
+                                                    textAlign: "left",
+                                                    gridColumnStart: 1,
+                                                    gridColumnEnd: 3
+                                                }}>Evento</Text>
 
+                                            <AddEvento>+ Adicionar Evento</AddEvento>
+                                        </div>
                                         <Line />
-
-                                        <Select>
-
-                                        </Select>
+                                        {events.length > 0 &&
+                                            <>
+                                                <SelectContainer>
+                                                    <Select id="event-select" value={selectedEventId} onChange={handleSelectChange}>
+                                                        <option style={{ cursor: 'pointer' }} value={undefined}>Selecione...</option>
+                                                        {events.map((event) => (
+                                                            <option style={{ cursor: 'pointer' }} key={event.id} value={event.id}>
+                                                                {event.name}
+                                                            </option>
+                                                        ))}
+                                                    </Select>
+                                                </SelectContainer>
+                                            </>}
+                                        {events.length == 0 &&
+                                            <>
+                                                <h3 style={{
+                                                    fontFamily: "Nunito",
+                                                    textAlign: "left",
+                                                    marginLeft: '10px',
+                                                    color: "#000"
+                                                }}>Nada por aqui.</h3>
+                                            </>}
                                     </Event>
                                 }
                                 <Button onClick={handleSubmit}

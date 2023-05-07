@@ -1,11 +1,12 @@
 
 import { IPost } from "../../interfaces/IPost";
 import Carousel from "../Carousel";
-import { PostAuthorAvatar, PostAuthorName, PostContainer, PostContent, PostHeader, PostAuthorInfo, PostAuthorCat, PostAuthorCategories, PostEventContainer, Label, EventInfo, EventAddress, Input, EditButton, GaleryContainer } from "./styles";
+import { PostAuthorAvatar, PostAuthorName, PostContainer, PostContent, PostHeader, PostAuthorInfo, PostAuthorCat, PostAuthorCategories, PostEventContainer, Label, EventInfo, EventAddress, Input, EditButton, Address, Span } from "./styles";
 import { Button } from "../Button";
 import { Link } from "react-router-dom";
-import { Pencil } from "@phosphor-icons/react";
+import { Pencil, MapPin } from "@phosphor-icons/react";
 import Gallery from "../Gallery";
+import mapa from "../../assets/images/map.png";
 
 interface Props {
     post: IPost;
@@ -31,7 +32,6 @@ const Post: React.FC<Props> = ({ post }) => {
     return (
         <>
             <PostContainer key={post.id}>
-
                 <PostHeader>
                     <PostAuthorAvatar src={post.user.profile_image ? post.user.profile_image : 'https://picsum.photos/50'} alt="foto" />
                     <PostAuthorInfo>
@@ -56,6 +56,7 @@ const Post: React.FC<Props> = ({ post }) => {
 
                 </PostHeader>
                 <PostContent readOnly value={post.description} />
+                <Gallery medias={post.medias} />
                 {post.event &&
                     <>
                         <PostEventContainer>
@@ -63,15 +64,16 @@ const Post: React.FC<Props> = ({ post }) => {
                                 <MyInput id="evento" label="Evento" value={post.event.name} />
                                 <MyInput id="budget" label="Orçamento" value={post.event.budget} />
                                 <MyInput id="people" label="Publico" value={post.event.people} />
-                                <MyInput id="budget" label="Data do Evento" value={formatDateString(post.event.dh_event)} />
-                                <MyInput id="people" label="Data de Expiração" value={formatDateString(post.event.dh_expiration)} />
                             </EventInfo>
                             <EventAddress>
-                                <MyInput id="numero" label="Numero" value={post.event.address.number} />
-                                <MyInput id="rua" label="Rua" value={post.event.address.street} />
-                                <MyInput id="bairro" label="Bairro" value={post.event.address.neighborhood} />
-                                <MyInput id="cidade" label="Cidade" value={post.event.address.city} />
-                                <MyInput id="pais" label="Pais" value={post.event.address.contry} />
+                                <Span>{post.event.address.city}</Span>
+                                <img src={mapa} />
+                                <Address>                                    
+                                    <MapPin color='#9500F6'/>     
+                                    <h3 style={{color:'#9500F6', margin: '5px'}} >
+                                        {`${post.event.address.street}, ${post.event.address.number}, ${post.event.address.neighborhood}`}
+                                    </h3>                            
+                                </Address>
                             </EventAddress>
                         </PostEventContainer>
                         {
@@ -81,10 +83,6 @@ const Post: React.FC<Props> = ({ post }) => {
                         }
                     </>
                 }
-
-               
-                <Gallery medias={post.medias} />
-                
             </PostContainer>
         </>
     );

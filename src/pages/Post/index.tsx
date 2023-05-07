@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
-import { Event, Container, Dados, DadosContainer, Descr, Files, FormContainer, ImportFiles, Line, EditPost, Select, Titulo, H1 } from "./styles";
+import { Event, Container, Dados, DadosContainer, Descr, Files, FormContainer, ImportFiles, Line, EditPost, Select, Titulo, H1, AddEvento } from "./styles";
 import { api } from "../../services/api.service";
 import { Input } from "../../components/Input";
 import { pxToRem } from "../../utils/convertToRem.util";
@@ -77,10 +77,10 @@ export function Post(props: Props) {
     return (
         <>
             <Header />
-            <Container>                
+            <Container>
                 <H1>Editar Post</H1>
                 <DadosContainer>
-                    <Dados>                       
+                    <Dados>
                         <EditPost>
                             <FormContainer>
                                 <Text color="#000000"
@@ -118,18 +118,20 @@ export function Post(props: Props) {
 
                                 {user_type == 'organizer' &&
                                     <Event>
-                                        <Text color="#000000"
-                                            fontSize={pxToRem(20)}
-                                            style={{
-                                                fontFamily: "Nunito",
-                                                textAlign: "left",
-                                            }}>Evento</Text>
+                                        <div style={{ display: 'flex', padding: '10px', justifyContent: 'space-between' }}>
+                                            <Text color="#000000"
+                                                fontSize={pxToRem(16)}
+                                                style={{
+                                                    fontFamily: "Nunito",
+                                                    textAlign: "left",
+                                                    gridColumnStart: 1,
+                                                    gridColumnEnd: 3
+                                                }}>Evento</Text>
 
+                                            <AddEvento>+ Adicionar Evento</AddEvento>
+                                        </div>
                                         <Line />
-
-                                        <Select>
-
-                                        </Select>
+                                        
                                     </Event>
                                 }
 
@@ -144,10 +146,8 @@ export function Post(props: Props) {
                                     marginTop: pxToRem(16),
                                 }}>Atualizar</Button>
                         </EditPost>
-
                     </Dados>
-
-                </DadosContainer>                
+                </DadosContainer>
             </Container>
             <Footer />
         </>

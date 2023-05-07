@@ -95,9 +95,6 @@ export const Files = styled.div`
     margin: 10px 0;
 `
 
-export const Event = styled.div`
-`
-
 export const Select = styled.select`
     width: 90%;
     height: 3.125rem;
@@ -105,4 +102,12 @@ export const Select = styled.select`
     background: #E5E5E5;
     border-style: none;
     outline: 0;
+`
+export const Event = styled.div`
+    margin: 10px 0;
+`
+export const AddEvento = styled.label`
+    color: #41D773;
+    font-family: Nunito;
+    cursor: pointer;
 `

@@ -3,6 +3,7 @@ import { ICategories } from "./ICategories";
 import { ICategoriesEvent } from "./ICategoriesEvent";
 
 export interface IEvent {
+    id: string;
     name: string,
     description: string,
     dh_expiration: string,
@@ -11,13 +12,13 @@ export interface IEvent {
     budget: string,
     people: string,
     user: {
-        id:string;
+        id: string;
         name: string;
         categories: ICategories[],
         profile_image: string,
         user_type: string
     },
-    category:{
+    category: {
         categories: ICategoriesEvent[]
     }
 }

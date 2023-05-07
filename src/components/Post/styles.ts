@@ -5,7 +5,7 @@ export const PostContainer = styled.div`
   flex-direction: column;
   margin: 10px 0;
   padding: 15px;
-  max-height: 40rem; 
+  max-height: 55rem; 
   max-width: 48rem;
   min-width: 30rem;
   width: 100%;
@@ -64,30 +64,61 @@ export const PostContent = styled.textarea`
   -ms-overflow-style: none;
 `;
 
-
 export const PostEventContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-column-gap: 25px;
+  column-gap: 20px;
   margin: 10px;
 `;
 
 export const EventInfo = styled.div`
   display: grid;
-  grid-template-row: 1fr 1fr 1fr;
+  grid-template-column: 1fr 1fr 1fr;
 `;
-
 
 export const EventAddress = styled.div`
   display: grid;
-  grid-template-row: 1fr 1fr 1fr;
+  grid-template-row: 1.3fr 2fr;
+  justify-content: center;
+  align-items: center;
+  img:{
+    object-fit: cover;
+  }
+`;
+
+export const Span = styled.span`
+  font-family: Nunito;
+  background: #9500F6;
+  padding: 12px;
+  border-radius: 8px;
+  color: #fff;
+  width:80%;
+  margin: 10px 30px;
+`;
+
+export const Address = styled.div`
+  position: absolute;
+  bottom: 50;
+  left: 60%;
+  transform: translate(-50%, 50%);
+
+  display: flex;
+  align-items: center;
+  background: #fff;
+  width: 16rem;
+  height: 2rem;
+  padding: 20px;
+  border-radius: 32px;
+ 
 `;
 
 export const Input = styled.div`
-
+  display: flex;
+  align-items: center;
   background: #9500F6;
   color: #fff;
-  padding: 5px 10px;
+  padding: 2px 10px;
+  height: 2rem  ;
   border: none;
   border-radius: 8px;
   font-size: 14px;
@@ -99,7 +130,6 @@ export const Input = styled.div`
 
 export const Label = styled.span`
   display: block;
-  margin-bottom: 5px;
   font-size: 14px;
   font-family: Nunito;
   font-weight: bold;
