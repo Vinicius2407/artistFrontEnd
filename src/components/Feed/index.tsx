@@ -103,9 +103,18 @@ function Feed({ route, userId }: FeedProps) {
 
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(event.target.files || []);
-        const validFiles = files.filter(
-            (file) => file.size <= MAX_FILE_SIZE && (file.type.startsWith("image/") || file.type.startsWith("video/"))
-        );
+        const validFiles = files.filter((file) => {
+            const isImage = file.type.startsWith("image/");
+            const isVideo = file.type.startsWith("video/");
+            const isMp4 = file.name.toLowerCase().endsWith(".mp4");
+            const isSmallEnough = file.size <= MAX_FILE_SIZE;
+            if (!isImage && !isVideo) {
+                alert("Por favor, selecione apenas arquivos de imagem ou vídeo.");
+            } else if (isVideo && !isMp4) {
+                alert("Por favor, selecione apenas arquivos de vídeo no formato .mp4.");
+            }
+            return (isImage || (isVideo && isMp4)) && isSmallEnough;
+        });
         setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...validFiles]);
     };
 
