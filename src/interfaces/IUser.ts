@@ -1,3 +1,4 @@
+import { IAddressId } from "./IAddressId";
 
 export interface IUser {
     id: string;
@@ -10,8 +11,8 @@ export interface IUser {
     email: string;
     profile_image: string;
     cel_phone: string;
-    addressId: {};
-
+    addressId: string;
+    address: IAddressId;
     categories: string[];
     rating: string[];
     social: [{ name: string, url: string}];
