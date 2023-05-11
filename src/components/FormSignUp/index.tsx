@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import carinhaMicrofone from "../../assets/images/carinhaComMic.svg";
 import segundaImage from "../../assets/images/segundaImage.svg";
@@ -14,12 +15,16 @@ import { Input } from "../Input";
 import { Text } from "../Text";
 import { TextLabel } from "../TextLabel";
 
-import { CategoryContainer, Container, FormContainer, FormContent, ImageContainer, InputLabelContainer, MidiaContainer, SocialContainer, ToggleWrapper } from "./styles";
+import { CategoryContainer, Container, FormContainer, ImageContainer, InputLabelContainer, MidiaContainer, SocialContainer, ToggleWrapper } from "./styles";
 import { Button } from "../Button";
 import { IUser } from "../../interfaces/IUser";
 import { IAddressId } from "../../interfaces/IAddressId";
-import { useHistory } from "react-router-dom";
 import { SignIn } from "../../pages/SignIn";
+import { Form as FormDeFora, Column } from "../../pages/Evento/styles";
+import { DadosContainer } from "../../pages/Profile/styles";
+import { Files, ImportFiles, Line } from "../../pages/Post/styles";
+import FileList from "../FileList";
+import { set } from "react-hook-form";
 
 // Tipagem da interface dos dados Sociais
 interface SocialProps {
@@ -70,108 +75,109 @@ export function CategoryComponent({ category, onSelectCategory }: CategoryCompon
 
 export function Form() {
 
-   // State para o tipo de usuário
-   const [isOrganizer, setIsOrganizer] = useState<"organizer" | "artist">("organizer");
-   let user_type = isOrganizer === "organizer";
-
-   // State para armazenar as redes sociais e as categorias
-   const [socialList, setSocialList] = useState<SocialProps[]>([]);
-   const [categoryList, setCategoryList] = useState<CategoryProps[]>([]);
-
-   // State para armazenar as categorias selecionadas
-   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-   const [selectedSocial, setSelectedSocial] = useState<SocialProps[]>([]);
-
-   // useState dos dados formulário
-   const [formDataUser, setFormDataUser] = useState<IUser>({} as IUser);
-   const [formAddressId, setFormAddressId] = useState<IAddressId>({} as IAddressId);
-
    const history = useHistory();
 
-   // Função para selecionar as categorias
-   function handleToggleCategory(categoryId: string) {
-      if (selectedCategories.includes(categoryId)) {
-         setSelectedCategories(selectedCategories.filter((id) => id !== categoryId));
-      } else {
-         setSelectedCategories([...selectedCategories, categoryId]);
-      }
-   }
+   // State para o tipo de usuário
+   const [isOrganizer, setIsOrganizer] = useState<"organizer" | "artist">("organizer");
+   let user_type = isOrganizer === "organizer" ? "organizer" : "artist";
 
-   // Função para pegar o valor do input de redes sociais
-   function handleBlur(event: any, id: string) {
-      if (event.target.value) {
-         setSelectedSocial([...selectedSocial, { id: id, url: event.target.value }]);
-      }
-   }
-
-   // função para trocar o tipo de usuário
    function toggleTypeUser() {
-      if (isOrganizer !== "artist") {
-         setIsOrganizer("artist");
-         setFormDataUser({ ...formDataUser, user_type: isOrganizer });
-      } else {
-         setIsOrganizer("organizer");
-         setFormDataUser({ ...formDataUser, user_type: isOrganizer });
-      }
-      console.log(isOrganizer);
+      setIsOrganizer(prevType => prevType === "organizer" ? "artist" : "organizer");
    }
 
-   // Função para enviar os dados do formulário
-   function handleSubmit() {
-      const data = {
-         name: formDataUser.name,
-         username: formDataUser.username,
-         password: formDataUser.password,
-         email: formDataUser.email,
-         user_type: isOrganizer,
-         document: formDataUser.document,
-         cel_phone: formDataUser.cel_phone,
-         addresId: {
-            street: formAddressId.street,
-            number: formAddressId.number,
-            neighborhood: formAddressId.neighborhood,
-            city: formAddressId.city,
-            contry: formAddressId.contry,
-            zip_code: formAddressId.zip_code,
-         },
-         social: selectedSocial,
-         categories: selectedCategories,
-      };
+   // Selecionando e Verificando os arquivos
+   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+   const MAX_FILE_SIZE = 10 * 1024 * 1024 * 1024; // 10 MB em bytes
 
-      try {
-         api.post("/user", data)
-            .then((response) => {
-               if (response.status === 201) {
-                  history.push("/");
-               }
-            }).catch((error) => {
-               alert(`Erro ao cadastrar: ${error}`);
+   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const files = Array.from(event.target.files || []);
+      const validFiles = files.filter(
+         (file) => file.size <= MAX_FILE_SIZE && (file.type.startsWith("image/"))
+      );
+      setSelectedFiles((prevSelectedFiles) => {
+         const updateFiles = [...prevSelectedFiles, ...validFiles];
+
+         const filePromises = updateFiles.map((file) => {
+            return new Promise<string>((resolve, reject) => {
+               const reader = new FileReader();
+
+               reader.onload = (event) => {
+                  const fileContent = event.target?.result as string;
+                  resolve(fileContent);
+               };
+
+               reader.onerror = (error) => {
+                  reject(error);
+               };
+
+               reader.readAsDataURL(file);
             })
-         console.log(data)
-      } catch (error) {
-         alert(`Erro ao cadastrar: ${error}`);
+         });
+
+         Promise.all(filePromises)
+         .then((fileContents) => {
+            setFormUser((prevFormUser) => {
+               return {
+                  ...prevFormUser,
+                  profile_image: fileContents[0],
+               }
+            });
+         })
+         .catch((error) => {
+            console.error(error);
+         });
+
+         return updateFiles;
+      });
+   };
+
+
+   const [formUser, setFormUser] = useState<IUser>({
+      name: "",
+      username: "",
+      email: "",
+      password: "",
+   } as IUser);
+
+   function handleChangeUser(event: React.ChangeEvent<HTMLInputElement>) {
+      const { id, value } = event.target;
+      setFormUser({ ...formUser, [id]: value });
+   }
+
+   function handleSubmmitUser() {
+      const data = {
+         name: formUser.name,
+         username: formUser.username,
+         password: formUser.password,
+         user_type: user_type,
+         document: formUser.document,
+         email: formUser.email,
+         profile_image: selectedFiles[0],
+         cel_phone: formUser.cel_phone,
+         status: formUser.status,
+         addressId: formUser.addressId,
+      }
+
+      if (!data.name || !data.username || !data.email || !data.password || !data.user_type || !data.profile_image) {
+         alert("Preencha todos os campos!");
+         return;
+      } else {
+         api.post("/users", data).then((response) => {
+            alert("Usuário cadastrado com sucesso!");
+            history.push("/sign-in");
+         }).catch((error) => {
+            alert("Erro ao cadastrar usuário!");
+            console.log(error);
+            return;
+         });
       }
    }
 
-   // Useeffect para pegar as categorias e as redes sociais
-   // HandleList é uma função assíncrona que faz a requisição para a API
-   async function handleList() {
-      const socials = await api.get("/social");
-      setSocialList(socials.data);
 
-      const categories = await api.get("/categories");
-      setCategoryList(categories.data);
-   }
-
-   // useEffect para chamar a função handleList
-   useEffect(() => {
-      handleList();
-   }, []);
 
    return (
       <>
          <Container>
-            <TextLabel style={{ fontSize: pxToRem(80), color: "#FFF", padding: "0.003rem" }}>Arte é isso, arte é aqui!</TextLabel>
             <FormContainer>
 
                <ToggleWrapper>
@@ -190,242 +196,129 @@ export function Form() {
                   {isOrganizer === "organizer" ? " de Organizador" : " de Artista"}
                </TextLabel>
 
-               <FormContent>
-                  <InputLabelContainer>
-                     <Input
-                        placeholder="Nome:"
-                        className="inputName"
-                        value={formDataUser.name}
-                        onChange={(event) => setFormDataUser({ ...formDataUser, name: event.target.value })}
-                        style={{
-                           width: '100%',
-                           height: pxToRem(32),
-                           borderRadius: pxToRem(8),
-                           background: "#EFF4F9"
-                        }}
-                     />
-                     <Input
-                        type="email"
-                        placeholder="Email:"
-                        className="inputEmail"
-                        value={formDataUser.email}
-                        onChange={(event) => setFormDataUser({ ...formDataUser, email: event.target.value })}
-                        style={{
-                           width: '100%',
-                           height: pxToRem(32),
-                           borderRadius: pxToRem(8),
-                           background: "#EFF4F9"
-                        }}
-                     />
-                     <Input
-                        placeholder="Username:"
-                        className="inputUsername"
-                        value={formDataUser.username}
-                        onChange={(event) => setFormDataUser({ ...formDataUser, username: event.target.value })}
-                        style={{
-                           width: "100%",
-                           height: pxToRem(32),
-                           borderRadius: pxToRem(8),
-                           background: "#EFF4F9"
-                        }}
-                     />
-                     <Input
-                        type="password"
-                        placeholder="Coloque sua senha:"
-                        className="inputPassword"
-                        value={formDataUser.password}
-                        onChange={(event) => setFormDataUser({ ...formDataUser, password: event.target.value })}
-                        style={{
-                           width: "100%",
-                           height: pxToRem(32),
-                           borderRadius: pxToRem(8),
-                           background: "#EFF4F9"
-                        }}
-                     />
-                     <Input
-                        placeholder="CPF ou CNPJ:"
-                        className="inputDocument"
-                        value={formDataUser.document}
-                        onChange={(event) => setFormDataUser({ ...formDataUser, document: event.target.value })}
-                        style={{
-                           width: "100%",
-                           height: pxToRem(32),
-                           borderRadius: pxToRem(8),
-                           background: "#EFF4F9"
-                        }}
-                     />
-                     <Input
-                        placeholder="Telefone:"
-                        className="inputPhone"
-                        value={formDataUser.cel_phone}
-                        onChange={(event) => setFormDataUser({ ...formDataUser, cel_phone: event.target.value })}
-                        style={{
-                           width: "100%",
-                           height: pxToRem(32),
-                           borderRadius: pxToRem(8),
-                           background: "#EFF4F9"
-                        }}
-                     />
-
-                  </InputLabelContainer>
-                  
-                  {user_type ? (
-                     <> {/* Organizador */}
-                        <InputLabelContainer>
-                           <Input
-                              type="number"
-                              placeholder="CEP:"
-                              className="inputZipCode"
-                              value={formAddressId.zip_code}
-                              onChange={(event) => setFormAddressId({ ...formAddressId, zip_code: event.target.value })}
-                              // onChange={handleChange}
+               <DadosContainer style={{ paddingBottom: "0" }}>
+                  <FormDeFora>
+                     <Column spanAll>
+                        <Input
+                           label="Nome"
+                           placeholder="Não informado"
+                           id='name'
+                           onChange={handleChangeUser}
+                           value={formUser.name}
+                           style={{
+                              outline: 0,
+                              color: '#fff',
+                              width: '97.5%',
+                              height: pxToRem(32),
+                              borderRadius: pxToRem(8),
+                              background: '#9500F6',
+                              padding: '5px 10px',
+                              border: 'none',
+                              fontSize: '14px',
+                              fontFamily: 'Nunito',
+                              fontWeight: 'bold',
+                              marginBottom: '3px'
+                           }} />
+                     </Column>
+                     <Column spanAll>
+                        <Input
+                           label="Nome de usuário"
+                           placeholder="Não informado"
+                           id='username'
+                           onChange={handleChangeUser}
+                           value={formUser.username}
+                           style={{
+                              outline: 0,
+                              color: '#fff',
+                              width: '97.5%',
+                              height: pxToRem(32),
+                              borderRadius: pxToRem(8),
+                              background: '#9500F6',
+                              padding: '5px 10px',
+                              border: 'none',
+                              fontSize: '14px',
+                              fontFamily: 'Nunito',
+                              fontWeight: 'bold',
+                              marginBottom: '3px'
+                           }} />
+                     </Column>
+                     <Column spanAll>
+                        <Input
+                           label="Email"
+                           placeholder="Não informado"
+                           id='email'
+                           onChange={handleChangeUser}
+                           value={formUser.email}
+                           style={{
+                              outline: 0,
+                              color: '#fff',
+                              width: '97.5%',
+                              height: pxToRem(32),
+                              borderRadius: pxToRem(8),
+                              background: '#9500F6',
+                              padding: '5px 10px',
+                              border: 'none',
+                              fontSize: '14px',
+                              fontFamily: 'Nunito',
+                              fontWeight: 'bold',
+                              marginBottom: '3px'
+                           }}
+                        />
+                     </Column>
+                     <Column spanAll>
+                        <Input
+                           label="Senha"
+                           placeholder="Não informado"
+                           type="password"
+                           id='password'
+                           onChange={handleChangeUser}
+                           value={formUser.password}
+                           style={{
+                              outline: 0,
+                              color: '#fff',
+                              width: '97.5%',
+                              height: pxToRem(32),
+                              borderRadius: pxToRem(8),
+                              background: '#9500F6',
+                              padding: '5px 10px',
+                              border: 'none',
+                              fontSize: '14px',
+                              fontFamily: 'Nunito',
+                              fontWeight: 'bold',
+                              marginBottom: '3px'
+                           }}
+                        />
+                     </Column>
+                     <Files>
+                        <div style={{ display: 'flex', padding: '10px', justifyContent: 'space-between' }}>
+                           <Text color="#000000"
+                              fontSize={pxToRem(16)}
                               style={{
-                                 width: "100%",
-                                 height: pxToRem(32),
-                                 borderRadius: pxToRem(8),
-                                 background: "#EFF4F9"
-                              }}
-                           />
-                           <Input
-                              type="number"
-                              placeholder="Número da Casa:"
-                              className="inputNumber"
-                              value={formAddressId.number}
-                              onChange={(event) => setFormAddressId({ ...formAddressId, number: event.target.value })}
-                              style={{
-                                 width: "100%",
-                                 height: pxToRem(32),
-                                 borderRadius: pxToRem(8),
-                                 background: "#EFF4F9"
-                              }}
-                           />
-                           <Input
-                              placeholder="Avenida/Rua/Logradouro:"
-                              className="inputStreet"
-                              value={formAddressId.street}
-                              onChange={(event) => setFormAddressId({ ...formAddressId, street: event.target.value })}
-                              style={{
-                                 width: "100%",
-                                 height: pxToRem(32),
-                                 borderRadius: pxToRem(8),
-                                 background: "#EFF4F9"
-                              }}
-                           />
-                           <Input
-                              type="text"
-                              placeholder="Bairro:"
-                              className="inputNeighborhood"
-                              value={formAddressId.neighborhood}
-                              onChange={(event) => setFormAddressId({ ...formAddressId, neighborhood: event.target.value })}
-                              style={{
-                                 width: "100%",
-                                 height: pxToRem(32),
-                                 borderRadius: pxToRem(8),
-                                 background: "#EFF4F9"
-                              }}
-                           />
-                           <Input
-                              placeholder="Cidade:"
-                              className="inputCity"
-                              value={formAddressId.city}
-                              onChange={(event) => setFormAddressId({ ...formAddressId, city: event.target.value })}
-                              style={{
-                                 width: "100%",
-                                 height: pxToRem(32),
-                                 borderRadius: pxToRem(8),
-                                 background: "#EFF4F9"
-                              }}
-                           />
-                           <Input
-                              type="text"
-                              placeholder="País:"
-                              className="inputContry"
-                              value={formAddressId.contry}
-                              onChange={(event) => setFormAddressId({ ...formAddressId, contry: event.target.value })}
-                              style={{
-                                 width: "100%",
-                                 height: pxToRem(32),
-                                 borderRadius: pxToRem(8),
-                                 background: "#EFF4F9"
-                              }}
-                           />
-                        </InputLabelContainer>
-                     </>
-                  ) : (
-                     <> {/* Artista */},
-                        <MidiaContainer>
-                           <TextLabel style={{
-                              color: "#FFFFFF",
-                              fontFamily: "Nunito",
-                              fontSize: pxToRem(20),
-                              fontWeight: 600,
-                           }}>Redes Sociais</TextLabel>
+                                 fontFamily: "Nunito",
+                                 textAlign: "left",
+                                 gridColumnStart: 1,
+                                 gridColumnEnd: 3
+                              }}>Foto Perfil</Text>
 
-                           <SocialContainer>
-                              {socialList.map((social) => {
-                                 let imagem = "";
-                                 if (social.name === "TikTok") {
-                                    imagem = TikTok;
-                                 } else if (social.name === "Instagram") {
-                                    imagem = Instagram;
-                                 } else if (social.name === "Facebook") {
-                                    imagem = Facebook;
-                                 } else if (social.name === "YouTube") {
-                                    imagem = YouTube;
-                                 }
-                                 return (
-                                    <div className="social-item" key={social.id}>
-                                       <img src={imagem} alt={social.name} style={{color: "#FFF"}}/>
-                                       <Input
-                                          className="input-social"
-                                          type="text"
-                                          placeholder={social.name}
-                                          // onChange={handleSocial}
-                                          onBlur={(event) => handleBlur(event, social.id)}
-                                          color="#FFFFFF"
-                                          style={{
-                                             width: "100%",
-                                             height: pxToRem(32),
-                                             borderRadius: pxToRem(8),
-                                             background: "#EFF4F9",
-                                          }} />
-                                    </div>
-                                 )
-                              })}
-                           </SocialContainer>
+                           <ImportFiles htmlFor="file-upload">+ Adicionar Imagem</ImportFiles>
+                        </div>
 
-                           <TextLabel style={{
-                              color: "#FFFFFF",
-                              fontFamily: "Nunito",
-                              fontSize: pxToRem(20),
-                              fontWeight: 600,
-                           }}>Categorias</TextLabel>
+                        <Line />
 
-                           <CategoryContainer>
-                              {categoryList.map((category) => {
-                                 return (
-                                    <CategoryComponent
-                                       key={category.id}
-                                       category={category}
-                                       onSelectCategory={handleToggleCategory}
-                                    />
-                                 )
-                              }
-                              )}
-                           </CategoryContainer>
+                        <Input id="file-upload" multiple={false} type="file" accept="image/*" onChange={handleFileSelect} style={{
+                           display: "none",
+                        }} />
+                        {selectedFiles.length > 0 && <FileList files={selectedFiles} />}
+                     </Files>
+                     <span></span>
+                     <Button style={{ margin: "auto auto" }} className="button-submit" type="submit" onClick={handleSubmmitUser}>Enviar Cadastro</Button>
+                  </FormDeFora>
+               </DadosContainer>
 
-                        </MidiaContainer>
-                     </>
-                  )}
-
-               </FormContent>
-
-               <ImageContainer>
+               <ImageContainer style={{ marginTop: "4rem" }}>
                   <img src={carinhaMicrofone} alt="" />
                   <img src={segundaImage} alt="" />
                </ImageContainer>
-
-               <Button className="button-submit" type="submit" onClick={handleSubmit}>Enviar Cadastro</Button>
 
             </FormContainer >
 

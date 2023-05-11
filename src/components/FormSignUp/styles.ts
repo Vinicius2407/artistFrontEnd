@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const Container = styled.div`
-    margin: 0.84rem 10rem 4.9375rem 10rem;
+    margin: 0.84rem 10rem 1rem 10rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,6 +16,7 @@ export const FormContainer = styled.div`
     background: linear-gradient(180deg, #201D1D 0%, rgba(32, 29, 29, 0.2) 100%);
     border-radius: 2rem;
     width: 100%;
+    max-width: 100rem;
     
     .button-submit {
         color: #FFFFFF;
@@ -25,6 +26,10 @@ export const FormContainer = styled.div`
         background: #33DDA7;
         padding: 1.75rem 5rem;
         margin: 0 0 1rem 0;
+    }
+
+    input::placeholder {
+        color: #FFFFFF;
     }
 `
 
@@ -86,81 +91,11 @@ export const ToggleWrapper = styled.div`
       }
 `
 
-export const FormContent = styled.form`
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-    width: 100%;
-`
-
-export const InputLabelContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    padding: 1rem 4.18rem 4.81rem 4.18rem;
-
-    label, input {
-        margin-top: 0.875rem;
-    }
-
-    input {
-        padding-left: .55rem;
-        outline: none;
-    }
-`
-
-export const MidiaContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    padding: 1rem 4.18rem 4.81rem 2rem;
-
-    label {
-        margin-top: 0.875rem;
-    }
-`
-
-export const SocialContainer = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 2.2rem;
-    row-gap: 1rem;
-
-    justify-items: center;
-    align-items: center;
-
-    .social-item {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: 0.5rem;
-
-        input{
-            padding-left: .55rem;
-        }
-    }
-    
-`
-
-export const CategoryContainer = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-
-    .category-item {
-        display: flex;
-        align-items: center;
-        font-weight: 400;
-        font-family: 'Roboto', sans-serif;
-        color: #FFFFFF;
-    }
-`
-
 export const ImageContainer = styled.div`
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     width: 90%;
-    padding: .2rem 4rem 4rem 4rem;
+    padding: 0 4rem 0 4rem;
     
 `
