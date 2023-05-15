@@ -99,33 +99,62 @@ export function Profile() {
     }
 
     function handleDadosAddress() {
-        const data: IAddressId = {
-            id: formAddress.id,
-            zip_code: formAddress.zip_code,
-            street: formAddress.street,
-            number: formAddress.number,
-            neighborhood: formAddress.neighborhood,
-            city: formAddress.city,
-            contry: formAddress.contry,
-        }
 
-        api.put(`address/${formAddress.id}`, data)
-        .then(response => {
-            alert('Endereço atualizado com sucesso');
-            history.goBack();
-        })
-        .catch(error => {
-            alert('Tente Novamente');
-            console.error('PUT failed:', error);
-        });
+        if (formAddress && formAddress.id) {
+            const data = {
+                id: formAddress.id,
+                zip_code: formAddress.zip_code,
+                street: formAddress.street,
+                number: formAddress.number,
+                neighborhood: formAddress.neighborhood,
+                city: formAddress.city,
+                contry: formAddress.contry,
+                user: userId
+            }
+
+            api.put(`address/${formAddress.id}`, data)
+                .then(response => {
+                    alert('Endereço atualizado com sucesso');
+                    history.goBack();
+                })
+                .catch(error => {
+                    alert('Tente Novamente');
+                    console.error('PUT failed:', error);
+                });
+        }else{
+
+            console.log(formAddress)
+            const data = {
+                
+                zip_code: formAddress.zip_code,
+                street: formAddress.street,
+                number: formAddress.number,
+                neighborhood: formAddress.neighborhood,
+                city: formAddress.city,
+                contry: formAddress.contry,
+                lat: "",
+                long: "",
+                user: userId
+            }
+
+            api.post(`address`, data)
+                .then(response => {
+                    alert('Endereço cadastrado com sucesso');
+                    history.goBack();
+                })
+                .catch(error => {
+                    alert('Tente Novamente');
+                    console.error('PUT failed:', error);
+                });
+        }
     }
 
     return (
         <>
             <Header />
             <Container>
-            <PostAuthorAvatar src={formUser.profile_image ? formUser.profile_image : 'https://picsum.photos/50'} alt="foto" />
-            <PostAuthorName style={{color: "#FFF"}}>{formUser.name}</PostAuthorName>
+                <PostAuthorAvatar src={formUser.profile_image ? formUser.profile_image : 'https://picsum.photos/50'} alt="foto" />
+                <PostAuthorName style={{ color: "#FFF" }}>{formUser.name}</PostAuthorName>
                 <H1>Editar Usuario</H1>
                 <DadosContainer>
                     <Dados>
@@ -288,7 +317,7 @@ export function Profile() {
                                 placeholder="Não informado"
                                 id='zip_code'
                                 onChange={handleChangeAddress}
-                                value={formAddress.zip_code}
+                                value={formAddress != null ? formAddress.zip_code : ""}
                                 style={{
                                     outline: 0,
                                     color: '#fff',
@@ -308,7 +337,7 @@ export function Profile() {
                                 placeholder="Não informado"
                                 id='neighborhood'
                                 onChange={handleChangeAddress}
-                                value={formAddress.neighborhood}
+                                value={formAddress != null ? formAddress.neighborhood : ""}
                                 style={{
                                     outline: 0,
                                     color: '#fff',
@@ -331,7 +360,7 @@ export function Profile() {
                                 placeholder="Não informado"
                                 id='number'
                                 onChange={handleChangeAddress}
-                                value={formAddress.number}
+                                value={formAddress != null ? formAddress.number : ""}
                                 style={{
                                     outline: 0,
                                     color: '#fff',
@@ -351,7 +380,7 @@ export function Profile() {
                                 placeholder="Não informado"
                                 id='city'
                                 onChange={handleChangeAddress}
-                                value={formAddress.city}
+                                value={formAddress != null ? formAddress.city : ""}
                                 style={{
                                     outline: 0,
                                     color: '#fff',
@@ -373,7 +402,7 @@ export function Profile() {
                                 placeholder="Não informado"
                                 id='street'
                                 onChange={handleChangeAddress}
-                                value={formAddress.street}
+                                value={formAddress != null ? formAddress.street : ""}
                                 style={{
                                     outline: 0,
                                     color: '#fff',
@@ -391,9 +420,9 @@ export function Profile() {
                             <Input
                                 label="País"
                                 placeholder="Não informado"
-                                id='country'
+                                id='contry'
                                 onChange={handleChangeAddress}
-                                value={formAddress.contry}
+                                value={formAddress != null ? formAddress.contry : ""}
                                 style={{
                                     outline: 0,
                                     color: '#fff',
@@ -410,7 +439,7 @@ export function Profile() {
                                 }} />
                         </Column>
                     </Form>
-                    <Button onClick={handleDadosAddress} style={{ margin: '0 auto', backgroundColor: '' }}>Atualizar</Button>
+                    <Button onClick={handleDadosAddress} style={{ margin: '0 auto', backgroundColor: '' }}> {formAddress && formAddress.id != null ? "Atualizar" : "Inserir"}</Button>
                 </DadosContainer>
             </Container>
             <Footer />
