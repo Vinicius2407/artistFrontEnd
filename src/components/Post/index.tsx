@@ -35,7 +35,7 @@ const Post: React.FC<Props> = ({ post }) => {
                 <PostHeader>
                     <PostAuthorAvatar src={post.user.profile_image ? post.user.profile_image : 'https://picsum.photos/50'} alt="foto" />
                     <PostAuthorInfo>
-                        <PostAuthorName><Link target="_blank" to={`/portifolio/${post.user.id}`}> {post.user.name} </Link> </PostAuthorName>
+                        <PostAuthorName><Link to={`/portifolio/${post.user.id}`}> {post.user.name} </Link> </PostAuthorName>
                         <PostAuthorCategories>
                             {post.user.user_type == 'artist' && post.user.categories.map(cat => (
                                 <PostAuthorCat key={cat.categoryId}>{cat.category.name}</PostAuthorCat>
@@ -47,7 +47,7 @@ const Post: React.FC<Props> = ({ post }) => {
                     </PostAuthorInfo>
                     {user_id == post.user.id &&
                         <>
-                            <Link target="_blank" to={`/post/${post.id}`}>
+                            <Link to={`/post/${post.id}`}>
                                 <EditButton title="Editar Post">
                                     <Pencil />
                                 </EditButton>
@@ -75,7 +75,7 @@ const Post: React.FC<Props> = ({ post }) => {
                                     </h3>
                                 </Address>
                             </EventAddress>
-                            <Link target="_blank" to={`/evento/${post.event.id}`}>
+                            <Link to={`/evento/${post.event.id}`}>
                                 <EditButton title="Editar Evento">
                                     <Pencil />
                                 </EditButton>

@@ -5,10 +5,11 @@ type FileListProps = {
 };
 
 const FileList: React.FC<FileListProps> = ({ files }) => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
+    <div  style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
         {files.map((file, index) => (
             <div
                 style={{
+
                     display: 'flex', borderRadius: '2px',
                     font: 'nunito', background: '#e5e5e5',
 

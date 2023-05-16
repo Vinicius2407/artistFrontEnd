@@ -6,10 +6,16 @@ import { api } from "../../services/api.service";
 import { Input } from "../../components/Input";
 import { pxToRem } from "../../utils/convertToRem.util";
 import { Button } from "../../components/Button";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 import { IPost } from "../../interfaces/IPost";
 import { Text } from "../../components/Text";
 import FileList from "../../components/FileList"
+import { CaretDown } from "@phosphor-icons/react";
+import events from "events";
+import { DivShowForm, NewPost, SelectContainer } from "../../components/Feed/styles";
+import { IEvent } from "../../interfaces/IEvent";
+import Gallery from "../../components/Gallery";
+import { IMedia } from "../../interfaces/IMedia";
 
 interface MatchParams {
     id: string;
@@ -18,52 +24,88 @@ interface MatchParams {
 interface Props extends RouteComponentProps<MatchParams> {
 }
 
+interface response {
+    medias: File[];
+}
+
 export function Post(props: Props) {
 
     const id = props.match.params.id;
 
     const [formPost, setFormPost] = useState<IPost>({} as IPost);
+    const [events, setEvents] = useState<IEvent[]>([]);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+    const [selectedEventId, setSelectedEventId] = useState<string>();
+
+    const history = useHistory();
 
     const user_type = localStorage.getItem('user_type');
     const user_id = localStorage.getItem('user_id');
 
     const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB em bytes
 
-    async function handleData() {
-        const us = await api.get(`post/${id}`);
-        setFormPost(us.data);
+    const userId = localStorage.getItem("user_id")
+
+
+    async function handleList() {
+        const postss = await api.get("post/" + id);
+        setFormPost(postss.data);
+
+        if (user_type == 'organizer') {
+            handleListEvents();
+        }
+
+        const response: response = postss.data;
+
+        setSelectedFiles(response.medias)
+
+        if (formPost.event) {
+            setSelectedEventId(formPost.event.id)
+        }
+
     }
 
-    useEffect(() => {
-        handleData();
-    }, []);
-
-
-    //Pega o posto aqui e faz os esquema
-    function handleChange(post: ChangeEvent<HTMLInputElement>) {
-        const { id, value } = post.target;
-        setFormPost(prevFields => ({
-            ...prevFields,
-            [id]: value
-        }));
-
+    async function handleListEvents() {
+        const evts = await api.get(`events/${user_id}`);
+        setEvents(evts.data);
     }
 
-    function handleDadosPost() {
+    function handleExcludeFiles() {
+        setSelectedFiles([])
+    }
 
-        const data = {
-            description: formPost.description,
-        };
+    function handleSubmit() {
+        if (!formPost.description) {
+            const missingFields = [];
 
-        api.put(`post/${id}`, data)
-            .then(response => {
-                alert('Dados basicos atualizados com sucesso');
-            })
-            .catch(error => {
-                alert('Tente Novamente');
-                console.error('PUT failed:', error);
-            });
+            if (!formPost.description) missingFields.push("Descrição");
+
+            alert(`Um ou mais campos não preenchidos: ${missingFields.join(", ")}`);
+        }
+
+        const formData = new FormData();
+
+        selectedFiles.forEach((file) => {
+            formData.append("assets", file);
+        });
+
+        formData.append('description', formPost.description);
+        formData.append('user', user_id || '');
+        formData.append('event', selectedEventId || '');
+
+        if (formPost.event) {
+
+            formData.append('event', formPost.event.id)
+        }
+        api.put("post/" + id, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        }).then((response) => {
+            alert("Editado com sucesso!");
+            history.goBack();
+        }).catch((error) => (alert("Erro ao concluir o post"), console.error(error)));
+
     }
 
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,12 +116,24 @@ export function Post(props: Props) {
         setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...validFiles]);
     };
 
+    const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const eventId = event.target.value;
+        setSelectedEventId(eventId);
+    };
+
+
+    useEffect(() => {
+        handleList();
+    }, []);
+
+
     return (
         <>
             <Header />
             <Container>
                 <H1>Editar Post</H1>
                 <DadosContainer>
+
                     <Dados>
                         <EditPost>
                             <FormContainer>
@@ -92,7 +146,7 @@ export function Post(props: Props) {
                                         gridColumnEnd: 3
                                     }}>Descrição</Text>
 
-                                <Descr id="description" onChange={(event) => setFormPost({ ...formPost, description: event.target.value })} cols={100} rows={10} placeholder="Descreva sua publicação!" />
+                                <Descr id="descricao" value={formPost.description} onChange={(event) => setFormPost({ ...formPost, description: event.target.value })} cols={100} rows={10} placeholder="Descreva sua publicação!" />
 
                                 <Files>
                                     <div style={{ display: 'flex', padding: '10px', justifyContent: 'space-between' }}>
@@ -113,7 +167,24 @@ export function Post(props: Props) {
                                     <Input id="file-upload" multiple type="file" onChange={handleFileSelect} style={{
                                         display: "none",
                                     }} />
-                                    {selectedFiles.length > 0 && <FileList files={selectedFiles} />}
+                                    {selectedFiles.length > 0 && <FileList files={selectedFiles.length > 0 ? selectedFiles : []} />}
+                                    {selectedFiles.length == 0 &&
+                                        <>
+                                            <h3 style={{
+                                                fontFamily: "Nunito",
+                                                textAlign: "left",
+                                                marginLeft: '10px',
+                                                color: "#000"
+                                            }}>Nada por aqui.</h3>
+
+                                        </>}
+
+                                    <Button onClick={handleExcludeFiles} type="button"
+                                        style={{
+                                            width: '30px', height: '30px',
+                                            background: "#FF0000",
+                                            margin: "0 auto",
+                                        }}>X</Button>
                                 </Files>
 
                                 {user_type == 'organizer' &&
@@ -127,24 +198,43 @@ export function Post(props: Props) {
                                                     gridColumnStart: 1,
                                                     gridColumnEnd: 3
                                                 }}>Evento</Text>
-
-                                            <AddEvento>+ Adicionar Evento</AddEvento>
                                         </div>
                                         <Line />
-                                        
+                                        {events.length > 0 &&
+                                            <>
+                                                <SelectContainer>
+                                                    <Select id="event-select" value={selectedEventId} onChange={handleSelectChange} style={{ color: "#000000" }}>
+                                                        <option style={{ cursor: 'pointer', color: "#000000" }} value={undefined}>Selecione...</option>
+                                                        {events.map((event) => (
+                                                            <option style={{ cursor: 'pointer', color: "#000000" }} key={event.id} value={event.id}>
+                                                                {event.name}
+                                                            </option>
+                                                        ))}
+                                                    </Select>
+                                                </SelectContainer>
+                                            </>}
+                                        {events.length == 0 &&
+                                            <>
+                                                <h3 style={{
+                                                    fontFamily: "Nunito",
+                                                    textAlign: "left",
+                                                    marginLeft: '10px',
+                                                    color: "#000"
+                                                }}>Nada por aqui.</h3>
+                                            </>}
                                     </Event>
                                 }
-
+                                <Button onClick={handleSubmit}
+                                    type="submit"
+                                    style={{
+                                        background: "#50E3C2",
+                                        margin: "0 auto",
+                                        gridColumnStart: 1,
+                                        gridColumnEnd: 3,
+                                        marginTop: pxToRem(16),
+                                    }}>Publicar</Button>
                             </FormContainer>
-                            <Button onClick={handleDadosPost}
-                                type="submit"
-                                style={{
-                                    background: "#50E3C2",
-                                    margin: "0 auto",
-                                    gridColumnStart: 1,
-                                    gridColumnEnd: 3,
-                                    marginTop: pxToRem(16),
-                                }}>Atualizar</Button>
+
                         </EditPost>
                     </Dados>
                 </DadosContainer>
