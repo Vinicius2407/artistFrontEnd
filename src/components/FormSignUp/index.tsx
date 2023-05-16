@@ -125,7 +125,7 @@ export function Form() {
          return;
       } else {
          setFormError(false);
-         api.post("/users", data).then((response) => {
+         api.post("/user", data).then((response) => {
             alert("Usuário cadastrado com sucesso!");
             history.push("/sign-in");
          }).catch((error) => {
