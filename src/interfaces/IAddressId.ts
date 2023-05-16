@@ -5,5 +5,5 @@ export interface IAddressId {
     city: string;
     contry: string;
     zip_code: string;
-    id: string;
+    id?: string;
 }
