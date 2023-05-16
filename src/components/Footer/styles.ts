@@ -7,7 +7,7 @@ export const Container = styled.footer`
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 56px;
+    height: auto;
     width: 100%;
 
     .textFooter {
@@ -16,7 +16,6 @@ export const Container = styled.footer`
         font-weight: 400;
         color:#FFFFFF;  
     }
-
 
 `
 

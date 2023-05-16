@@ -8,7 +8,6 @@ import { api } from "../../services/api.service";
 import { pxToRem } from "../../utils/convertToRem.util";
 
 import { Input } from "../Input";
-import { Text } from "../Text";
 import { TextLabel } from "../TextLabel";
 
 import { Container, FormContainer, ImageContainer, ToggleWrapper } from "./styles";
@@ -17,8 +16,8 @@ import { IUser } from "../../interfaces/IUser";
 
 import { Form as FormDeFora, Column } from "../../pages/Evento/styles";
 import { DadosContainer } from "../../pages/Profile/styles";
-import { Files, ImportFiles, Line } from "../../pages/Post/styles";
-import FileList from "../FileList";
+import { Text } from "../Text";
+import { set } from "react-hook-form";
 
 
 export function Form() {
@@ -63,17 +62,17 @@ export function Form() {
          });
 
          Promise.all(filePromises)
-         .then((fileContents) => {
-            setFormUser((prevFormUser) => {
-               return {
-                  ...prevFormUser,
-                  profile_image: fileContents[0],
-               }
+            .then((fileContents) => {
+               setFormUser((prevFormUser) => {
+                  return {
+                     ...prevFormUser,
+                     profile_image: fileContents[0],
+                  }
+               });
+            })
+            .catch((error) => {
+               console.error(error);
             });
-         })
-         .catch((error) => {
-            console.error(error);
-         });
 
          return updateFiles;
       });
@@ -87,12 +86,27 @@ export function Form() {
       password: "",
    } as IUser);
 
+   const [formError, setFormError] = useState(false);
+
    function handleChangeUser(event: React.ChangeEvent<HTMLInputElement>) {
       const { id, value } = event.target;
-      setFormUser({ ...formUser, [id]: value });
+      if (value.trim() === '') {
+         setFormError(true);
+         setFormUser({ ...formUser, [id]: "" });
+      } else {
+         setFormError(false);
+         setFormUser({ ...formUser, [id]: value });
+      }
    }
 
-   function handleSubmmitUser() {
+   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+      if (event.key === "Enter" || event.key === "NumpadEnter" || event.keyCode === 13) {
+         event.preventDefault();
+         handleSubmitUser();
+      }
+   }
+
+   function handleSubmitUser() {
       const data = {
          name: formUser.name,
          username: formUser.username,
@@ -100,17 +114,18 @@ export function Form() {
          user_type: user_type,
          document: formUser.document,
          email: formUser.email,
-         profile_image: selectedFiles[0],
+         // profile_image: selectedFiles[0],
          cel_phone: formUser.cel_phone,
          status: formUser.status,
          addressId: formUser.addressId,
       }
 
-      if (!data.name || !data.username || !data.email || !data.password || !data.user_type || !data.profile_image) {
-         alert("Preencha todos os campos!");
+      if (!data.name || !data.username || !data.email || !data.password || !data.user_type) {
+         setFormError(true);
          return;
       } else {
-         api.post("/users", data).then((response) => {
+         setFormError(false);
+         api.post("/user", data).then((response) => {
             alert("Usuário cadastrado com sucesso!");
             history.push("/sign-in");
          }).catch((error) => {
@@ -126,7 +141,7 @@ export function Form() {
    return (
       <>
          <Container>
-            <FormContainer>
+            <FormContainer >
 
                <ToggleWrapper>
                   <div className="description">
@@ -144,7 +159,7 @@ export function Form() {
                   {isOrganizer === "organizer" ? " de Organizador" : " de Artista"}
                </TextLabel>
 
-               <DadosContainer style={{ paddingBottom: "0" }}>
+               <DadosContainer onKeyDown={handleKeyDown} style={{ paddingBottom: "0" }}>
                   <FormDeFora>
                      <Column spanAll>
                         <Input
@@ -237,7 +252,7 @@ export function Form() {
                            }}
                         />
                      </Column>
-                     <Files>
+                     {/* <Files>
                         <div style={{ display: 'flex', padding: '10px', justifyContent: 'space-between' }}>
                            <Text color="#000000"
                               fontSize={pxToRem(16)}
@@ -257,9 +272,12 @@ export function Form() {
                            display: "none",
                         }} />
                         {selectedFiles.length > 0 && <FileList files={selectedFiles} />}
-                     </Files>
+                     </Files> */}
                      <span></span>
-                     <Button style={{ margin: "auto auto" }} className="button-submit" type="submit" onClick={handleSubmmitUser}>Enviar Cadastro</Button>
+                     <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: "1rem" }}>
+                        {formError && <Text fontSize="1rem" color="#FF0000" textAlign="center">Preencha todos os campos </Text>}
+                        <Button style={{ margin: "auto auto" }} className="button-submit" type="button" onClick={handleSubmitUser}>Enviar Cadastro</Button>
+                     </div>
                   </FormDeFora>
                </DadosContainer>
 
