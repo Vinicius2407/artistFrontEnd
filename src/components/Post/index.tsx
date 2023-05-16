@@ -59,7 +59,7 @@ const Post: React.FC<Props> = ({ post }) => {
                 <Gallery medias={post.medias} />
                 {post.event &&
                     <>
-                        <PostEventContainer>                            
+                        <PostEventContainer>
                             <EventInfo>
                                 <MyInput id="evento" label="Evento" value={post.event.name} />
                                 <MyInput id="budget" label="Orçamento" value={post.event.budget} />
@@ -75,11 +75,12 @@ const Post: React.FC<Props> = ({ post }) => {
                                     </h3>
                                 </Address>
                             </EventAddress>
-                            <Link to={`/evento/${post.event.id}`}>
+                            {post.event && user_id == post.user.id && <Link to={`/evento/${post.event.id}`}>
                                 <EditButton title="Editar Evento">
                                     <Pencil />
                                 </EditButton>
                             </Link>
+                            }
                         </PostEventContainer>
                         {
                             user_type == 'artist' &&

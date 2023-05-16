@@ -59,6 +59,8 @@ export function Post(props: Props) {
 
         setSelectedFiles(response.medias)
 
+        
+
         if (formPost.event) {
             setSelectedEventId(formPost.event.id)
         }
@@ -89,14 +91,22 @@ export function Post(props: Props) {
             formData.append("assets", file);
         });
 
+        var alterou_medias = false;
+
+        if(formPost.medias != selectedFiles){
+            alterou_medias = true;
+        } 
+
         formData.append('description', formPost.description);
         formData.append('user', user_id || '');
         formData.append('event', selectedEventId || '');
+        formData.append('alterou_medias', alterou_medias.toString());
 
         if (formPost.event) {
-
             formData.append('event', formPost.event.id)
         }
+
+       
         api.put("post/" + id, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
@@ -110,9 +120,18 @@ export function Post(props: Props) {
 
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(event.target.files || []);
-        const validFiles = files.filter(
-            (file) => file.size <= MAX_FILE_SIZE && (file.type.startsWith("image/") || file.type.startsWith("video/"))
-        );
+        const validFiles = files.filter((file) => {
+            const isImage = file.type.startsWith("image/");
+            const isVideo = file.type.startsWith("video/");
+            const isMp4 = file.name.toLowerCase().endsWith(".mp4");
+            const isSmallEnough = file.size <= MAX_FILE_SIZE;
+            if (!isImage && !isVideo) {
+                alert("Por favor, selecione apenas arquivos de imagem ou vídeo.");
+            } else if (isVideo && !isMp4) {
+                alert("Por favor, selecione apenas arquivos de vídeo no formato .mp4.");
+            }
+            return (isImage || (isVideo && isMp4)) && isSmallEnough;
+        });
         setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, ...validFiles]);
     };
 
@@ -126,6 +145,7 @@ export function Post(props: Props) {
         handleList();
     }, []);
 
+    console.log(selectedFiles)
 
     return (
         <>
@@ -232,7 +252,7 @@ export function Post(props: Props) {
                                         gridColumnStart: 1,
                                         gridColumnEnd: 3,
                                         marginTop: pxToRem(16),
-                                    }}>Publicar</Button>
+                                    }}>Editar</Button>
                             </FormContainer>
 
                         </EditPost>

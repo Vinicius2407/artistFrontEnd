@@ -84,6 +84,7 @@ const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
     };
 
     console.log(data);
+    
     api.post(`event`, data)
       .then(response => {
         alert('Cadastro realizado com sucesso!');
