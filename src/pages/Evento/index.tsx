@@ -6,7 +6,7 @@ import { api } from "../../services/api.service";
 import { Input } from "../../components/Input";
 import { pxToRem } from "../../utils/convertToRem.util";
 import { Button } from "../../components/Button";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 import { IEvent } from "../../interfaces/IEvent";
 import { ICategory } from "../../interfaces/ICategory";
 import { Text } from "../../components/Text";
@@ -35,6 +35,8 @@ export function Evento(props: Props) {
     const [selectedCategories, setSelectedCategories] = useState<ICategory[]>([]);
 
     const user_id = localStorage.getItem('user_id');
+
+    const history = useHistory();
 
     useEffect(() => {
         handleData();
@@ -111,6 +113,7 @@ export function Evento(props: Props) {
         api.put(`event/${id}`, data)
             .then(response => {
                 alert('Evento atualizado com sucesso!');
+                history.goBack();
             })
             .catch(error => {
                 alert('Tente Novamente');
