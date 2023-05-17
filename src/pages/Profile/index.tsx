@@ -203,6 +203,8 @@ export function Profile() {
          <Container>
             <PostAuthorAvatar src={formUser.profile_image ? formUser.profile_image : 'https://picsum.photos/50'} alt="foto" />
             <PostAuthorName style={{ color: "#FFF" }}>{formUser.name}</PostAuthorName>
+
+            {/* Parte dos dados do usuario */}
             <H1>Editar Usuario</H1>
             <DadosContainer>
                <Dados>
@@ -266,6 +268,7 @@ export function Profile() {
                <Button className="buttonHandle" onClick={handleDadosUser} style={{ margin: '0 auto' }}>Atualizar</Button>
             </DadosContainer>
 
+            {/* Parte dos endereços */}
             <H1 style={{ marginTop: "2rem" }}>Editar Endereço</H1>
             <DadosContainer>
                <Form>
@@ -322,6 +325,7 @@ export function Profile() {
                <Button className="buttonHandle" onClick={handleDadosAddress} style={{ margin: '0 auto' }}> {formAddress && formAddress.id != null ? "Atualizar" : "Inserir"}</Button>
             </DadosContainer>
 
+            {/* Parte das categorias */}
             <H1 style={{ marginTop: "2rem" }}>Categorias</H1>
             <DadosContainer>
                <Form>
@@ -343,6 +347,7 @@ export function Profile() {
                </Form>
                <Button className="buttonHandle" onClick={handleDadosCategories} style={{ margin: '0 auto' }}> {formAddress && formAddress.id != null ? "Atualizar" : "Inserir"}</Button>
             </DadosContainer>
+
          </Container>
          <Footer />
       </>
