@@ -96,7 +96,8 @@ function Feed({ route, userId }: FeedProps) {
             setFormPost({} as IPost);
             setShowForm(false);
             setSelectedFiles([]);
-            setAttPosts(true);
+            setSelectedEventId("");
+            setAttPosts(!attPosts);
         }).catch((error) => (alert("Erro ao concluir o post"), console.error(error)));
 
     }
