@@ -15,21 +15,28 @@ import { PostAuthorAvatar, PostAuthorName } from "../../components/Post/styles";
 import { ICategory } from "../../interfaces/ICategory";
 import { ICategories } from "../../interfaces/ICategories";
 
-interface response {
-   category: ICategories[];
+interface social {
+   id: string;
+   name: string;
 }
 
 export function Profile() {
 
    const [formUser, setFormUser] = useState<IUser>({} as IUser)
+
    const [formAddress, setFormAddress] = useState<IAddressId>({} as IAddressId);
+
    const [categories, setCategories] = useState<ICategory[]>([]);
    const [selectedCategories, setSelectedCategories] = useState<ICategory[]>([]);
+
+   const [social, setSocial] = useState<social[]>([] as social[]);
+   const [userSocial, setUserSocial] = useState<social[]>([] as social[]);
 
    const userId = localStorage.getItem(`user_id`);
 
    // const history = useHistory();
 
+   // Pegando os dados do usuario
    async function handleData() {
       const us = await api.get(`user/${userId}`);
       setFormUser(us.data);
@@ -38,9 +45,17 @@ export function Profile() {
       const cat = await api.get("/categories");
       setCategories(cat.data);
 
+      const soc = await api.get("/social");
+      setSocial(soc.data);
+
       if (us.data.categories != undefined || us.data.categories != null) {
          const categoryArray: ICategory[] = us.data.categories.map((categoryObj: { category: any; }) => categoryObj.category);
          setSelectedCategories(categoryArray);
+      }
+
+      if (us.data.social != undefined || us.data.social != null) {
+         const socialArray: ICategory[] = us.data.social.map((socialObj: { social: any; }) => socialObj.social);
+         setUserSocial(socialArray);
       }
    }
 
@@ -106,6 +121,7 @@ export function Profile() {
       }
    }
 
+   // Verifica se a categoria esta na lista
    function categoriaEstaNaLista(idCategoria: string): boolean {
       return selectedCategories.some((categoria: ICategory) => categoria.id === idCategoria);
    }
@@ -133,6 +149,7 @@ export function Profile() {
          });
    }
 
+   // Atualizando dados do endereço
    function handleDadosAddress() {
 
       if (formAddress && formAddress.id) {
@@ -180,6 +197,7 @@ export function Profile() {
       }
    }
 
+   // Atualizando categorias
    function handleDadosCategories() {
       const categories = selectedCategories.length ? selectedCategories.map(categoria => categoria.id) : [];
 
@@ -196,6 +214,8 @@ export function Profile() {
             console.error('PUT failed:', error);
          });
    }
+
+   // Atualizando dados do usuario
 
    return (
       <>
@@ -322,11 +342,11 @@ export function Profile() {
                         className="input" />
                   </Column>
                </Form>
-               <Button className="buttonHandle" onClick={handleDadosAddress} style={{ margin: '0 auto' }}> {formAddress && formAddress.id != null ? "Atualizar" : "Inserir"}</Button>
+               <Button className="buttonHandle" onClick={handleDadosAddress} style={{ margin: '0 auto' }}>Atualizar</Button>
             </DadosContainer>
 
             {/* Parte das categorias */}
-            <H1 style={{ marginTop: "2rem" }}>Categorias</H1>
+            <H1 style={{ marginTop: "2rem" }}>Editar Categorias</H1>
             <DadosContainer>
                <Form>
                   <Column spanAll>
@@ -345,7 +365,32 @@ export function Profile() {
                      </Categorias>
                   </Column>
                </Form>
-               <Button className="buttonHandle" onClick={handleDadosCategories} style={{ margin: '0 auto' }}> {formAddress && formAddress.id != null ? "Atualizar" : "Inserir"}</Button>
+               <Button className="buttonHandle" onClick={handleDadosCategories} style={{ margin: '0 auto' }}>Atualizar</Button>
+            </DadosContainer>
+
+            {/* Parte para add as redes sociais */}
+            <H1 style={{ marginTop: "2rem" }}>Editar Redes Sociais</H1>
+            <DadosContainer>
+               <Form>
+                  {social.map((social) => {
+                     return (
+                        <Column spanAll>
+                           <Input
+                              key={social.id}
+                              label={social.name}
+                              placeholder="Não informado"
+                              id={social.id}
+                              style={{ width: "98%" }}
+                              // onChange={handleChangeSocial}
+                              className="input" />
+                        </Column>
+                     );
+                  })}
+               </Form>
+               <Button 
+                  className="buttonHandle" 
+                  // onClick={handleDadosSocial} 
+                  style={{ margin: '0 auto' }}>Atualizar</Button>
             </DadosContainer>
 
          </Container>
