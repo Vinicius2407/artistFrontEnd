@@ -1,8 +1,8 @@
 import { Label } from "./styles";
 
 interface InputProps extends React.HTMLAttributes<HTMLInputElement> {
-   type?: string;
-   value?: string;
+   type?: string | undefined;
+   value?: string | undefined;
    label?: string;
    multiple?: boolean;
    accept?: string;
@@ -12,7 +12,7 @@ export function Input({ type, value, children, label, multiple, accept, ...props
    return (
       <>
          {label && <Label>{label}</Label> }         
-         <input type={type || "text"}  className="inputForm" value={value } multiple={multiple || false} accept={accept} {...props} />
+         <input type={type || "text"}  className="inputForm" value={value || undefined } multiple={multiple || false} accept={accept} {...props} />
       </>
    )
 }
