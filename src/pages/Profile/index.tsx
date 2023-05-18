@@ -77,13 +77,7 @@ export function Profile() {
    async function handleChangeAddress(event: ChangeEvent<HTMLInputElement>) {
       const { id, value } = event.target;
       if (id == 'zip_code') {
-         if (value.length < 8) {
-            setFormAddress(prevFields => ({
-               ...prevFields,
-               [id]: value
-            }));
-            return;
-         } else {
+         if (value.length == 9) {
             const cep = await consultarCEP(value);
             if (cep == undefined) {
                alert('CEP não encontrado');
@@ -97,6 +91,12 @@ export function Profile() {
                   city: cep.localidade,
                }));
             }
+         } else {
+            setFormAddress(prevFields => ({
+               ...prevFields,
+               [id]: value
+            }));
+            return;
          }
       } else {
          setFormAddress(prevFields => ({
@@ -369,7 +369,7 @@ export function Profile() {
             </DadosContainer>
 
             {/* Parte para add as redes sociais */}
-            <H1 style={{ marginTop: "2rem" }}>Editar Redes Sociais</H1>
+            {/* <H1 style={{ marginTop: "2rem" }}>Editar Redes Sociais</H1>
             <DadosContainer>
                <Form>
                   {social.map((social) => {
@@ -387,11 +387,11 @@ export function Profile() {
                      );
                   })}
                </Form>
-               <Button 
-                  className="buttonHandle" 
+               <Button
+                  className="buttonHandle"
                   // onClick={handleDadosSocial} 
                   style={{ margin: '0 auto' }}>Atualizar</Button>
-            </DadosContainer>
+            </DadosContainer> */}
 
          </Container>
          <Footer />

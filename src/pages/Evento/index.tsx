@@ -12,6 +12,7 @@ import { ICategory } from "../../interfaces/ICategory";
 import { Text } from "../../components/Text";
 import { ICategories } from "../../interfaces/ICategories";
 import { IAddressId } from "../../interfaces/IAddressId";
+import { consultarCEP } from "../../services/viacep.service";
 
 interface MatchParams {
     id: string;
@@ -67,12 +68,36 @@ export function Evento(props: Props) {
         }));
     }
 
-    function handleChangeAddress(event: ChangeEvent<HTMLInputElement>) {
+    async function handleChangeAddress(event: ChangeEvent<HTMLInputElement>) {
         const { id, value } = event.target;
-        setFormAddress(prevFields => ({
-            ...prevFields,
-            [id]: value
-        }));
+        if (id == 'zip_code') {
+            if (value.length == 9) {
+                const cep = await consultarCEP(value);
+                if (cep == undefined) {
+                    alert('CEP não encontrado');
+                    return;
+                } else {
+                    setFormAddress(prevFields => ({
+                        ...prevFields,
+                        zip_code: cep.cep,
+                        street: cep.logradouro,
+                        neighborhood: cep.bairro,
+                        city: cep.localidade,
+                    }));
+                }
+            } else {
+                setFormAddress(prevFields => ({
+                    ...prevFields,
+                    [id]: value
+                }));
+                return;
+            }
+        } else {
+            setFormAddress(prevFields => ({
+                ...prevFields,
+                [id]: value
+            }));
+        }
     }
 
     function handleChangeCategorie(event: React.MouseEvent<HTMLDivElement>) {
@@ -399,7 +424,7 @@ export function Evento(props: Props) {
                                     label="CEP"
                                     id='zip_code'
                                     onChange={handleChangeAddress}
-                                    value={formAddress.zip_code}
+                                    value={formAddress != null ? formAddress.zip_code : ''}
                                     style={{
                                         outline: 0,
                                         color: '#fff',

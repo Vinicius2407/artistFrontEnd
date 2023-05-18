@@ -7,6 +7,7 @@ import { IEvent } from '../../interfaces/IEvent';
 import { ICategory } from '../../interfaces/ICategory';
 import { api } from '../../services/api.service';
 import { IAddressId } from '../../interfaces/IAddressId';
+import { consultarCEP } from '../../services/viacep.service';
 
 interface ModalProps {
   open: boolean;
@@ -41,12 +42,36 @@ const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
     }));
   }
 
-  function handleChangeAddress(event: ChangeEvent<HTMLInputElement>) {
+  async function handleChangeAddress(event: ChangeEvent<HTMLInputElement>) {
     const { id, value } = event.target;
-    setFormAddress(prevFields => ({
-      ...prevFields,
-      [id]: value
-    }));
+    if (id == 'zip_code') {
+      if (value.length == 9) {
+        const cep = await consultarCEP(value);
+        if (cep == undefined) {
+          alert('CEP não encontrado');
+          return;
+        } else {
+          setFormAddress(prevFields => ({
+            ...prevFields,
+            zip_code: cep.cep,
+            street: cep.logradouro,
+            neighborhood: cep.bairro,
+            city: cep.localidade,
+          }));
+        }
+      } else {
+        setFormAddress(prevFields => ({
+          ...prevFields,
+          [id]: value
+        }));
+        return;
+      }
+    } else {
+      setFormAddress(prevFields => ({
+        ...prevFields,
+        [id]: value
+      }));
+    }
   }
 
   function handleChangeCategorie(event: React.MouseEvent<HTMLDivElement>) {
@@ -84,7 +109,7 @@ const Modal: React.FC<ModalProps> = ({ open, onClose, children }) => {
     };
 
     console.log(data);
-    
+
     api.post(`event`, data)
       .then(response => {
         alert('Cadastro realizado com sucesso!');
