@@ -184,7 +184,7 @@ export function Evento(props: Props) {
                                 style={{
                                     outline: 0,
                                     color: '#fff',
-                                    width: '100%',
+                                    width: '96.8%',
                                     height: pxToRem(32),
                                     borderRadius: pxToRem(8),
                                     background: '#9500F6',

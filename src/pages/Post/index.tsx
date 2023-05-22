@@ -35,7 +35,7 @@ export function Post(props: Props) {
     const [formPost, setFormPost] = useState<IPost>({} as IPost);
     const [events, setEvents] = useState<IEvent[]>([]);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-    const [selectedEventId, setSelectedEventId] = useState<string>();
+    const [selectedEventId, setSelectedEventId] = useState<string>("");
 
     const history = useHistory();
 
@@ -59,7 +59,7 @@ export function Post(props: Props) {
 
         setSelectedFiles(response.medias)
 
-        
+
 
         if (formPost.event) {
             setSelectedEventId(formPost.event.id)
@@ -93,20 +93,28 @@ export function Post(props: Props) {
 
         var alterou_medias = false;
 
-        if(formPost.medias != selectedFiles){
+        if (formPost.medias != selectedFiles) {
             alterou_medias = true;
-        } 
+        }
 
         formData.append('description', formPost.description);
         formData.append('user', user_id || '');
-        formData.append('event', selectedEventId || '');
         formData.append('alterou_medias', alterou_medias.toString());
 
         if (formPost.event) {
-            formData.append('event', formPost.event.id)
+            const event_id = formPost.event.id;
+            if (selectedEventId && selectedEventId !== event_id) {
+                // O id do evento selecionado é diferente do id do evento em formPost.event
+                formData.append('event', selectedEventId);
+            } else {
+                // O id do evento selecionado é o mesmo do id do evento em formPost.event
+                formData.append('event', event_id);
+            }
+        } else {
+            formData.append('event', selectedEventId || '');
         }
 
-       
+
         api.put("post/" + id, formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
@@ -144,8 +152,6 @@ export function Post(props: Props) {
     useEffect(() => {
         handleList();
     }, []);
-
-    console.log(selectedFiles)
 
     return (
         <>
@@ -224,11 +230,8 @@ export function Post(props: Props) {
                                             <>
                                                 <SelectContainer>
                                                     <Select id="event-select" value={selectedEventId} onChange={handleSelectChange} style={{ color: "#000000" }}>
-                                                        <option style={{ cursor: 'pointer', color: "#000000" }} value={undefined}>Selecione...</option>
                                                         {events.map((event) => (
-                                                            <option style={{ cursor: 'pointer', color: "#000000" }} key={event.id} value={event.id}>
-                                                                {event.name}
-                                                            </option>
+                                                            selectedEventId == event.id ? <option style={{ cursor: 'pointer', color: "#000000" }} value={event.id} selected>{event.name}</option> : <option style={{ cursor: 'pointer', color: "#000000" }} value={event.id}>{event.name}</option>
                                                         ))}
                                                     </Select>
                                                 </SelectContainer>
