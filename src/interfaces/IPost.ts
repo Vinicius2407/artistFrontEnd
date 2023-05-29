@@ -1,12 +1,12 @@
 import { IAddressId } from "./IAddressId";
 import { ICategories } from "./ICategories";
 import { ICategoriesEvent } from "./ICategoriesEvent";
-import { ICategory } from "./ICategory";
 
 export interface IPost {
     description: string;
     id: string;
     dh_create: Date;
+    dh_edit: Date;
     medias: [];
     user: {
         id:string;

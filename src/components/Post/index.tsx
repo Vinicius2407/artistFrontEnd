@@ -1,7 +1,6 @@
 
 import { IPost } from "../../interfaces/IPost";
-import Carousel from "../Carousel";
-import { PostAuthorAvatar, PostAuthorName, PostContainer, PostContent, PostHeader, PostAuthorInfo, PostAuthorCat, PostAuthorCategories, PostEventContainer, Label, EventInfo, EventAddress, Input, EditButton, Address, Span } from "./styles";
+import { PostAuthorAvatar, PostAuthorName, PostContainer, PostContent, PostHeader, PostAuthorInfo, PostAuthorCat, PostAuthorCategories, PostEventContainer, Label, EventInfo, EventAddress, Input, EditButton, Address, Span, PostFooter } from "./styles";
 import { Button } from "../Button";
 import { Link } from "react-router-dom";
 import { Pencil, MapPin } from "@phosphor-icons/react";
@@ -80,6 +79,14 @@ const Post: React.FC<Props> = ({ post }) => {
                         }
                     </>
                 }
+                <PostFooter>
+                    <p style={{color: '#000', marginRight: '10px'}}>
+                        {`Criado em: ${obterData(post.dh_create)}`}
+                    </p>
+                    <p style={{color: '#000'}}>
+                        {post.dh_edit && `Editado em: ${obterData(post.dh_edit)}`}
+                    </p>
+                </PostFooter>
             </PostContainer>
         </>
     );
@@ -114,6 +121,15 @@ function formatDateString(dateString: string): string {
     return 'Não informado.'
 }
 
+function obterData(dataIso: Date): string {
+    const dataObj = new Date(dataIso);
+    const dia = String(dataObj.getUTCDate()).padStart(2, '0');
+    const mes = String(dataObj.getUTCMonth() + 1).padStart(2, '0');
+    const ano = String(dataObj.getUTCFullYear());
+    const dataFormatada = `${dia}/${mes}/${ano}`;
+    return dataFormatada;
+}
+
 function Star({ selected, onSelect, title, post, userId, userType }: any) {
     return (
         <>
@@ -126,8 +142,8 @@ function Star({ selected, onSelect, title, post, userId, userType }: any) {
 function Rating({ postUserId, ratingUser, userId, post, userType }: any) {
     const [rating, setRating] = useState(!ratingUser ? 0 : ratingUser); // Valor inicial da avaliação
     const [ratingHover, setRatingHover] = useState(0); // Valor da avaliação ao passar o mouse
-    
-    async function handleSelect(selectedRating: number){
+
+    async function handleSelect(selectedRating: number) {
         setRating(selectedRating);
 
         const data = {

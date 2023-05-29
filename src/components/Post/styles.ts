@@ -19,6 +19,12 @@ export const PostHeader = styled.div`
   grid-template-columns: 0.2fr 5fr 0.7fr  0.05fr;
   grid-column-gap: 25px;
 `;
+export const PostFooter = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  
+`;
 
 export const PostAuthorAvatar = styled.img`
   width: 80px;

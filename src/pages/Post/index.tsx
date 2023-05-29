@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { Event, Container, Dados, DadosContainer, Descr, Files, FormContainer, ImportFiles, Line, EditPost, Select, Titulo, H1, AddEvento } from "./styles";
@@ -10,12 +10,8 @@ import { RouteComponentProps, useHistory } from "react-router-dom";
 import { IPost } from "../../interfaces/IPost";
 import { Text } from "../../components/Text";
 import FileList from "../../components/FileList"
-import { CaretDown } from "@phosphor-icons/react";
-import events from "events";
-import { DivShowForm, NewPost, SelectContainer } from "../../components/Feed/styles";
+import { SelectContainer } from "../../components/Feed/styles";
 import { IEvent } from "../../interfaces/IEvent";
-import Gallery from "../../components/Gallery";
-import { IMedia } from "../../interfaces/IMedia";
 
 interface MatchParams {
     id: string;
@@ -58,8 +54,6 @@ export function Post(props: Props) {
         const response: response = postss.data;
 
         setSelectedFiles(response.medias)
-
-
 
         if (formPost.event) {
             setSelectedEventId(formPost.event.id)
@@ -230,7 +224,7 @@ export function Post(props: Props) {
                                                 <SelectContainer>
                                                     <Select id="event-select" defaultValue={formPost.event.id} onChange={handleSelectChange} style={{ color: "#000000" }}>
                                                         {events.map((event) => (
-                                                            <option key={event.id} style={{ cursor: 'pointer', color: "#000000" }}  value={event.id} selected>{event.name}</option>
+                                                            <option key={event.id} style={{ cursor: 'pointer', color: "#000000" }} value={event.id} selected>{event.name}</option>
                                                         ))}
                                                     </Select>
                                                 </SelectContainer>
