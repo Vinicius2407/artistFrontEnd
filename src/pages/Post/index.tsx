@@ -103,7 +103,7 @@ export function Post(props: Props) {
 
         if (formPost.event) {
             const event_id = formPost.event.id;
-            if (selectedEventId && selectedEventId !== event_id) {
+            if (selectedEventId !== event_id) {
                 // O id do evento selecionado é diferente do id do evento em formPost.event
                 formData.append('event', selectedEventId);
             } else {
@@ -113,7 +113,6 @@ export function Post(props: Props) {
         } else {
             formData.append('event', selectedEventId || '');
         }
-
 
         api.put("post/" + id, formData, {
             headers: {
@@ -229,9 +228,9 @@ export function Post(props: Props) {
                                         {events.length > 0 &&
                                             <>
                                                 <SelectContainer>
-                                                    <Select id="event-select" value={selectedEventId} onChange={handleSelectChange} style={{ color: "#000000" }}>
+                                                    <Select id="event-select" defaultValue={formPost.event.id} onChange={handleSelectChange} style={{ color: "#000000" }}>
                                                         {events.map((event) => (
-                                                            selectedEventId == event.id ? <option style={{ cursor: 'pointer', color: "#000000" }} value={event.id} selected>{event.name}</option> : <option style={{ cursor: 'pointer', color: "#000000" }} value={event.id}>{event.name}</option>
+                                                            <option key={event.id} style={{ cursor: 'pointer', color: "#000000" }}  value={event.id} selected>{event.name}</option>
                                                         ))}
                                                     </Select>
                                                 </SelectContainer>
