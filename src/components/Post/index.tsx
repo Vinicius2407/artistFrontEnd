@@ -1,9 +1,9 @@
 
 import { IPost } from "../../interfaces/IPost";
-import { PostAuthorAvatar, PostAuthorName, PostContainer, PostContent, PostHeader, PostAuthorInfo, PostAuthorCat, PostAuthorCategories, PostEventContainer, Label, EventInfo, EventAddress, Input, EditButton, Address, Span, PostFooter } from "./styles";
+import { PostAuthorAvatar, PostAuthorName, PostContainer, PostContent, PostHeader, PostAuthorInfo, PostAuthorCat, PostAuthorCategories, PostEventContainer, Label, EventInfo, EventAddress, Input, EditButton, Address, Span, PostFooter, ExcluirButton } from "./styles";
 import { Button } from "../Button";
 import { Link } from "react-router-dom";
-import { Pencil, MapPin } from "@phosphor-icons/react";
+import { Pencil, MapPin, Trash } from "@phosphor-icons/react";
 import Gallery from "../Gallery";
 import mapa from "../../assets/images/map.png";
 import { useEffect, useState } from "react";
@@ -11,9 +11,10 @@ import { api } from "../../services/api.service";
 
 interface Props {
     post: IPost;
+    onDelete?: (postId: string) => void;
 }
 
-const Post: React.FC<Props> = ({ post }) => {
+const Post: React.FC<Props> = ({post, onDelete}) => {
 
     const user_type = localStorage.getItem('user_type');
     const user_id = localStorage.getItem('user_id');
@@ -36,13 +37,22 @@ const Post: React.FC<Props> = ({ post }) => {
                     </PostAuthorInfo>
                     {post.user.user_type == 'organizer' ? <div></div> : <Rating postUserId={post.user.id} ratingUser={post.user.rating} userId={user_id} post={post} userType={user_type} onClick={() => useEffect} />}
                     {user_id == post.user.id &&
-                        <>
+                        <div style={{ display: 'flex' }}>
                             <Link to={`/post/${post.id}`}>
                                 <EditButton title="Editar Post">
                                     <Pencil />
                                 </EditButton>
                             </Link>
-                        </>}
+
+                            {user_type == 'admin' || user_id == post.user.id && onDelete &&
+                                <>
+                                    <ExcluirButton title="Excluir Post" onClick={() => onDelete(post.id)}>
+                                        <Trash color="#ea3c19" />
+                                    </ExcluirButton>
+                                </>
+                            }
+                        </div>
+                    }
 
                 </PostHeader>
                 <PostContent readOnly value={post.description} />
@@ -75,16 +85,16 @@ const Post: React.FC<Props> = ({ post }) => {
                         {
                             user_type == 'artist' &&
                             user_id != post.user.id &&
-                            <Button style={{ margin: '0 auto' }} >Eu quero!</Button>
+                            <Button style={{ margin: '15px auto' }} >Eu quero!</Button>
                         }
                     </>
                 }
                 <PostFooter>
-                    <p style={{color: '#000', marginRight: '10px'}}>
+                    <p style={{ color: '#000', marginRight: '10px' }}>
                         {`Criado em: ${obterData(post.dh_create)}`}
                     </p>
-                    <p style={{color: '#000'}}>
-                        {post.dh_edit && `Editado em: ${obterData(post.dh_edit)}`}
+                    <p style={{ color: '#000' }}>
+                        {post.dh_edit && post.dh_edit != post.dh_create && `Editado em: ${obterData(post.dh_edit)}`}
                     </p>
                 </PostFooter>
             </PostContainer>

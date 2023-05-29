@@ -16,14 +16,14 @@ export const PostContainer = styled.div`
 
 export const PostHeader = styled.div`
   display: grid;
-  grid-template-columns: 0.2fr 5fr 0.7fr  0.05fr;
+  grid-template-columns: 0.2fr 5fr 0.7fr  0.1fr;
   grid-column-gap: 25px;
 `;
 export const PostFooter = styled.div`
   display: flex;
   justify-content: center;
   align-items:center;
-  
+  marginTop: 10px;
 `;
 
 export const PostAuthorAvatar = styled.img`
@@ -151,6 +151,18 @@ export const EditButton = styled.div`
   height: 30px;
   border-radius: 4px;
   background:#ececec;  
+  margin-right: 5px;
+`;
+
+export const ExcluirButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor:pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  background:#ececec;  
 `;
 
 export const GaleryContainer = styled.div`
@@ -162,4 +174,40 @@ export const GaleryContainer = styled.div`
   overflow:hidden;
   width: 100%;
   height: 100%;
+`;
+
+export const AlertContainer = styled.div`
+  background-color: #f5f5f5;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+export const AlertMessage = styled.p`
+  margin: 0;
+  margin-bottom: 10px;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+export const ConfirmButton = styled.button`
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin-left: 10px;
+  cursor: pointer;
+`;
+
+export const CancelButton = styled.button`
+  background-color: #ccc;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
 `;

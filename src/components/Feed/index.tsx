@@ -62,7 +62,7 @@ function Feed({ route, userId }: FeedProps) {
 
     async function handleListEvents() {
         const evts = await api.get(`events/${user_id}`);
-            setEvents(evts.data);
+        setEvents(evts.data);
     }
 
     function handleSubmit() {
@@ -129,6 +129,24 @@ function Feed({ route, userId }: FeedProps) {
         handleList();
     }, [attPosts]);
 
+    const handleDeletePost = (postId: string) => {
+
+        if (confirm("Realmente deseja excluir o post ? ")) {
+            const deletePostAsync = async () => {
+                try {
+                    await api.delete('post/' + postId);
+                    alert(`Post foi excluído com sucesso!`);
+                    setAttPosts(!attPosts);
+                } catch (error: any) {
+                    alert(`Erro ao excluir o post: ${error.message}`);
+                }
+            };
+
+            deletePostAsync();
+        }
+
+    };
+
     return (
         <>
             <Modal open={modalOpen} onClose={handleCloseModal} />
@@ -136,12 +154,13 @@ function Feed({ route, userId }: FeedProps) {
             <FeedContainer>
 
                 <Container>
-                    <DivShowForm>
-                        <CaretDown onClick={() => setShowForm(!showForm)} size={32} style={{ transform: showForm ? 'rotate(180deg)' : 'rotate(0deg)' }} />
-                        <h1 onClick={() => setShowForm(!showForm)} style={{ fontSize: '2rem', justifySelf: 'flex-end' }}>Cadastrar Post</h1>
-                    </DivShowForm>
-
-                    {showForm &&
+                    {user_type != 'admin' &&
+                        <DivShowForm>
+                            <CaretDown onClick={() => setShowForm(!showForm)} size={32} style={{ transform: showForm ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+                            <h1 onClick={() => setShowForm(!showForm)} style={{ fontSize: '2rem', justifySelf: 'flex-end' }}>Cadastrar Post</h1>
+                        </DivShowForm>
+                    }
+                    {user_type != 'admin' && showForm &&
                         <NewPost className={showForm ? 'show' : ''}>
                             <FormContainer>
                                 <Text color="#000000"
@@ -240,7 +259,7 @@ function Feed({ route, userId }: FeedProps) {
                 {posts.length == 0 && <h1 style={{ margin: '15% auto' }}> Nada por aqui.</h1>}
                 {posts.map((post) => {
                     return (
-                        <Post key={post.id} post={post} />
+                        <Post key={post.id} post={post} onDelete={handleDeletePost} />
                     )
                 }
                 )}
