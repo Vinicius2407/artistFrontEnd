@@ -16,7 +16,7 @@ export const PostContainer = styled.div`
 
 export const PostHeader = styled.div`
   display: grid;
-  grid-template-columns: 0.2fr 5fr 0.05fr;
+  grid-template-columns: 0.2fr 5fr 0.7fr  0.05fr;
   grid-column-gap: 25px;
 `;
 
@@ -81,7 +81,7 @@ export const EventAddress = styled.div`
   grid-template-row: 1.3fr 2fr;
   justify-content: center;
   align-items: center;
-  img:{
+  img: {
     object-fit: cover;
   }
 `;

@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { Pencil, MapPin } from "@phosphor-icons/react";
 import Gallery from "../Gallery";
 import mapa from "../../assets/images/map.png";
+import { useEffect, useState } from "react";
+import { api } from "../../services/api.service";
 
 interface Props {
     post: IPost;
@@ -16,18 +18,6 @@ const Post: React.FC<Props> = ({ post }) => {
 
     const user_type = localStorage.getItem('user_type');
     const user_id = localStorage.getItem('user_id');
-
-    function formatDateString(dateString: string): string {
-
-        if (dateString) {
-            const dateObj = new Date(dateString);
-            const day = dateObj.getUTCDate().toString().padStart(2, "0");
-            const month = (dateObj.getUTCMonth() + 1).toString().padStart(2, "0");
-            const year = dateObj.getUTCFullYear();
-            return `${day}/${month}/${year}`;
-        }
-        return 'Não informado.'
-    }
 
     return (
         <>
@@ -45,6 +35,7 @@ const Post: React.FC<Props> = ({ post }) => {
                             ))}
                         </PostAuthorCategories>
                     </PostAuthorInfo>
+                    {post.user.user_type == 'organizer' ? <div></div> : <Rating postUserId={post.user.id} ratingUser={post.user.rating} userId={user_id} post={post} userType={user_type} />}
                     {user_id == post.user.id &&
                         <>
                             <Link to={`/post/${post.id}`}>
@@ -110,6 +101,71 @@ function MyInput({ id, label, value }: Prop) {
         </>
     );
 }
+
+function formatDateString(dateString: string): string {
+
+    if (dateString) {
+        const dateObj = new Date(dateString);
+        const day = dateObj.getUTCDate().toString().padStart(2, "0");
+        const month = (dateObj.getUTCMonth() + 1).toString().padStart(2, "0");
+        const year = dateObj.getUTCFullYear();
+        return `${day}/${month}/${year}`;
+    }
+    return 'Não informado.'
+}
+
+function Star({ selected, onSelect, title, post, userId, userType }: any) {
+    return (
+        <>
+            {userId !== post.user.id && userType == "organizer" ? <span title={title} style={{ cursor: 'pointer', color: "#000" }} onClick={onSelect}>{selected ? '★' : '☆'}</span>
+                : <span style={{ color: "#000" }}>{selected ? '★' : '☆'}</span>}
+        </>
+    )
+}
+
+function Rating({ postUserId, ratingUser, userId, post, userType }: any) {
+    const [rating, setRating] = useState(!ratingUser ? 0 : ratingUser); // Valor inicial da avaliação
+    const [ratingHover, setRatingHover] = useState(0); // Valor da avaliação ao passar o mouse
+    
+    async function handleSelect(selectedRating: number){
+        setRating(selectedRating);
+
+        const data = {
+            user: postUserId,
+            userRate: userId,
+            value: selectedRating
+        }
+
+        await api.post("/rating", data)
+            .then(response => {
+                setRating(response.data);
+                setRatingHover(0);
+            })
+            .catch(response => {
+                alert(response.response.data.message);
+                setRating(rating);
+            });
+    };
+    
+    useEffect(() => {
+    }, [rating]);
+
+    return (
+        <div>
+            {[1, 2, 3, 4, 5].map((star) => (
+                <Star
+                    key={star}
+                    selected={ratingHover == 0 ? star <= rating : star <= ratingHover}
+                    onSelect={() => handleSelect(star)}
+                    title={`Avaliar com ${star} estrela(s)`}
+                    user_id={userId}
+                    post={post}
+                    userType={userType}
+                />
+            ))}
+        </div>
+    );
+};
 
 export default Post;
 

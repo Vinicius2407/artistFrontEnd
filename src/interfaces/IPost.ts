@@ -14,6 +14,7 @@ export interface IPost {
         categories: ICategories[],
         profile_image: string,
         user_type: string
+        rating: number
     },
     event: {
         id:string;
