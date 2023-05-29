@@ -35,7 +35,7 @@ const Post: React.FC<Props> = ({ post }) => {
                             ))}
                         </PostAuthorCategories>
                     </PostAuthorInfo>
-                    {post.user.user_type == 'organizer' ? <div></div> : <Rating postUserId={post.user.id} ratingUser={post.user.rating} userId={user_id} post={post} userType={user_type} />}
+                    {post.user.user_type == 'organizer' ? <div></div> : <Rating postUserId={post.user.id} ratingUser={post.user.rating} userId={user_id} post={post} userType={user_type} onClick={() => useEffect} />}
                     {user_id == post.user.id &&
                         <>
                             <Link to={`/post/${post.id}`}>
@@ -140,15 +140,13 @@ function Rating({ postUserId, ratingUser, userId, post, userType }: any) {
             .then(response => {
                 setRating(response.data);
                 setRatingHover(0);
+                window.location.reload();
             })
             .catch(response => {
                 alert(response.response.data.message);
                 setRating(rating);
             });
     };
-    
-    useEffect(() => {
-    }, [rating]);
 
     return (
         <div>
