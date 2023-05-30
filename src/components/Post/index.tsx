@@ -11,10 +11,10 @@ import { api } from "../../services/api.service";
 
 interface Props {
     post: IPost;
-    onDelete?: (postId: string) => void;
+    onDelete: (postId: string) => void;
 }
 
-const Post: React.FC<Props> = ({post, onDelete}) => {
+const Post: React.FC<Props> = ({ post, onDelete }) => {
 
     const user_type = localStorage.getItem('user_type');
     const user_id = localStorage.getItem('user_id');
@@ -36,24 +36,25 @@ const Post: React.FC<Props> = ({post, onDelete}) => {
                         </PostAuthorCategories>
                     </PostAuthorInfo>
                     {post.user.user_type == 'organizer' ? <div></div> : <Rating postUserId={post.user.id} ratingUser={post.user.rating} userId={user_id} post={post} userType={user_type} onClick={() => useEffect} />}
-                    {user_id == post.user.id &&
-                        <div style={{ display: 'flex' }}>
+
+                    <div style={{ display: 'flex' }}>
+                        {user_id == post.user.id &&
                             <Link to={`/post/${post.id}`}>
                                 <EditButton title="Editar Post">
                                     <Pencil />
                                 </EditButton>
                             </Link>
+                        }
+                        {(user_type == 'admin' || user_id == post.user.id) &&
+                            <>
 
-                            {user_type == 'admin' || user_id == post.user.id && onDelete &&
-                                <>
-                                    <ExcluirButton title="Excluir Post" onClick={() => onDelete(post.id)}>
-                                        <Trash color="#ea3c19" />
-                                    </ExcluirButton>
-                                </>
-                            }
-                        </div>
-                    }
+                                <ExcluirButton title="Excluir Post" onClick={() => onDelete(post.id)}>
+                                    <Trash color="#ea3c19" />
+                                </ExcluirButton>
 
+                            </>
+                        }
+                    </div>
                 </PostHeader>
                 <PostContent readOnly value={post.description} />
                 <Gallery medias={post.medias} />
@@ -143,8 +144,11 @@ function obterData(dataIso: Date): string {
 function Star({ selected, onSelect, title, post, userId, userType }: any) {
     return (
         <>
-            {userId !== post.user.id && userType == "organizer" ? <span title={title} style={{ cursor: 'pointer', color: "#000" }} onClick={onSelect}>{selected ? '★' : '☆'}</span>
-                : <span style={{ color: "#000" }}>{selected ? '★' : '☆'}</span>}
+            {
+                userId !== post.user.id && userType == "organizer"
+                    ? <span title={title} style={{ cursor: 'pointer', color: "#FED924" }} onClick={onSelect}>{selected ? '★' : '☆'}</span>
+                    : <span style={{ color: "#FED924" }}>{selected ? '★' : '☆'}</span>
+            }
         </>
     )
 }
@@ -185,6 +189,7 @@ function Rating({ postUserId, ratingUser, userId, post, userType }: any) {
                     user_id={userId}
                     post={post}
                     userType={userType}
+
                 />
             ))}
         </div>
