@@ -211,3 +211,10 @@ export const CancelButton = styled.button`
   padding: 8px 16px;
   cursor: pointer;
 `;
+
+
+export const SpanStar = styled.span`
+  font-size: 1.5rem;
+  color: #8776FF;
+  cursor: pointer;
+`;

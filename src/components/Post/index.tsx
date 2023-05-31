@@ -1,6 +1,6 @@
 
 import { IPost } from "../../interfaces/IPost";
-import { PostAuthorAvatar, PostAuthorName, PostContainer, PostContent, PostHeader, PostAuthorInfo, PostAuthorCat, PostAuthorCategories, PostEventContainer, Label, EventInfo, EventAddress, Input, EditButton, Address, Span, PostFooter, ExcluirButton } from "./styles";
+import { PostAuthorAvatar, PostAuthorName, PostContainer, PostContent, PostHeader, PostAuthorInfo, PostAuthorCat, PostAuthorCategories, PostEventContainer, Label, EventInfo, EventAddress, Input, EditButton, Address, Span, PostFooter, ExcluirButton, SpanStar } from "./styles";
 import { Button } from "../Button";
 import { Link } from "react-router-dom";
 import { Pencil, MapPin, Trash } from "@phosphor-icons/react";
@@ -146,8 +146,8 @@ function Star({ selected, onSelect, title, post, userId, userType }: any) {
         <>
             {
                 userId !== post.user.id && userType == "organizer"
-                    ? <span title={title} style={{ cursor: 'pointer', color: "#FED924" }} onClick={onSelect}>{selected ? '★' : '☆'}</span>
-                    : <span style={{ color: "#FED924" }}>{selected ? '★' : '☆'}</span>
+                    ? <SpanStar title={title} onClick={onSelect}>{selected ? '★' : '☆'}</SpanStar>
+                    : <SpanStar>{selected ? '★' : '☆'}</SpanStar>
             }
         </>
     )
