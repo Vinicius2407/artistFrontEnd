@@ -216,5 +216,4 @@ export const CancelButton = styled.button`
 export const SpanStar = styled.span`
   font-size: 1.5rem;
   color: #8776FF;
-  cursor: pointer;
 `;

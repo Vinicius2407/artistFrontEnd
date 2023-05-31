@@ -146,8 +146,8 @@ function Star({ selected, onSelect, title, post, userId, userType }: any) {
         <>
             {
                 userId !== post.user.id && userType == "organizer"
-                    ? <SpanStar title={title} onClick={onSelect}>{selected ? '★' : '☆'}</SpanStar>
-                    : <SpanStar>{selected ? '★' : '☆'}</SpanStar>
+                    ? <SpanStar style={{cursor:'pointer'}} title={title} onClick={onSelect}>{selected ? '★' : '☆'}</SpanStar>
+                    : <SpanStar >{selected ? '★' : '☆'}</SpanStar>
             }
         </>
     )
