@@ -13,13 +13,6 @@ import { consultarCEP, ViaCepProps } from "../../services/viacep.service";
 // import { useHistory } from "react-router-dom";
 import { PostAuthorAvatar, PostAuthorName } from "../../components/Post/styles";
 import { ICategory } from "../../interfaces/ICategory";
-import { ICategories } from "../../interfaces/ICategories";
-
-interface social {
-   id: string;
-   name: string;
-}
-
 export function Profile() {
 
    const [formUser, setFormUser] = useState<IUser>({} as IUser)
@@ -28,9 +21,6 @@ export function Profile() {
 
    const [categories, setCategories] = useState<ICategory[]>([]);
    const [selectedCategories, setSelectedCategories] = useState<ICategory[]>([]);
-
-   const [social, setSocial] = useState<social[]>([] as social[]);
-   const [userSocial, setUserSocial] = useState<social[]>([] as social[]);
 
    const userId = localStorage.getItem(`user_id`);
    const userType = localStorage.getItem('user_type');
@@ -46,18 +36,12 @@ export function Profile() {
       const cat = await api.get("/categories");
       setCategories(cat.data);
 
-      const soc = await api.get("/social");
-      setSocial(soc.data);
-
       if (us.data.categories != undefined || us.data.categories != null) {
          const categoryArray: ICategory[] = us.data.categories.map((categoryObj: { category: any; }) => categoryObj.category);
          setSelectedCategories(categoryArray);
       }
 
-      if (us.data.social != undefined || us.data.social != null) {
-         const socialArray: ICategory[] = us.data.social.map((socialObj: { social: any; }) => socialObj.social);
-         setUserSocial(socialArray);
-      }
+     
    }
 
    useEffect(() => {
@@ -268,14 +252,14 @@ export function Profile() {
                         <>
                            <Input
                               label="Facebook"
-                              id='facebook'
+                              id='facebookUrl'
                               onChange={handleChange}
                               value={formUser.facebookUrl ? formUser.facebookUrl : ""}
                               placeholder="Não informado"
                               className="input" />
                            <Input
                               label="Instagram"
-                              id='instagram'
+                              id='instagramUrl'
                               onChange={handleChange}
                               value={formUser.instagramUrl ? formUser.instagramUrl : ""}
                               placeholder="Não informado"
@@ -311,7 +295,7 @@ export function Profile() {
                         <>
                            <Input
                               label="TikTok"
-                              id='tiktok'
+                              id='tiktokUrl'
                               onChange={handleChange}
                               value={formUser.tiktokUrl ? formUser.tiktokUrl : ""}
                               placeholder="Não informado"
@@ -319,7 +303,7 @@ export function Profile() {
                            <Input
                               label="Youtube"
                               placeholder="Não informado"
-                              id='youtube'
+                              id='youtubeUrl'
                               onChange={handleChange}
                               value={formUser.youtubeUrl ? formUser.youtubeUrl : ""}
                               className="input" />
