@@ -33,6 +33,7 @@ export function Profile() {
    const [userSocial, setUserSocial] = useState<social[]>([] as social[]);
 
    const userId = localStorage.getItem(`user_id`);
+   const userType = localStorage.getItem('user_type');
 
    // const history = useHistory();
 
@@ -137,7 +138,11 @@ export function Profile() {
          email: formUser.email,
          profile_image: formUser.profile_image,
          cel_phone: formUser.cel_phone,
-         status: formUser.status
+         status: formUser.status,
+         facebookUrl: formUser.facebookUrl,
+         instagramUrl: formUser.instagramUrl,
+         tiktokUrl: formUser.tiktokUrl,
+         youtubeUrl: formUser.youtubeUrl
       };
       api.put(`user/${userId}`, data)
          .then(response => {
@@ -243,13 +248,13 @@ export function Profile() {
                         value={formUser.username ? formUser.username : ""}
                         placeholder="Não informado"
                         className="input" />
-                     <Input
+                     {/* <Input
                         label="Url Foto"
                         id='profile_image'
                         onChange={handleChange}
                         value={formUser.profile_image ? formUser.profile_image : ""}
                         placeholder="Não informado"
-                        className="input" />
+                        className="input" /> */}
                      <Input
                         label="Senha"
                         placeholder="Não informado"
@@ -258,6 +263,25 @@ export function Profile() {
                         onChange={handleChange}
                         value={formUser.password ? formUser.password : ""}
                         className="input" />
+
+                     {userType != 'organizer' &&
+                        <>
+                           <Input
+                              label="Facebook"
+                              id='facebook'
+                              onChange={handleChange}
+                              value={formUser.facebookUrl ? formUser.facebookUrl : ""}
+                              placeholder="Não informado"
+                              className="input" />
+                           <Input
+                              label="Instagram"
+                              id='instagram'
+                              onChange={handleChange}
+                              value={formUser.instagramUrl ? formUser.instagramUrl : ""}
+                              placeholder="Não informado"
+                              className="input" />
+                        </>
+                     }
                   </div>
                   <div>
                      <Input
@@ -283,6 +307,24 @@ export function Profile() {
                         value={formUser.cel_phone ? formUser.cel_phone : ""}
                         className="input" />
 
+                     {userType != 'organizer' &&
+                        <>
+                           <Input
+                              label="TikTok"
+                              id='tiktok'
+                              onChange={handleChange}
+                              value={formUser.tiktokUrl ? formUser.tiktokUrl : ""}
+                              placeholder="Não informado"
+                              className="input" />
+                           <Input
+                              label="Youtube"
+                              placeholder="Não informado"
+                              id='youtube'
+                              onChange={handleChange}
+                              value={formUser.youtubeUrl ? formUser.youtubeUrl : ""}
+                              className="input" />
+                        </>
+                     }
                   </div>
                </Dados>
                <Button className="buttonHandle" onClick={handleDadosUser} style={{ margin: '0 auto' }}>Atualizar</Button>
@@ -346,52 +388,31 @@ export function Profile() {
             </DadosContainer>
 
             {/* Parte das categorias */}
-            <H1 style={{ marginTop: "2rem" }}>Editar Categorias</H1>
-            <DadosContainer>
-               <Form>
-                  <Column spanAll>
-                     <Categorias>
-                        {categories.map((category) => {
-                           return (
-                              <ItemCategory
-                                 key={category.id}
-                                 id={category.id}
-                                 onClick={handleChangeCategorie}
-                                 style={{ background: categoriaEstaNaLista(category.id) ? "#50E3C2" : "#FFF" }}                              >
-                                 {category.name}
-                              </ItemCategory>
-                           );
-                        })}
-                     </Categorias>
-                  </Column>
-               </Form>
-               <Button className="buttonHandle" onClick={handleDadosCategories} style={{ margin: '0 auto' }}>Atualizar</Button>
-            </DadosContainer>
-
-            {/* Parte para add as redes sociais */}
-            {/* <H1 style={{ marginTop: "2rem" }}>Editar Redes Sociais</H1>
-            <DadosContainer>
-               <Form>
-                  {social.map((social) => {
-                     return (
+            {userType != 'organizer' &&
+               <>
+                  <H1 style={{ marginTop: "2rem" }}>Editar Categorias</H1>
+                  <DadosContainer>
+                     <Form>
                         <Column spanAll>
-                           <Input
-                              key={social.id}
-                              label={social.name}
-                              placeholder="Não informado"
-                              id={social.id}
-                              style={{ width: "98%" }}
-                              // onChange={handleChangeSocial}
-                              className="input" />
+                           <Categorias>
+                              {categories.map((category) => {
+                                 return (
+                                    <ItemCategory
+                                       key={category.id}
+                                       id={category.id}
+                                       onClick={handleChangeCategorie}
+                                       style={{ background: categoriaEstaNaLista(category.id) ? "#50E3C2" : "#FFF" }}                              >
+                                       {category.name}
+                                    </ItemCategory>
+                                 );
+                              })}
+                           </Categorias>
                         </Column>
-                     );
-                  })}
-               </Form>
-               <Button
-                  className="buttonHandle"
-                  // onClick={handleDadosSocial} 
-                  style={{ margin: '0 auto' }}>Atualizar</Button>
-            </DadosContainer> */}
+                     </Form>
+                     <Button className="buttonHandle" onClick={handleDadosCategories} style={{ margin: '0 auto' }}>Atualizar</Button>
+                  </DadosContainer>
+               </>
+            }
 
          </Container>
          <Footer />

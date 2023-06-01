@@ -10,11 +10,7 @@ import { pxToRem } from "../../utils/convertToRem.util";
 
 import { Container, Links, Logo } from "./styles";
 
-function handleClick(setIsSignInPage: any, isSignInPage: boolean, history: any) {
-    setIsSignInPage(!isSignInPage);
-    history.push(isSignInPage ? "/sign-up" : "/sign-in");
-    console.log(isSignInPage);
-}
+
 
 export function Header() {
     const [isSignInPage, setIsSignInPage] = useState<boolean>(false);
@@ -24,6 +20,11 @@ export function Header() {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('user_id');
     const user_type = localStorage.getItem('user_type');
+
+    function handleClick() {
+        setIsSignInPage(!isSignInPage);
+        history.push(isSignInPage ? "/sign-up" : "/sign-in");
+    }
 
     function handleOpenModal() {
         setIsOpen(true);
@@ -80,7 +81,7 @@ export function Header() {
                             <Button style={{
                                 color: '#FFF'
                             }}
-                                onClick={() => handleClick(setIsSignInPage, isSignInPage, history)}
+                                onClick={() => handleClick()}
                             >
                                 {isSignInPage ? "Cadastrar" : "Logar"}
                             </Button>

@@ -15,5 +15,8 @@ export interface IUser {
     address?: IAddressId;
     categories?: string[];
     rating?: string[];
-    social?: [{ name: string, url: string}];
+    facebookUrl?:string;
+    youtubeUrl?: string;
+    instagramUrl?: string;
+    tiktokUrl?: string;
 }
