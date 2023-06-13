@@ -3,7 +3,7 @@ import { IPost } from "../../interfaces/IPost";
 import { PostAuthorAvatar, PostAuthorName, PostContainer, PostContent, PostHeader, PostAuthorInfo, PostAuthorCat, PostAuthorCategories, PostEventContainer, Label, EventInfo, EventAddress, Input, EditButton, Address, Span, PostFooter, ExcluirButton, SpanStar } from "./styles";
 import { Button } from "../Button";
 import { Link } from "react-router-dom";
-import { Pencil, MapPin, Trash } from "@phosphor-icons/react";
+import { Pencil, MapPin, Trash, Eye } from "@phosphor-icons/react";
 import Gallery from "../Gallery";
 import mapa from "../../assets/images/map.png";
 import { useEffect, useState } from "react";
@@ -18,6 +18,28 @@ const Post: React.FC<Props> = ({ post, onDelete }) => {
 
     const user_type = localStorage.getItem('user_type');
     const user_id = localStorage.getItem('user_id');
+
+    async function handleCandidatura(event: string) {
+
+        if (confirm("Realmente deseja se candidatar?")) {
+
+            const data = {
+                artist: user_id,
+                event: event,
+                accept: false
+            }
+
+            await api.post("/candidatura", data)
+                .then(response => {
+                    alert("Candidatura feita com sucesso!");
+                    window.location.reload();
+                })
+                .catch(response => {
+                    alert(response.response.data.message);
+                });
+        }
+    };
+
 
     return (
         <>
@@ -76,17 +98,27 @@ const Post: React.FC<Props> = ({ post, onDelete }) => {
                                     </h3>
                                 </Address>
                             </EventAddress>
-                            {post.event && user_id == post.user.id && <Link to={`/evento/${post.event.id}`}>
-                                <EditButton title="Editar Evento">
-                                    <Pencil />
-                                </EditButton>
-                            </Link>
-                            }
+                            <div style={{ display: 'flex' }}>
+                                {post.event && user_id == post.user.id &&
+                                    <>
+                                        <Link to={`/evento/${post.event.id}`}>
+                                            <EditButton title="Editar Evento">
+                                                <Pencil />
+                                            </EditButton>
+                                        </Link>
+                                        <Link to={`/candidatura/${post.event.id}`}>
+                                            <EditButton title="Candidaturas">
+                                                <Eye />
+                                            </EditButton>
+                                        </Link>
+                                    </>
+                                }
+                            </div>
                         </PostEventContainer>
                         {
                             user_type == 'artist' &&
                             user_id != post.user.id &&
-                            <Button style={{ margin: '15px auto' }} >Eu quero!</Button>
+                            <Button style={{ margin: '15px auto' }} onClick={() => handleCandidatura(post.event.id)}>Eu quero!</Button>
                         }
                     </>
                 }
@@ -109,7 +141,7 @@ interface Prop {
     value: string;
 }
 
-function MyInput({ id, label, value }: Prop) {
+export function MyInput({ id, label, value }: Prop) {
     return (
         <>
             <Label>{label}</Label>
@@ -120,7 +152,7 @@ function MyInput({ id, label, value }: Prop) {
     );
 }
 
-function formatDateString(dateString: string): string {
+export function formatDateString(dateString: string): string {
 
     if (dateString) {
         const dateObj = new Date(dateString);
@@ -132,7 +164,7 @@ function formatDateString(dateString: string): string {
     return 'Não informado.'
 }
 
-function obterData(dataIso: Date): string {
+export function obterData(dataIso: Date): string {
     const dataObj = new Date(dataIso);
     const dia = String(dataObj.getUTCDate()).padStart(2, '0');
     const mes = String(dataObj.getUTCMonth() + 1).padStart(2, '0');
@@ -146,7 +178,7 @@ function Star({ selected, onSelect, title, post, userId, userType }: any) {
         <>
             {
                 userId !== post.user.id && userType == "organizer"
-                    ? <SpanStar style={{cursor:'pointer'}} title={title} onClick={onSelect}>{selected ? '★' : '☆'}</SpanStar>
+                    ? <SpanStar style={{ cursor: 'pointer' }} title={title} onClick={onSelect}>{selected ? '★' : '☆'}</SpanStar>
                     : <SpanStar >{selected ? '★' : '☆'}</SpanStar>
             }
         </>
@@ -168,6 +200,7 @@ function Rating({ postUserId, ratingUser, userId, post, userType }: any) {
 
         await api.post("/rating", data)
             .then(response => {
+                alert("Rating salvo com sucesso!");
                 setRating(response.data);
                 setRatingHover(0);
                 window.location.reload();

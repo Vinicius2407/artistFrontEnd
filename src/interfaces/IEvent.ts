@@ -1,6 +1,7 @@
 import { IAddressId } from "./IAddressId";
 import { ICategories } from "./ICategories";
 import { ICategoriesEvent } from "./ICategoriesEvent";
+import { IEventArtist } from "./IEventArtist";
 
 export interface IEvent {
     id: string;
@@ -20,5 +21,6 @@ export interface IEvent {
     },
     category: {
         categories: ICategoriesEvent[]
-    }
+    },
+    event_artist: IEventArtist[],
 }

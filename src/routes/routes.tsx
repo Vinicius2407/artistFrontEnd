@@ -8,6 +8,7 @@ import { Profile } from "../pages/Profile";
 import {Portifolio}  from "../pages/Portifolio";
 import { Evento } from "../pages/Evento";
 import { Post } from "../pages/Post";
+import { Candidaturas } from "../pages/Candidaturas";
 
 interface PrivateRouteProps {
   component: ComponentType<any>;
@@ -34,6 +35,7 @@ export function Routes() {
         <PrivateRoute  path="/evento/:id" component={Evento} />
         <PrivateRoute  path="/portifolio/:id" component={Portifolio} />
         <PrivateRoute  path="/post/:id" component={Post} />
+        <PrivateRoute  path="/candidatura/:id" component={Candidaturas} />
         
         <PrivateRoute path="/" component={Home} />
       </Switch>
