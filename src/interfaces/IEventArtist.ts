@@ -6,6 +6,6 @@ export interface IEventArtist
     id: string;
     artist: IUser;
     userId: string;
-    budget: Number;
-    accept: Boolean;
+    accept: boolean;
+    dh_action: Date;
 }

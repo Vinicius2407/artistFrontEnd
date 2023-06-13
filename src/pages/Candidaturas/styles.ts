@@ -9,36 +9,46 @@ export const Container = styled.div`
     
 `
 export const DadosContainer = styled.div`
-    display: grid;
-    grid-template-rows: .1 1fr 1fr .2fr; 
+    display: flex;
+    max-height: 33.25rem;
+    min-height: 20rem; 
     max-width: 60rem;
-    width:100%;
+    width: 100%;
     min-width: 30rem;
     border-radius: 32px;
-    background: #FFFFFF;
-    color:#fff;    
+    color:#fff;
     padding: 30px;
-    row-gap: 10px;
+    margin: 0 10rem;
+    column-gap: 20px;
 `
 
 export const CardArtist = styled.div`
     display: grid;
-    grid-template-rows: 2fr 1fr;
-    width:18rem;
-    height:8rem;
+    grid-template-rows: 1fr;
+    width:15rem;
+    height:4rem;
     border-radius: 8px;
     padding: 10px;
     background: #ededed;
     color: #000 !important;    
 `
 export const CardHeader = styled.div`
-    display: flex; 
-    width: 100%;
-    border: 1px solid green;
+    display: grid;
+    grid-template-columns: .3fr 2fr .3fr;
+    padding:5px;
+    align-items:center;
+    column-gap: 10px;
 `
 export const Imagem = styled.img`
-    width:2.5rem;
-    height:2.5rem;
+    width:2rem;
+    height:2rem;
     border-radius: 50%;
-    margin: 10px;
+`
+
+export const Btn = styled.div`
+    width:2rem;
+    height:2rem;
+    border-radius: 50%;
+    background: tomato;
+    cursor: pointer;
 `
