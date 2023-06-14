@@ -1,4 +1,5 @@
 import { IAddressId } from "./IAddressId";
+import { IRating } from "./IRating";
 
 export interface IUser {
     id: string;
@@ -15,6 +16,7 @@ export interface IUser {
     address?: IAddressId;
     categories?: string[];
     rating?: string[];
+    ratingsReceived?: IRating[];
     facebookUrl?:string;
     youtubeUrl?: string;
     instagramUrl?: string;
