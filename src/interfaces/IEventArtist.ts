@@ -8,4 +8,6 @@ export interface IEventArtist
     userId: string;
     accept: boolean;
     dh_action: Date;
+    artistId: string;
+    eventId: string;
 }

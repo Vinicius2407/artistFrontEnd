@@ -11,7 +11,7 @@ export const Container = styled.div`
 export const DadosContainer = styled.div`
     display: flex;
     max-height: 33.25rem;
-    min-height: 20rem; 
+    min-height: 24rem; 
     max-width: 60rem;
     width: 100%;
     min-width: 30rem;
@@ -51,4 +51,9 @@ export const Btn = styled.div`
     border-radius: 50%;
     background: tomato;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
 `
