@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { IUser } from "../../interfaces/IUser";
-import { Categorias, Container, Dados, DadosContainer, H1, ItemCategory } from "./styles";
+import { Avaliacoes, Categorias, Container, Dados, DadosContainer, H1, ItemCategory, ItemsAvaliacoes } from "./styles";
 import { api } from "../../services/api.service";
 import { Input } from "../../components/Input";
 import { pxToRem } from "../../utils/convertToRem.util";
@@ -11,13 +11,17 @@ import { IAddressId } from "../../interfaces/IAddressId";
 import { Column, Form } from "../Evento/styles";
 import { consultarCEP, ViaCepProps } from "../../services/viacep.service";
 // import { useHistory } from "react-router-dom";
-import { PostAuthorAvatar, PostAuthorName } from "../../components/Post/styles";
+import { PostAuthorAvatar, PostAuthorName, SpanStar } from "../../components/Post/styles";
 import { ICategory } from "../../interfaces/ICategory";
+import { IRating } from "../../interfaces/IRating";
+
 export function Profile() {
 
    const [formUser, setFormUser] = useState<IUser>({} as IUser)
 
    const [formAddress, setFormAddress] = useState<IAddressId>({} as IAddressId);
+
+   const [receiveRating, setReceiveRating] = useState<IRating[]>([]);
 
    const [categories, setCategories] = useState<ICategory[]>([]);
    const [selectedCategories, setSelectedCategories] = useState<ICategory[]>([]);
@@ -41,7 +45,12 @@ export function Profile() {
          setSelectedCategories(categoryArray);
       }
 
-     
+      if (userType == "artist" && us.data.ratingsReceived != undefined) {
+         setReceiveRating(us.data.ratingsReceived);
+      }
+      console.log()
+
+      console.log(receiveRating)
    }
 
    useEffect(() => {
@@ -204,7 +213,20 @@ export function Profile() {
          });
    }
 
-   // Atualizando dados do usuario
+   // Estrelas
+   function Star({ ratingValue }: { ratingValue: number }) {
+      const stars = [];
+
+      for (let index = 0; index < 5; index++) {
+         stars.push(
+            <SpanStar key={index}>
+               {index < ratingValue ? '★' : '☆'}
+            </SpanStar>
+         );
+      }
+
+      return <>{stars}</>;
+   }
 
    return (
       <>
@@ -395,6 +417,33 @@ export function Profile() {
                      </Form>
                      <Button className="buttonHandle" onClick={handleDadosCategories} style={{ margin: '0 auto' }}>Atualizar</Button>
                   </DadosContainer>
+
+                  <H1 style={{ marginTop: "2rem" }}>Algumas Avaliações</H1>
+                  <DadosContainer style={{display: "flex", justifyContent: "center"}}>
+                     <Form>
+                        <Column spanAll>
+                           <div className="avaliacoes">
+                              {receiveRating != undefined || receiveRating != null ? receiveRating.map((rating) => {
+                                 return (
+                                    <Avaliacoes
+                                       key={rating.id}
+                                    >
+                                       <ItemsAvaliacoes>
+                                          <img src={rating.ratedByUser.profile_image} alt="Foto do avaliador" />
+                                          <p style={{flexWrap: "nowrap"}}>{rating.ratedByUser.name}</p>
+                                          <div>
+                                             <Star ratingValue={rating.value} />
+                                          </div>
+                                       </ItemsAvaliacoes>
+                                    </Avaliacoes>
+                                 );
+                              }) : <p style={{ fontSize: "2rem", textAlign: "center" }} >Não há avaliações</p>
+                              }
+                           </div>
+                        </Column>
+                     </Form>
+                  </DadosContainer>
+
                </>
             }
 
@@ -403,4 +452,6 @@ export function Profile() {
       </>
    )
 }
+
+
 

@@ -55,6 +55,11 @@ export const DadosContainer = styled.div`
         background-color: #9500F6;
         color: #FFF;
     }
+
+    .avaliacoes {
+        display: flex;
+        justify-content: space-evenly;
+    }
 `
 
 export const Dados = styled.div`
@@ -95,4 +100,33 @@ export const ItemCategory = styled.div`
     font-family: 'Roboto', sans-serif;
     color: black;
     cursor:pointer;
+`
+
+export const Avaliacoes = styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+
+    width: 50%;
+
+    
+    border-radius: 8px;
+    padding: 10px;
+    color: #000 !important;  
+`
+
+export const ItemsAvaliacoes = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 1rem;
+    padding: 5px 10px;
+
+    img, PostAuthorAvatar { 
+        width: 6rem !important;
+        border-radius: 50% !important;
+    }
+
+    p {
+        color: #000;
+    }
 `
