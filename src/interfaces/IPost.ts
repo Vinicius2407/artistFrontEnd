@@ -1,6 +1,7 @@
 import { IAddressId } from "./IAddressId";
 import { ICategories } from "./ICategories";
 import { ICategoriesEvent } from "./ICategoriesEvent";
+import { IRating } from "./IRating";
 
 export interface IPost {
     description: string;
@@ -14,7 +15,8 @@ export interface IPost {
         categories: ICategories[],
         profile_image: string,
         user_type: string
-        rating: number
+        rating: number,
+        ratingsReceived: IRating[]
     },
     event: {
         id:string;

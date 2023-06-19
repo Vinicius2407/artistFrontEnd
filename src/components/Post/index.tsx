@@ -57,7 +57,16 @@ const Post: React.FC<Props> = ({ post, onDelete }) => {
                             ))}
                         </PostAuthorCategories>
                     </PostAuthorInfo>
-                    {post.user.user_type == 'organizer' ? <div></div> : <Rating postUserId={post.user.id} ratingUser={post.user.rating} userId={user_id} post={post} userType={user_type} onClick={() => useEffect} />}
+                    {post.user.user_type == 'organizer' ? <div></div> :
+                        <Rating
+                            postUserId={post.user.id}
+                            ratingUser={post.user.rating}
+                            userId={user_id} 
+                            post={post}
+                            userType={user_type}
+                            onClick={() => useEffect}
+                        />
+                    }
 
                     <div style={{ display: 'flex' }}>
                         {user_id == post.user.id &&
