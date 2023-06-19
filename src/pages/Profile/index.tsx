@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { IUser } from "../../interfaces/IUser";
-import { Avaliacoes, Categorias, Container, Dados, DadosContainer, H1, HeaderProfile, ItemCategory, ItemsAvaliacoes } from "./styles";
+import { Avaliacoes, Categorias, Container, Dados, DadosContainer, H1, HeaderProfile, ItemCategory, ItemsAvaliacoes, Left, Right } from "./styles";
 import { api } from "../../services/api.service";
 import { Input } from "../../components/Input";
 import { pxToRem } from "../../utils/convertToRem.util";
@@ -10,14 +10,15 @@ import { Button } from "../../components/Button";
 import { IAddressId } from "../../interfaces/IAddressId";
 import { Column, Form } from "../Evento/styles";
 import { consultarCEP, ViaCepProps } from "../../services/viacep.service";
-// import { useHistory } from "react-router-dom";
 import { PostAuthorAvatar, PostAuthorName, SpanStar } from "../../components/Post/styles";
 import { ICategory } from "../../interfaces/ICategory";
 import { IRating } from "../../interfaces/IRating";
+import PhotoUploader from "../../components/PhotoUploader";
 
 export function Profile() {
 
    const [formUser, setFormUser] = useState<IUser>({} as IUser)
+   const [attData, setAttData] = useState<boolean>(false)
 
    const [formAddress, setFormAddress] = useState<IAddressId>({} as IAddressId);
 
@@ -52,7 +53,7 @@ export function Profile() {
 
    useEffect(() => {
       handleData();
-   }, []);
+   }, [attData]);
 
 
    //Pega o evento aqui e faz os esquema
@@ -127,6 +128,23 @@ export function Profile() {
 
       return regra.test(email);
    }
+
+   //Envia a foto para o servidor
+   const handlePostImage = (image: Blob) => {
+      const formData = new FormData();
+      formData.append("foto", image);
+      formData.append("id", formUser.id);
+
+      api.post("foto", formData, {
+         headers: {
+            "Content-Type": "multipart/form-data",
+         },
+      }).then((response) => {
+         alert("Foto alterada com sucesso!");
+         setAttData(!attData);
+      }).catch((error) => (alert("Erro ao trocar a foto"), console.error(error)));
+
+   };
 
    // Atualizando dados do usuario
    function handleDadosUser() {
@@ -240,12 +258,10 @@ export function Profile() {
       <>
          <Header />
          <Container>
-            <HeaderProfile>
-               <>
-               <PostAuthorAvatar src={formUser.profile_image ? formUser.profile_image : 'https://picsum.photos/50'} alt="foto" />
-               <PostAuthorName style={{ color: "#FFF" }}>{formUser.name}</PostAuthorName>
-               </>
-            </HeaderProfile>
+            <PostAuthorAvatar src={formUser.profile_image ? 'http://localhost:3333/api/v1/images/' + formUser.profile_image : 'https://picsum.photos/50'} alt="foto" />
+            <PostAuthorName style={{ color: "#FFF" }}>{formUser.name}</PostAuthorName>
+            <PhotoUploader onPost={handlePostImage} />
+
             {/* Parte dos dados do usuario */}
             <H1>Editar Usuario</H1>
             <DadosContainer>

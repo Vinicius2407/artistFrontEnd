@@ -138,18 +138,22 @@ export const ItemsAvaliacoes = styled.div`
 `
 
 export const HeaderProfile = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
-    justify-content: start;
+    jusfity-content: space-beteen;
+    padding: 15px;
+    width: 100%;
+    max-width: 60rem;
+`
+
+export const Left = styled.div`
+    display: flex;
     gap: 1rem;
-    padding: 5px 10px;
+    align-items: center;
+  
+`
 
-    img, PostAuthorAvatar { 
-        width: 6rem !important;
-        border-radius: 50% !important;
-    }
-
-    p {
-        color: #000;
-    }
+export const Right = styled.div`
+    
 `

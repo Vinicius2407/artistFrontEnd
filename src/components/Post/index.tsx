@@ -45,7 +45,7 @@ const Post: React.FC<Props> = ({ post, onDelete }) => {
         <>
             <PostContainer key={post.id}>
                 <PostHeader>
-                    <PostAuthorAvatar src={post.user.profile_image ? post.user.profile_image : 'https://picsum.photos/50'} alt="foto" />
+                    <PostAuthorAvatar src={post.user.profile_image ? 'http://localhost:3333/api/v1/images/' + post.user.profile_image : 'https://picsum.photos/50'} alt="foto" />
                     <PostAuthorInfo>
                         <PostAuthorName><Link to={`/portifolio/${post.user.id}`}> {post.user.name} </Link> </PostAuthorName>
                         <PostAuthorCategories>
@@ -61,7 +61,7 @@ const Post: React.FC<Props> = ({ post, onDelete }) => {
                         <Rating
                             postUserId={post.user.id}
                             ratingUser={post.user.rating}
-                            userId={user_id} 
+                            userId={user_id}
                             post={post}
                             userType={user_type}
                             onClick={() => useEffect}
