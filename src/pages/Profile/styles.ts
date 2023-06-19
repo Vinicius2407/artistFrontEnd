@@ -136,3 +136,20 @@ export const ItemsAvaliacoes = styled.div`
         color: #000;
     }
 `
+
+export const HeaderProfile = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 1rem;
+    padding: 5px 10px;
+
+    img, PostAuthorAvatar { 
+        width: 6rem !important;
+        border-radius: 50% !important;
+    }
+
+    p {
+        color: #000;
+    }
+`

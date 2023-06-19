@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { IUser } from "../../interfaces/IUser";
-import { Avaliacoes, Categorias, Container, Dados, DadosContainer, H1, ItemCategory, ItemsAvaliacoes } from "./styles";
+import { Avaliacoes, Categorias, Container, Dados, DadosContainer, H1, HeaderProfile, ItemCategory, ItemsAvaliacoes } from "./styles";
 import { api } from "../../services/api.service";
 import { Input } from "../../components/Input";
 import { pxToRem } from "../../utils/convertToRem.util";
@@ -48,9 +48,6 @@ export function Profile() {
       if (userType == "artist" && us.data.ratingsReceived != undefined) {
          setReceiveRating(us.data.ratingsReceived);
       }
-      console.log()
-
-      console.log(receiveRating)
    }
 
    useEffect(() => {
@@ -125,7 +122,7 @@ export function Profile() {
    }
 
    // Verifica se o formato de email é valido
-   function validarEmail(email: string) : boolean {
+   function validarEmail(email: string): boolean {
       const regra = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       return regra.test(email);
@@ -243,9 +240,12 @@ export function Profile() {
       <>
          <Header />
          <Container>
-            <PostAuthorAvatar src={formUser.profile_image ? formUser.profile_image : 'https://picsum.photos/50'} alt="foto" />
-            <PostAuthorName style={{ color: "#FFF" }}>{formUser.name}</PostAuthorName>
-
+            <HeaderProfile>
+               <>
+               <PostAuthorAvatar src={formUser.profile_image ? formUser.profile_image : 'https://picsum.photos/50'} alt="foto" />
+               <PostAuthorName style={{ color: "#FFF" }}>{formUser.name}</PostAuthorName>
+               </>
+            </HeaderProfile>
             {/* Parte dos dados do usuario */}
             <H1>Editar Usuario</H1>
             <DadosContainer>
@@ -279,7 +279,7 @@ export function Profile() {
                         id='password'
                         onChange={handleChange}
                         value={formUser.password ? formUser.password : ""}
-                        className={formUser.password.length >= 3 ? 'input' : 'input input-invalido'} />
+                        className={formUser.password?.length >= 3 ? 'input' : 'input input-invalido'} />
 
                      {userType != 'organizer' &&
                         <>
@@ -308,7 +308,7 @@ export function Profile() {
                         value={formUser.email ? formUser.email : ""}
                         placeholder="Não informado"
                         className={validarEmail(formUser.email) ? 'input' : 'input input-invalido'}
-                        />
+                     />
                      <Input
                         label="CPF/CNPJ"
                         placeholder="Não informado"
@@ -431,7 +431,7 @@ export function Profile() {
                   </DadosContainer>
 
                   <H1 style={{ marginTop: "2rem" }}>Algumas Avaliações</H1>
-                  <DadosContainer style={{display: "flex", justifyContent: "center"}}>
+                  <DadosContainer style={{ display: "flex", justifyContent: "center" }}>
                      <Form>
                         <Column spanAll>
                            <div className="avaliacoes">
@@ -442,7 +442,7 @@ export function Profile() {
                                     >
                                        <ItemsAvaliacoes>
                                           <img src={rating.ratedByUser.profile_image} alt="Foto do avaliador" />
-                                          <p style={{flexWrap: "nowrap"}}>{rating.ratedByUser.name}</p>
+                                          <p style={{ flexWrap: "nowrap" }}>{rating.ratedByUser.name}</p>
                                           <div>
                                              <Star ratingValue={rating.value} />
                                           </div>
