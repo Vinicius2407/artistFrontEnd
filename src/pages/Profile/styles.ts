@@ -24,6 +24,12 @@ export const DadosContainer = styled.div`
     margin: 0 10rem;
     row-gap: 20px;
 
+    .input-invalido {
+        transition: 0.5s;
+        background: #50e3c3 !important;
+        color: #FF0000 !important;
+    }
+
     .input {
         outline: 0;
         color: #fff;

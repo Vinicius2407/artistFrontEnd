@@ -56,6 +56,10 @@ export function Profile() {
          ...prevFields,
          [id]: value
       }));
+
+      if (validarEmail(value) == false) {
+         event.target.style.color = "#FF000";
+      }
    }
 
    // Atualizando o endereço
@@ -109,6 +113,13 @@ export function Profile() {
    // Verifica se a categoria esta na lista
    function categoriaEstaNaLista(idCategoria: string): boolean {
       return selectedCategories.some((categoria: ICategory) => categoria.id === idCategoria);
+   }
+
+   // Verifica se o formato de email é valido
+   function validarEmail(email: string) : boolean {
+      const regra = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      return regra.test(email);
    }
 
    // Atualizando dados do usuario
@@ -246,7 +257,7 @@ export function Profile() {
                         id='password'
                         onChange={handleChange}
                         value={formUser.password ? formUser.password : ""}
-                        className="input" />
+                        className={formUser.password.length >= 3 ? 'input' : 'input input-invalido'} />
 
                      {userType != 'organizer' &&
                         <>
@@ -274,7 +285,8 @@ export function Profile() {
                         onChange={handleChange}
                         value={formUser.email ? formUser.email : ""}
                         placeholder="Não informado"
-                        className="input" />
+                        className={validarEmail(formUser.email) ? 'input' : 'input input-invalido'}
+                        />
                      <Input
                         label="CPF/CNPJ"
                         placeholder="Não informado"
