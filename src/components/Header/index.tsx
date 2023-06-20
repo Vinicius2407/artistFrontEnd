@@ -39,6 +39,11 @@ export function Header() {
         setIsOpen(false);
     }
 
+    function openCandidaturas() {
+        history.push('/candidaturas');
+        setIsOpen(false);
+    }
+
     function disconnect() {
         localStorage.removeItem('token');
         localStorage.removeItem('name');
@@ -95,6 +100,12 @@ export function Header() {
                     <AccountModal isOpen={isOpen} onClose={handleCloseModal}>
                         <Button onClick={openPerfil} style={{ background: "#50E3C2", color: "#FFF", height: pxToRem(32), width: "100%" }}>Perfil</Button>
                         <Button style={{ background: "#50E3C2", color: "#FFF", height: pxToRem(32), width: "100%" }}><Link to={`/portifolio/${userId}`}> Meus Posts</Link></Button>
+                        {
+                            user_type == 'artist' &&
+                            <Button
+                                onClick={openCandidaturas}
+                                style={{ background: "#50E3C2", color: "#FFF", height: pxToRem(32), width: "100%" }}>Minhas Candidaturas</Button>
+                        }
                         <Button onClick={disconnect} style={{ background: "#F00", color: "#FFF", height: pxToRem(32), width: "100%" }}>Desconectar</Button>
                     </AccountModal>
                 </>
