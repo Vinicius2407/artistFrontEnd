@@ -49,7 +49,7 @@ export const Btn = styled.div`
     width:2rem;
     height:2rem;
     border-radius: 50%;
-    background: tomato;
+    background: tomato; 
     display: flex;
     justify-content: center;
     align-items: center;
