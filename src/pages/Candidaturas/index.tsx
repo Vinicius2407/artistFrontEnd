@@ -80,7 +80,7 @@ export function Candidaturas(props: Props) {
                {event.event_artist?.map((candidatura) => (
                   <CardArtist key={candidatura.id}>
                      <CardHeader>
-                        {candidatura.artist.profile_image ? <Imagem src={candidatura.artist.profile_image} /> : <Person ></Person>}
+                        {candidatura.artist.profile_image ? <Imagem src={'http://localhost:3333/api/v1/images/' + candidatura.artist.profile_image} /> : <Person ></Person>}
                         <Link target="_blank" to={`/portifolio/${candidatura.artistId}`}><span style={{ color: '#000' }}> {candidatura.artist.name}</span></Link>
                         <Btn
                            onClick={() => handleCandidatura(candidatura)}

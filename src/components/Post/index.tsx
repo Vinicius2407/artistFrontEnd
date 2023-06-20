@@ -8,6 +8,7 @@ import Gallery from "../Gallery";
 import mapa from "../../assets/images/map.png";
 import { useEffect, useState } from "react";
 import { api } from "../../services/api.service";
+import { IEvent } from "../../interfaces/IEvent";
 
 interface Props {
     post: IPost;
@@ -19,7 +20,27 @@ const Post: React.FC<Props> = ({ post, onDelete }) => {
     const user_type = localStorage.getItem('user_type');
     const user_id = localStorage.getItem('user_id');
 
-    async function handleCandidatura(event: string) {
+
+    function expirou(expira: string) {
+
+        const dataAtual: Date = new Date(); // Obtém a data atual
+
+        const data: Date = new Date(expira);
+
+        if (dataAtual > data) {
+            return true
+        } else {
+            return false
+        }
+
+    }
+
+    async function handleCandidatura(event: string, expira: string) {
+
+        if (expirou(expira)) {
+            alert("Evento já expirou");
+            return
+        }
 
         if (confirm("Realmente deseja se candidatar?")) {
 
@@ -127,7 +148,16 @@ const Post: React.FC<Props> = ({ post, onDelete }) => {
                         {
                             user_type == 'artist' &&
                             user_id != post.user.id &&
-                            <Button style={{ margin: '15px auto' }} onClick={() => handleCandidatura(post.event.id)}>Eu quero!</Button>
+                            <Button
+                                style={{
+                                    margin: '15px auto',
+                                    background: expirou(post.event?.dh_expiration) ? '#e5e5e5' : '',
+                                    cursor: expirou(post.event?.dh_expiration) ? 'not-allowed' : '',
+                                    border: '1px solid black'
+                                }}
+                                onClick={() => handleCandidatura(post.event.id, post.event.dh_expiration)}>
+                                {expirou(post.event?.dh_expiration) ? 'Expirado' : 'Eu quero!'}
+                            </Button>
                         }
                     </>
                 }
