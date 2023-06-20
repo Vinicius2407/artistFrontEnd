@@ -11,6 +11,7 @@ import { Text } from "../Text";
 import { CaretDown } from "@phosphor-icons/react";
 import { IEvent } from "../../interfaces/IEvent";
 import Modal from "../Modal";
+import { useLocation } from "react-router-dom";
 
 interface FeedProps {
     route: string;
@@ -36,6 +37,10 @@ function Feed({ route, userId }: FeedProps) {
     const user_id = localStorage.getItem('user_id');
 
     const [modalOpen, setModalOpen] = useState(false);
+
+    const location = useLocation();
+
+    const hideAddPost = location.pathname.includes('/portifolio/');
 
     const handleCloseModal = () => {
         setModalOpen(false);
@@ -154,106 +159,110 @@ function Feed({ route, userId }: FeedProps) {
             <FeedContainer>
 
                 <Container>
-                    {user_type != 'admin' &&
-                        <DivShowForm>
-                            <CaretDown onClick={() => setShowForm(!showForm)} size={32} style={{ transform: showForm ? 'rotate(180deg)' : 'rotate(0deg)' }} />
-                            <h1 onClick={() => setShowForm(!showForm)} style={{ fontSize: '2rem', justifySelf: 'flex-end' }}>Cadastrar Post</h1>
-                        </DivShowForm>
-                    }
-                    {user_type != 'admin' && showForm &&
-                        <NewPost className={showForm ? 'show' : ''}>
-                            <FormContainer>
-                                <Text color="#000000"
-                                    fontSize={pxToRem(20)}
-                                    style={{
-                                        fontFamily: "Nunito",
-                                        textAlign: "left",
-                                        gridColumnStart: 1,
-                                        gridColumnEnd: 3
-                                    }}>Descrição</Text>
-
-                                <Descr id="descricao" onChange={(event) => setFormPost({ ...formPost, description: event.target.value })} cols={100} rows={10} placeholder="Descreva sua publicação!" />
-
-                                <Files>
-                                    <div style={{ display: 'flex', padding: '10px', justifyContent: 'space-between' }}>
+                    {!hideAddPost &&
+                        <>
+                            {user_type != 'admin' &&
+                                <DivShowForm>
+                                    <CaretDown onClick={() => setShowForm(!showForm)} size={32} style={{ transform: showForm ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+                                    <h1 onClick={() => setShowForm(!showForm)} style={{ fontSize: '2rem', justifySelf: 'flex-end' }}>Cadastrar Post</h1>
+                                </DivShowForm>
+                            }
+                            {user_type != 'admin' && showForm &&
+                                <NewPost className={showForm ? 'show' : ''}>
+                                    <FormContainer>
                                         <Text color="#000000"
-                                            fontSize={pxToRem(16)}
+                                            fontSize={pxToRem(20)}
                                             style={{
                                                 fontFamily: "Nunito",
                                                 textAlign: "left",
                                                 gridColumnStart: 1,
                                                 gridColumnEnd: 3
-                                            }}>Arquivo(s)</Text>
+                                            }}>Descrição</Text>
 
-                                        <ImportFiles htmlFor="file-upload">+ Adicionar Arquivo</ImportFiles>
-                                    </div>
+                                        <Descr id="descricao" onChange={(event) => setFormPost({ ...formPost, description: event.target.value })} cols={100} rows={10} placeholder="Descreva sua publicação!" />
 
-                                    <Line />
+                                        <Files>
+                                            <div style={{ display: 'flex', padding: '10px', justifyContent: 'space-between' }}>
+                                                <Text color="#000000"
+                                                    fontSize={pxToRem(16)}
+                                                    style={{
+                                                        fontFamily: "Nunito",
+                                                        textAlign: "left",
+                                                        gridColumnStart: 1,
+                                                        gridColumnEnd: 3
+                                                    }}>Arquivo(s)</Text>
 
-                                    <Input id="file-upload" multiple type="file" onChange={handleFileSelect} style={{
-                                        display: "none",
-                                    }} />
-                                    {selectedFiles.length > 0 && <FileList files={selectedFiles} />}
-                                    {selectedFiles.length == 0 &&
-                                        <>
-                                            <h3 style={{
-                                                fontFamily: "Nunito",
-                                                textAlign: "left",
-                                                marginLeft: '10px',
-                                                color: "#000"
-                                            }}>Nada por aqui.</h3>
-                                        </>}
-                                </Files>
+                                                <ImportFiles htmlFor="file-upload">+ Adicionar Arquivo</ImportFiles>
+                                            </div>
 
-                                {user_type == 'organizer' &&
-                                    <Event>
-                                        <div style={{ display: 'flex', padding: '10px', justifyContent: 'space-between' }}>
-                                            <Text color="#000000"
-                                                fontSize={pxToRem(16)}
-                                                style={{
-                                                    fontFamily: "Nunito",
-                                                    textAlign: "left",
-                                                    gridColumnStart: 1,
-                                                    gridColumnEnd: 3
-                                                }}>Evento</Text>
-                                            <AddEvento onClick={handleOpenModal}>+ Adicionar Evento</AddEvento>
-                                        </div>
-                                        <Line />
-                                        {events.length > 0 &&
-                                            <>
-                                                <SelectContainer>
-                                                    <Select id="event-select" value={selectedEventId} onChange={handleSelectChange}>
-                                                        <option style={{ cursor: 'pointer' }} value={undefined}>Selecione...</option>
-                                                        {events.map((event) => (
-                                                            <option style={{ cursor: 'pointer' }} key={event.id} value={event.id}>
-                                                                {event.name}
-                                                            </option>
-                                                        ))}
-                                                    </Select>
-                                                </SelectContainer>
-                                            </>}
-                                        {events.length == 0 &&
-                                            <>
-                                                <h3 style={{
-                                                    fontFamily: "Nunito",
-                                                    textAlign: "left",
-                                                    marginLeft: '10px',
-                                                    color: "#000"
-                                                }}>Nada por aqui.</h3>
-                                            </>}
-                                    </Event>
-                                }
-                                <Button onClick={handleSubmit}
-                                    type="submit"
-                                    style={{
-                                        background: "#50E3C2",
-                                        margin: "0 auto",
-                                        gridColumnStart: 1,
-                                        gridColumnEnd: 3,
-                                        marginTop: pxToRem(16),
-                                    }}>Publicar</Button>
-                            </FormContainer>
-                        </NewPost>
+                                            <Line />
+
+                                            <Input id="file-upload" multiple type="file" onChange={handleFileSelect} style={{
+                                                display: "none",
+                                            }} />
+                                            {selectedFiles.length > 0 && <FileList files={selectedFiles} />}
+                                            {selectedFiles.length == 0 &&
+                                                <>
+                                                    <h3 style={{
+                                                        fontFamily: "Nunito",
+                                                        textAlign: "left",
+                                                        marginLeft: '10px',
+                                                        color: "#000"
+                                                    }}>Nada por aqui.</h3>
+                                                </>}
+                                        </Files>
+
+                                        {user_type == 'organizer' &&
+                                            <Event>
+                                                <div style={{ display: 'flex', padding: '10px', justifyContent: 'space-between' }}>
+                                                    <Text color="#000000"
+                                                        fontSize={pxToRem(16)}
+                                                        style={{
+                                                            fontFamily: "Nunito",
+                                                            textAlign: "left",
+                                                            gridColumnStart: 1,
+                                                            gridColumnEnd: 3
+                                                        }}>Evento</Text>
+                                                    <AddEvento onClick={handleOpenModal}>+ Adicionar Evento</AddEvento>
+                                                </div>
+                                                <Line />
+                                                {events.length > 0 &&
+                                                    <>
+                                                        <SelectContainer>
+                                                            <Select id="event-select" value={selectedEventId} onChange={handleSelectChange}>
+                                                                <option style={{ cursor: 'pointer' }} value={undefined}>Selecione...</option>
+                                                                {events.map((event) => (
+                                                                    <option style={{ cursor: 'pointer' }} key={event.id} value={event.id}>
+                                                                        {event.name}
+                                                                    </option>
+                                                                ))}
+                                                            </Select>
+                                                        </SelectContainer>
+                                                    </>}
+                                                {events.length == 0 &&
+                                                    <>
+                                                        <h3 style={{
+                                                            fontFamily: "Nunito",
+                                                            textAlign: "left",
+                                                            marginLeft: '10px',
+                                                            color: "#000"
+                                                        }}>Nada por aqui.</h3>
+                                                    </>}
+                                            </Event>
+                                        }
+                                        <Button onClick={handleSubmit}
+                                            type="submit"
+                                            style={{
+                                                background: "#50E3C2",
+                                                margin: "0 auto",
+                                                gridColumnStart: 1,
+                                                gridColumnEnd: 3,
+                                                marginTop: pxToRem(16),
+                                            }}>Publicar</Button>
+                                    </FormContainer>
+                                </NewPost>
+                            }
+                        </>
                     }
                 </Container>
                 {posts.length == 0 && <h1 style={{ margin: '15% auto' }}> Nada por aqui.</h1>}
