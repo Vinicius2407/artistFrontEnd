@@ -47,3 +47,21 @@ export const CardArtist = styled.div`
         color: #fff;
     }
 `
+
+export const RedeSocial = styled.div<{ cor: string }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  cursor: pointer;
+  transition: 1s;
+
+  &:hover {
+    opacity: 1.8;
+    background: ${props => props.cor};
+  }
+`;

@@ -129,6 +129,7 @@ export const ItemsAvaliacoes = styled.div`
 
     img, PostAuthorAvatar { 
         width: 6rem !important;
+        height: 6rem !important;
         border-radius: 50% !important;
     }
 

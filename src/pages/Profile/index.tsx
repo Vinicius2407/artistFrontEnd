@@ -446,7 +446,7 @@ export function Profile() {
                      <Button className="buttonHandle" onClick={handleDadosCategories} style={{ margin: '0 auto' }}>Atualizar</Button>
                   </DadosContainer>
 
-                  <H1 style={{ marginTop: "2rem" }}>Algumas Avaliações</H1>
+                  <H1 style={{ marginTop: "2rem" }}>Avaliações</H1>
                   <DadosContainer style={{ display: "flex", justifyContent: "center" }}>
                      <Form>
                         <Column spanAll>
@@ -457,7 +457,7 @@ export function Profile() {
                                        key={rating.id}
                                     >
                                        <ItemsAvaliacoes>
-                                          <img src={rating.ratedByUser.profile_image} alt="Foto do avaliador" />
+                                          <img style={{}} src={'http://localhost:3333/api/v1/images/' + rating.ratedByUser.profile_image} alt="Foto do avaliador" />
                                           <p style={{ flexWrap: "nowrap" }}>{rating.ratedByUser.name}</p>
                                           <div>
                                              <Star ratingValue={rating.value} />
