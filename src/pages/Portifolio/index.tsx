@@ -46,19 +46,6 @@ export function Portifolio(props: Props) {
                                 value={formUser.name ? formUser.name : ""}
                                 placeholder="Não informado"
                                 className="input" />
-                            <Input
-                                label="Usuario"
-                                id='username'
-                                value={formUser.username ? formUser.username : ""}
-                                placeholder="Não informado"
-                                className="input" />
-                            <Input
-                                label="Senha"
-                                placeholder="Não informado"
-                                type="password"
-                                id='password'
-                                className="input"
-                                value={formUser.password ? formUser.password : ""} />
 
                             {userType != 'organizer' &&
                                 <>
@@ -78,20 +65,6 @@ export function Portifolio(props: Props) {
                             }
                         </div>
                         <div>
-                            <Input
-                                label="Email"
-                                id='email'
-                                value={formUser.email ? formUser.email : ""}
-                                placeholder="Não informado"
-                                className="input"
-                            />
-                            <Input
-                                label="CPF/CNPJ"
-                                placeholder="Não informado"
-                                id='document'
-                                value={formUser.document ? formUser.document : ""}
-                                className="input" />
-
                             <Input
                                 label="Telefone"
                                 placeholder="Não informado"

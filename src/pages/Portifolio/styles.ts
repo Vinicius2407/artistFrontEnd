@@ -12,7 +12,7 @@ export const CardArtist = styled.div`
     max-height: 55rem; 
     max-width: 48rem;
     min-width: 30rem;
-    width: 99%;
+    width: 90%;
     padding: 0 10rem;
     border-radius: 32px;
     background: #FFFFFF;
