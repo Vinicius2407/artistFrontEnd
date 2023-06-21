@@ -5,10 +5,12 @@ import { Footer } from "../../components/Footer";
 import { Header } from "../../components/Header";
 import { Input } from "../../components/Input";
 import { Form, Column, Dados } from "../Evento/styles";
-import { CardArtist, Container } from "./styles";
+import { CardArtist, Container, RedeSocial } from "./styles";
 import { RouteComponentProps } from 'react-router-dom';
 import { IUser } from "../../interfaces/IUser";
 import { api } from "../../services/api.service";
+import { PostAuthorAvatar, PostAuthorName } from "../../components/Post/styles";
+import { TiktokLogo, FacebookLogo, InstagramLogo, YoutubeLogo } from '@phosphor-icons/react'
 
 interface MatchParams {
     id: string;
@@ -27,8 +29,6 @@ export function Portifolio(props: Props) {
         setFormUser(us.data);
     }
 
-    const userType = localStorage.getItem('user_type');
-
     useEffect(() => {
         handleData();
     }, []);
@@ -46,77 +46,43 @@ export function Portifolio(props: Props) {
                                 value={formUser.name ? formUser.name : ""}
                                 placeholder="Não informado"
                                 className="input" />
-                            <Input
-                                label="Usuario"
-                                id='username'
-                                value={formUser.username ? formUser.username : ""}
-                                placeholder="Não informado"
-                                className="input" />
-                            <Input
-                                label="Senha"
-                                placeholder="Não informado"
-                                type="password"
-                                id='password'
-                                className="input"
-                                value={formUser.password ? formUser.password : ""} />
-
-                            {userType != 'organizer' &&
-                                <>
-                                    <Input
-                                        label="Facebook"
-                                        id='facebookUrl'
-                                        value={formUser.facebookUrl ? formUser.facebookUrl : ""}
-                                        placeholder="Não informado"
-                                        className="input" />
-                                    <Input
-                                        label="Instagram"
-                                        id='instagramUrl'
-                                        value={formUser.instagramUrl ? formUser.instagramUrl : ""}
-                                        placeholder="Não informado"
-                                        className="input" />
-                                </>
-                            }
                         </div>
                         <div>
-                            <Input
-                                label="Email"
-                                id='email'
-                                value={formUser.email ? formUser.email : ""}
-                                placeholder="Não informado"
-                                className="input"
-                            />
-                            <Input
-                                label="CPF/CNPJ"
-                                placeholder="Não informado"
-                                id='document'
-                                value={formUser.document ? formUser.document : ""}
-                                className="input" />
-
                             <Input
                                 label="Telefone"
                                 placeholder="Não informado"
                                 id='cellphone'
                                 value={formUser.cel_phone ? formUser.cel_phone : ""}
                                 className="input" />
-
-                            {userType != 'organizer' &&
-                                <>
-                                    <Input
-                                        label="TikTok"
-                                        id='tiktokUrl'
-                                        value={formUser.tiktokUrl ? formUser.tiktokUrl : ""}
-                                        placeholder="Não informado"
-                                        className="input" />
-                                    <Input
-                                        label="Youtube"
-                                        placeholder="Não informado"
-                                        id='youtubeUrl'
-                                        value={formUser.youtubeUrl ? formUser.youtubeUrl : ""}
-                                        className="input" />
-                                </>
-                            }
                         </div>
                     </Dados>
+                    <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                        {formUser.user_type != 'organizer' &&
+                            <>
+                                <RedeSocial
+                                    cor="#3b5998"
+                                    id='facebookUrl'>
+                                    <FacebookLogo size={25} />
+                                </RedeSocial>
+                                <RedeSocial
+                                    cor="#BD5DAE"
+                                    id='instagramUrl'>
+                                    <InstagramLogo size={25} />
+                                </RedeSocial>
+                                <RedeSocial
+                                    cor="#72E2ED"
+                                    id='tiktokUrl'>
+                                    <TiktokLogo size={25} />
+                                </RedeSocial>
+                                <RedeSocial
+                                    cor="#c4302b"
+                                    id='youtubeUrl'>
+                                    <YoutubeLogo size={25} />
+                                </RedeSocial>
+                            </>
+                        }
+                    </div>
+
                 </CardArtist>
                 <Feed route="/posts" userId={id} />
             </Container>
