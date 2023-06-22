@@ -151,9 +151,9 @@ const Post: React.FC<Props> = ({ post, onDelete }) => {
                             <Button
                                 style={{
                                     margin: '15px auto',
-                                    background: expirou(post.event?.dh_expiration) ? '#e5e5e5' : '',
+                                    color: '#f5f5f5',
+                                    background: expirou(post.event?.dh_expiration) ? '#e5e5e5' : '#50e3c2',
                                     cursor: expirou(post.event?.dh_expiration) ? 'not-allowed' : '',
-                                    border: '1px solid black'
                                 }}
                                 onClick={() => handleCandidatura(post.event.id, post.event.dh_expiration)}>
                                 {expirou(post.event?.dh_expiration) ? 'Expirado' : 'Eu quero!'}
