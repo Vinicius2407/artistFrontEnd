@@ -116,3 +116,23 @@ export const AddEvento = styled.label`
     font-family: Nunito;
     cursor: pointer;
 `
+
+export const SearchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  max-width: 48rem;
+  min-width: 30rem;
+  width: 100%;
+  margin: 5px 0;
+  
+`;
+
+export const SearchInput = styled.input`
+  padding: 8px;
+  width: 100%;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+
+`;
+

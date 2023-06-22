@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IPost } from "../../interfaces/IPost";
-import { FeedContainer, Container, Descr, Event, Files, FormContainer, ImportFiles, Line, NewEvent, NewPost, Select, DivShowForm, AddEvento, SelectContainer, SelectLabel } from "./styles";
+import { FeedContainer, Container, Descr, Event, Files, FormContainer, ImportFiles, Line, NewEvent, NewPost, Select, DivShowForm, AddEvento, SelectContainer, SelectLabel, SearchContainer, SearchInput } from "./styles";
 import { api } from "../../services/api.service";
 import FileList from "../FileList"
 import Post from "../Post";
@@ -42,9 +42,18 @@ function Feed({ route, userId }: FeedProps) {
 
     const hideAddPost = location.pathname.includes('/portifolio/');
 
+    const [query, setQuery] = useState('');
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+        setQuery(event.target.value);
+        handleList(query);
+    };
+
+
     const handleCloseModal = () => {
         setModalOpen(false);
-        document.documentElement.style.overflow = 'initial'; // define overflow para initial
+        document.documentElement.style.overflow = 'initial';
         handleListEvents();
     }
 
@@ -55,8 +64,16 @@ function Feed({ route, userId }: FeedProps) {
 
     const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB em bytes
 
-    async function handleList() {
-        const postss = await api.get(userId ? `${route}/${userId}` : route);
+    async function handleList(query: string) {
+
+        let postss;
+        if (query) {
+            postss = await await api.get('/post', { params: { search: query } });
+        } else {
+            postss = await api.get(userId ? `${route}/${userId}` : route);
+        }
+
+
         setPosts(postss.data);
 
         if (user_type == 'organizer') {
@@ -131,7 +148,7 @@ function Feed({ route, userId }: FeedProps) {
 
 
     useEffect(() => {
-        handleList();
+        handleList('');
     }, [attPosts]);
 
     const handleDeletePost = (postId: string) => {
@@ -264,7 +281,17 @@ function Feed({ route, userId }: FeedProps) {
                             }
                         </>
                     }
+
                 </Container>
+                <SearchContainer>
+                    <SearchInput
+                        type="text"
+                        placeholder="Pesquise"
+                        value={query}
+                        onChange={handleInputChange}
+                    />
+                </SearchContainer>
+
                 {posts.length == 0 && <h1 style={{ margin: '15% auto' }}> Nada por aqui.</h1>}
                 {posts.map((post) => {
                     return (
