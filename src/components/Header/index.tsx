@@ -105,7 +105,7 @@ export function Header() {
                     <AccountModal isOpen={isOpen} onClose={handleCloseModal}>
                         <Button onClick={openPerfil} style={{ background: "#50E3C2", color: "#FFF", height: pxToRem(32), width: "100%" }}>Perfil</Button>
                         <Button 
-                            onClick={() => history.push(`/portifoilo/${userId}`)}
+                            onClick={() => history.push(`/portifolio/${userId}`)}
                             style={{ background: "#50E3C2", color: "#FFF", height: pxToRem(32), width: "100%" }}>
                             Meus Posts
                         </Button>

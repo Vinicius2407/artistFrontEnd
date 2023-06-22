@@ -62,6 +62,7 @@ export const RedeSocial = styled.div<{ cor: string }>`
 
   &:hover {
     opacity: 1.8;
+    color: #fff;
     background: ${props => props.cor};
   }
 `;

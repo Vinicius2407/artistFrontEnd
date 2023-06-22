@@ -11,6 +11,7 @@ import { IUser } from "../../interfaces/IUser";
 import { api } from "../../services/api.service";
 import { PostAuthorAvatar, PostAuthorName } from "../../components/Post/styles";
 import { TiktokLogo, FacebookLogo, InstagramLogo, YoutubeLogo } from '@phosphor-icons/react'
+import { MyInput } from "../../components/Post";
 
 interface MatchParams {
     id: string;
@@ -40,42 +41,43 @@ export function Portifolio(props: Props) {
                 <CardArtist>
                     <Dados>
                         <div>
-                            <Input
+                            <MyInput
                                 label="Nome"
                                 id='name'
                                 value={formUser.name ? formUser.name : ""}
-                                placeholder="Não informado"
-                                className="input" />
+                            />
                         </div>
                         <div>
-                            <Input
+                            <MyInput
                                 label="Telefone"
-                                placeholder="Não informado"
                                 id='cellphone'
-                                value={formUser.cel_phone ? formUser.cel_phone : ""}
-                                className="input" />
+                                value={formUser.cel_phone ? formUser.cel_phone : ""} />
                         </div>
                     </Dados>
                     <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
                         {formUser.user_type != 'organizer' &&
                             <>
                                 <RedeSocial
+                                    onClick={() => window.open(formUser.facebookUrl ? formUser.facebookUrl : 'https://www.facebook.com/')}
                                     cor="#3b5998"
                                     id='facebookUrl'>
                                     <FacebookLogo size={25} />
                                 </RedeSocial>
                                 <RedeSocial
+                                    onClick={() => window.open(formUser.instagramUrl ? formUser.instagramUrl : 'https://www.instagram.com/')}
                                     cor="#BD5DAE"
                                     id='instagramUrl'>
                                     <InstagramLogo size={25} />
                                 </RedeSocial>
                                 <RedeSocial
+                                    onClick={() => window.open(formUser.tiktokUrl ? formUser.tiktokUrl : 'https://www.tiktok.com/pt-BR/')}
                                     cor="#72E2ED"
                                     id='tiktokUrl'>
                                     <TiktokLogo size={25} />
                                 </RedeSocial>
                                 <RedeSocial
-                                    cor="#c4302b"
+                                    onClick={() => window.open(formUser.youtubeUrl ? formUser.youtubeUrl : 'https://www.youtube.com/')}
+                                    cor="#E64A1D"
                                     id='youtubeUrl'>
                                     <YoutubeLogo size={25} />
                                 </RedeSocial>
