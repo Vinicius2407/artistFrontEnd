@@ -108,7 +108,7 @@ const Post: React.FC<Props> = ({ post, onDelete }) => {
                         }
                     </div>
                 </PostHeader>
-                <PostContent readOnly value={post.description} />
+                <PostContent> {post.description}</PostContent>
                 <Gallery medias={post.medias} />
                 {post.event &&
                     <>

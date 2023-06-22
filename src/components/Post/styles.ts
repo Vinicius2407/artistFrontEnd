@@ -23,7 +23,7 @@ export const PostFooter = styled.div`
   display: flex;
   justify-content: center;
   align-items:center;
-  marginTop: 10px;
+  
 `;
 
 export const PostAuthorAvatar = styled.img`
@@ -58,16 +58,15 @@ export const PostAuthorCat = styled.span`
   color: black;
 `;
 
-export const PostContent = styled.textarea`
+export const PostContent = styled.div`
+  font-family: Nunito;
+  font-weight: bold;
   margin-top:5px;
-  font-size: 22px;
-  color: black;
-  appearance: none;
-  border: none;
-  outline: none;
-  resize: none;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  font-size: 20px;
+  color: black;  
+  max-height: 7rem;
+  padding: 5px;
+  border-radius: 8px;
 `;
 
 export const PostEventContainer = styled.div`
