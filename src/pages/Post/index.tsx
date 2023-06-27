@@ -222,7 +222,7 @@ export function Post(props: Props) {
                                         {events.length > 0 &&
                                             <>
                                                 <SelectContainer>
-                                                    <Select id="event-select" defaultValue={formPost.event.id} onChange={handleSelectChange} style={{ color: "#000000" }}>
+                                                    <Select id="event-select" defaultValue={formPost.event?.id} onChange={handleSelectChange} style={{ color: "#000000" }}>
                                                         {events.map((event) => (
                                                             <option key={event.id} style={{ cursor: 'pointer', color: "#000000" }} value={event.id} selected>{event.name}</option>
                                                         ))}
